@@ -5,7 +5,7 @@ León) en **Valladolid y provincia**: en qué punto está cada promoción, **cu�
 libres** y qué documento oficial lo dice. Una web de la comunidad de
 [Aldea Pucela](https://aldeapucela.org).
 
-**En vivo:** <https://vivienda.aldeapucela.org> *(pendiente de desplegar)*
+**En vivo:** <https://aldeapucela.github.io/vivienda-publica->
 
 Sitio **estático** (HTML generado, sin framework y **sin ninguna dependencia**) que se construye a
 partir de unos JSON generados a diario por un script Node, ejecutado por **GitHub Actions** y
@@ -140,12 +140,16 @@ organización el token de Actions no siempre puede hacerlo y falla con
 `Create Pages site failed. Error: Resource not accessible by integration`. Con el interruptor
 puesto, el mismo workflow despliega sin tocar nada más.
 
-Mientras el DNS no exista, el sitio se publica en `https://aldeapucela.github.io/vivienda-publica-` y todas
-las rutas se generan con ese prefijo. Cuando `vivienda.aldeapucela.org` apunte a GitHub Pages
-(registro CNAME hacia `aldeapucela.github.io`), se crea la **variable de repositorio
-`DOMINIO_PROPIO=1`** y el siguiente despliegue publica ya en el dominio propio, con su fichero
-[`CNAME`](CNAME). El fichero no se sube antes a propósito: si se publica sin DNS, Pages deja de
-servir en la URL de github.io y la web parece caída.
+El sitio se publica en `https://aldeapucela.github.io/vivienda-publica-` y todas las rutas se
+generan con ese prefijo. **Todavía no hay dominio propio decidido**, y por eso no hay ningún fichero
+`CNAME` en el repositorio: publicarlo sin que el DNS apunte aquí dejaría a Pages sin servir en la
+URL de github.io, y la web parecería caída.
+
+Cuando se decida el dominio y su registro CNAME apunte a `aldeapucela.github.io`, basta con:
+
+1. crear un fichero `CNAME` en la raíz con el dominio elegido;
+2. crear la variable de repositorio `DOMINIO_PROPIO=1`;
+3. crear la variable de repositorio `DOMINIO_URL` con ese dominio (los workflows ya la usan).
 
 En local se puede probar igual: `BASE_PATH=/vivienda-publica- SITIO_URL=https://ejemplo.org/vivienda npm run build`.
 

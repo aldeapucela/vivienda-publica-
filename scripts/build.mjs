@@ -15,7 +15,7 @@ const DIST = path.join(RAIZ, 'dist');
 // Dónde se publica. Por defecto, el dominio propio; con BASE_PATH y SITIO_URL
 // el mismo build vale para GitHub Pages en una subcarpeta
 // (aldeapucela.github.io/vivienda) mientras el DNS no esté listo.
-const SITIO = (process.env.SITIO_URL ?? 'https://vivienda.aldeapucela.org').replace(/\/+$/, '');
+const SITIO = (process.env.SITIO_URL ?? 'https://aldeapucela.github.io/vivienda-publica-').replace(/\/+$/, '');
 const BASE = (process.env.BASE_PATH ?? '').replace(/\/+$/, '');
 const MATOMO_SITE_ID = null; // se rellena cuando Aldea Pucela dé el id en stats.aldeapucela.org
 const PROVINCIA_POR_DEFECTO = 'Valladolid';
@@ -611,7 +611,7 @@ END:VALARM`).join('\n');
     const fin = z.fin.replace(/-/g, '');
     const finExclusivo = new Date(Date.parse(`${z.fin}T00:00:00Z`) + 86400000).toISOString().slice(0, 10).replace(/-/g, '');
     return `BEGIN:VEVENT
-UID:${z.promocion_id}-${z.tipo}-${fin}@vivienda.aldeapucela.org
+UID:${z.promocion_id}-${z.tipo}-${fin}@vivienda-publica.aldeapucela.org
 DTSTAMP:${HOY.replace(/-/g, '')}T090000Z
 DTSTART;VALUE=DATE:${(z.inicio ?? z.fin).replace(/-/g, '')}
 DTEND;VALUE=DATE:${finExclusivo}
@@ -735,8 +735,8 @@ ${css}
 .previo p { margin: 0; }
 </style>
 <div class="previo"><div class="container"><p><strong>Vista previa.</strong> Todo el sitio en un solo fichero,
-  con los datos leídos el ${esc(indice.actualizado)}. La web definitiva se publicará en
-  <code>vivienda.aldeapucela.org</code>.</p></div></div>
+  con los datos leídos el ${esc(indice.actualizado)}. La web se publica en
+  <code>${esc(SITIO.replace(/^https?:\/\//, ''))}</code>.</p></div></div>
 <header class="topbar">
   <div class="container topbar__inner">
     <a class="marca" href="#/">

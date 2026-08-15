@@ -1,4 +1,4 @@
-# Plan del proyecto · `vivienda.aldeapucela.org`
+# Plan del proyecto · Vivienda pública en Valladolid
 
 Adaptación del plan genérico *«tuya.aldeapucela.org»* (13/08/2026) a cómo se hacen realmente las
 cosas en Aldea Pucela, y a lo que las fuentes permiten de verdad. Estado: **F0 y F1 hechas**,
@@ -142,11 +142,10 @@ además publica **el dato que hoy no existe en ninguna parte**: cuánta gente pi
 
 ## 4. Decisiones para David
 
-1. **Dominio.** El repositorio es `aldeapucela/vivienda-publica-` (con el guion final del nombre
-   original; si se renombra, hay que cambiar `BASE_PATH` y `SITIO_URL` en los dos workflows). El
-   sitio se publica de momento en `https://aldeapucela.github.io/vivienda-publica-`; cuando
-   `vivienda.aldeapucela.org` apunte a GitHub Pages, basta con la variable de repositorio
-   `DOMINIO_PROPIO=1`.
+1. **Dónde vive.** De momento, en `https://aldeapucela.github.io/vivienda-publica-`. El dominio
+   propio queda para más adelante: no hay `CNAME` en el repositorio y el mecanismo para activarlo
+   está documentado en el README. Si se renombra el repositorio (el guion final del nombre parece
+   un desliz), hay que cambiar `BASE_PATH` y `SITIO_URL` en los dos workflows.
 2. **Alcance.** El sync ya captura toda Castilla y León porque cuesta lo mismo; la web enseña
    Valladolid por defecto. ¿Se deja así o se recorta a la provincia también en los datos?
 3. **Matomo.** Está preparado y desactivado: falta un `siteId` en `stats.aldeapucela.org`.

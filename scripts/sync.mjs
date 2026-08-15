@@ -24,7 +24,7 @@ import {
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const ORIGEN = 'https://tuyavivienda.es';
 const SITEMAP = `${ORIGEN}/post-sitemap.xml`;
-const UA = 'AldeaPucelaVivienda/1.0 (+https://vivienda.aldeapucela.org; proyecto vecinal sin ánimo de lucro)';
+const UA = 'AldeaPucelaVivienda/1.0 (+https://github.com/aldeapucela/vivienda-publica-; proyecto vecinal sin ánimo de lucro)';
 const PAUSA_MS = 2000;   // una petición cada 2 s: la fuente no se entera
 const HOY = new Date().toISOString().slice(0, 10);
 

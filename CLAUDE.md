@@ -1,4 +1,4 @@
-# Invariantes de vivienda.aldeapucela.org
+# Invariantes de este proyecto
 
 Reglas del proyecto. No son preferencias: si una tarea choca con una de ellas, se para la tarea y
 se pregunta, no se busca la manera de saltarla.

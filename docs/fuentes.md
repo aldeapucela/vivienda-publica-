@@ -118,7 +118,7 @@ literales. **Los listados con nombres no se descargan nunca**, tampoco para esto
 - Una petición cada **2 segundos**, una vez al día. Son 27 páginas: menos carga que un visitante
   cualquiera navegando.
 - User-agent identificable y con contacto:
-  `AldeaPucelaVivienda/1.0 (+https://vivienda.aldeapucela.org; proyecto vecinal sin ánimo de lucro)`.
+  `AldeaPucelaVivienda/1.0 (+https://github.com/aldeapucela/vivienda-publica-; proyecto vecinal sin ánimo de lucro)`.
 - El script **lee `robots.txt` antes de cada tanda** y se detiene si alguna ruta deja de estar
   permitida. No es una promesa: está en el código (`scripts/sync.mjs`).
 - De los PDF solo se descargan los boletines oficiales (una vez cada uno: ya leído, no se vuelve a
