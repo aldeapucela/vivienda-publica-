@@ -1,0 +1,78 @@
+name: Actualizar datos
+
+# Una vez al día: lee las fichas oficiales, saca los plazos de los boletines
+# que enlazan, detecta lo que ha cambiado y publica. Los avisos salen por la
+# propia web, por RSS y por calendario: no hay correo ni suscriptores.
+
+on:
+  schedule:
+    - cron: '30 6 * * *'   # 06:30 UTC, best-effort: GitHub lo retrasa a menudo
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: datos
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    env:
+      # Mientras no exista el DNS de vivienda.aldeapucela.org, el sitio se
+      # publica en aldeapucela.github.io/vivienda. Cuando el dominio apunte
+      # aquí, basta con crear la variable de repositorio DOMINIO_PROPIO=1.
+      BASE_PATH: ${{ vars.DOMINIO_PROPIO == '1' && '' || '/vivienda-publica-' }}
+      SITIO_URL: ${{ vars.DOMINIO_PROPIO == '1' && 'https://vivienda.aldeapucela.org' || 'https://aldeapucela.github.io/vivienda-publica-' }}
+      DOMINIO_PROPIO: ${{ vars.DOMINIO_PROPIO }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Pruebas (parser, plazos, avisos, privacidad)
+        run: npm test
+
+      - name: Leer las fichas oficiales
+        run: node scripts/sync.mjs
+
+      - name: Extraer los plazos de los boletines oficiales
+        run: node scripts/plazos.mjs
+
+      - name: Detectar novedades y plazos que se acercan
+        run: node scripts/avisos.mjs
+
+      - name: Test de privacidad
+        run: node scripts/check-privacidad.mjs
+
+      - name: Commitear si hay cambios
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          if git diff --quiet -- data/; then
+            echo "sin cambios en data/"
+          else
+            git add data/
+            git commit -m "Actualizar datos ($(date -u +%Y-%m-%d))"
+            git push
+          fi
+
+      - name: Generar el sitio
+        run: node scripts/build.mjs
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true   # activa Pages en el repo la primera vez, sin tocar Settings
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+      - id: deploy
+        uses: actions/deploy-pages@v4

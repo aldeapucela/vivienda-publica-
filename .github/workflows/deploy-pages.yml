@@ -1,0 +1,49 @@
+name: Desplegar en GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  desplegar:
+    runs-on: ubuntu-latest
+    env:
+      # Mientras no exista el DNS de vivienda.aldeapucela.org, el sitio se
+      # publica en aldeapucela.github.io/vivienda. Cuando el dominio apunte
+      # aquí, basta con crear la variable de repositorio DOMINIO_PROPIO=1.
+      BASE_PATH: ${{ vars.DOMINIO_PROPIO == '1' && '' || '/vivienda-publica-' }}
+      SITIO_URL: ${{ vars.DOMINIO_PROPIO == '1' && 'https://vivienda.aldeapucela.org' || 'https://aldeapucela.github.io/vivienda-publica-' }}
+      DOMINIO_PROPIO: ${{ vars.DOMINIO_PROPIO }}
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Pruebas (parser + privacidad)
+        run: npm test
+
+      - name: Generar el sitio
+        run: node scripts/build.mjs
+
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true   # activa Pages en el repo la primera vez, sin tocar Settings
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+      - id: deploy
+        uses: actions/deploy-pages@v4
