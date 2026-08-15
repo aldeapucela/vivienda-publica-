@@ -134,8 +134,11 @@ No hay `npm install`: el proyecto **no tiene dependencias**. Requiere Node 20+.
 
 ### Desplegar
 
-El workflow activa GitHub Pages solo (`configure-pages` con `enablement: true`), así que basta con
-subir el código y ejecutar *Actions → Desplegar en GitHub Pages*.
+**Un paso manual, una sola vez:** *Settings → Pages → Source = **GitHub Actions***. El workflow
+intenta activarlo solo (`configure-pages` con `enablement: true`), pero en repositorios de
+organización el token de Actions no siempre puede hacerlo y falla con
+`Create Pages site failed. Error: Resource not accessible by integration`. Con el interruptor
+puesto, el mismo workflow despliega sin tocar nada más.
 
 Mientras el DNS no exista, el sitio se publica en `https://aldeapucela.github.io/vivienda-publica-` y todas
 las rutas se generan con ese prefijo. Cuando `vivienda.aldeapucela.org` apunte a GitHub Pages
