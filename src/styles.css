@@ -100,19 +100,80 @@ h2 { font-size: 1.25rem; margin: 0 0 .75rem; }
 .saltar:focus { left: 0; }
 
 /* ---------- cabecera ---------- */
-.topbar { background: var(--tarjeta); border-bottom: 1px solid var(--linea); }
-.topbar__inner {
-  display: flex; flex-wrap: wrap; gap: .5rem 1.5rem;
-  align-items: center; justify-content: space-between; padding-block: .75rem;
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--tarjeta); border-bottom: 1px solid var(--linea);
 }
-.marca { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
-.marca__kicker { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--tinta-suave); }
-.marca__titulo { font-size: 1.3rem; font-weight: 700; color: var(--brand-600); }
-.menu { display: flex; flex-wrap: wrap; gap: .25rem 1rem; font-size: .95rem; }
-.menu a { text-decoration: none; padding: .3rem 0; border-bottom: 2px solid transparent; }
+.topbar__inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1rem; padding-block: .7rem; position: relative;
+}
+
+.marca { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: inherit; }
+.marca__isotipo {
+  width: 44px; height: 44px; border-radius: 12px; flex: none;
+  box-shadow: 0 0 0 1px var(--linea);
+}
+.marca__texto { display: flex; flex-direction: column; line-height: 1.15; }
+.marca__kicker {
+  font-size: .68rem; font-weight: 700; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--tinta-suave);
+}
+.marca__titulo { font-size: 1.15rem; font-weight: 700; color: var(--brand-600); }
+.marca:hover .marca__titulo { color: var(--brand-700); }
+@media (min-width: 40rem) {
+  .marca__isotipo { width: 48px; height: 48px; }
+  .marca__titulo { font-size: 1.25rem; }
+}
+
+/* ---------- menú ---------- */
+.menu { display: flex; flex-wrap: wrap; gap: .25rem 1.4rem; font-size: .95rem; }
+.menu a {
+  text-decoration: none; padding: .35rem 0;
+  border-bottom: 2px solid transparent; white-space: nowrap;
+}
 .menu a:hover, .menu a[aria-current] { border-color: var(--brand-600); }
 
-main { padding-block: 2rem 3rem; }
+.menu-boton {
+  display: none; align-items: center; gap: .45rem;
+  font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer;
+  background: transparent; color: var(--brand-600);
+  border: 1px solid var(--linea); border-radius: 999px; padding: .45rem .85rem;
+}
+.menu-boton:hover { border-color: var(--brand-600); }
+.menu-boton__icono { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.menu-boton__cruz { display: none; }
+.menu-boton[aria-expanded="true"] .menu-boton__barras { display: none; }
+.menu-boton[aria-expanded="true"] .menu-boton__cruz { display: inline; }
+
+/* Con JavaScript el menú se plega en móvil; sin él se queda a la vista, que es
+   mejor que un botón que no hace nada. */
+@media (max-width: 47.99rem) {
+  .con-js .menu-boton { display: inline-flex; }
+  .con-js .menu {
+    display: none;
+    position: absolute; top: 100%; left: 0; right: 0; z-index: 60;
+    flex-direction: column; gap: 0;
+    background: var(--tarjeta); border-bottom: 1px solid var(--linea);
+    box-shadow: 0 14px 30px rgba(31, 36, 48, .12);
+    padding: .35rem 1rem 1rem;
+  }
+  .con-js .menu.abierto { display: flex; }
+  .con-js .menu a {
+    padding: .8rem .25rem; border-bottom: 1px solid var(--linea);
+    border-left: 3px solid transparent; padding-left: .6rem;
+  }
+  .con-js .menu a:last-child { border-bottom: 0; }
+  .con-js .menu a:hover, .con-js .menu a[aria-current] {
+    border-bottom-color: var(--linea); border-left-color: var(--brand-600);
+    background: var(--brand-50);
+  }
+}
+
+/* Aire entre la cabecera y el titular. Va con selector de etiqueta + clase a
+   propósito: `main` también es `.container`, y `.container` fija el padding. */
+main.principal { padding-block: 2.5rem 3rem; }
+@media (min-width: 40rem) { main.principal { padding-block: 3.75rem 4rem; } }
 
 /* ---------- portada ---------- */
 .hero { margin-bottom: 2rem; }
@@ -218,9 +279,18 @@ main { padding-block: 2rem 3rem; }
 .prosa hr { border: 0; border-top: 1px solid var(--linea); margin: 2rem 0; }
 
 /* ---------- pie ---------- */
-.pie { border-top: 1px solid var(--linea); background: var(--tarjeta); padding-block: 1.75rem; }
+.pie { border-top: 1px solid var(--linea); background: var(--tarjeta); padding-block: 2.25rem 2.75rem; }
+.pie__inner { display: grid; gap: 1.25rem; }
+@media (min-width: 52rem) {
+  .pie__inner { grid-template-columns: minmax(14rem, 18rem) 1fr; align-items: start; column-gap: 3rem; }
+  .marca--pie { grid-row: span 3; }
+}
 .pie p { margin: 0 0 .6rem; max-width: 52rem; font-size: .9rem; }
-.pie p:last-child { margin-bottom: 0; }
+.pie__texto p:last-child { margin-bottom: 0; }
+.pie__enlaces { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; font-size: .9rem; }
+.pie__enlaces a { text-decoration: none; border-bottom: 1px solid transparent; }
+.pie__enlaces a:hover { border-bottom-color: currentColor; }
+.pie .fino { margin-bottom: 0; }
 
 @media print {
   .topbar, .filtros, .saltar { display: none; }

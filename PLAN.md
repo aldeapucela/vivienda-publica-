@@ -75,7 +75,7 @@ oficial va en el texto, no en la marca.
 
 ## 2. Qué hay hecho
 
-- **F0 · Verificación de fuentes.** `docs/fuentes.md`: `robots.txt` literal de los tres dominios,
+- **F0 · Verificación de fuentes.** `docs/verificacion-fuentes.md` (nota interna): `robots.txt` literal de los tres dominios,
   RSS de BOCYL verificado, qué publica exactamente una ficha, la cláusula del aviso legal de
   SOMACYL y cómo se sitúa el proyecto frente a ella, y cinco preguntas abiertas.
 - **F1 · Catálogo con datos reales.** Las **27 promociones** de Castilla y León (7 en la provincia

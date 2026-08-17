@@ -1,13 +1,39 @@
-// Único JS del sitio. Hace dos cosas y ninguna necesita servidor:
-//   1. filtrar las tarjetas de la portada;
-//   2. recordar en ESTE navegador qué promociones te interesan.
+// Único JS del sitio. Hace tres cosas y ninguna necesita servidor:
+//   1. abrir y cerrar el menú en pantallas pequeñas;
+//   2. filtrar las tarjetas de la portada;
+//   3. recordar en ESTE navegador qué promociones te interesan.
 //
 // Todo el contenido viene ya renderizado en el HTML, así que sin JavaScript la
-// web sigue completa: se ven todas las promociones, sin filtrar y sin «lo tuyo».
+// web sigue completa: el menú se ve desplegado y salen todas las promociones.
 
 (function () {
   var CLAVE = 'vivienda:seguidas';
   var CLAVE_VISITA = 'vivienda:ultima-visita';
+
+  // ---------- menú de pantallas pequeñas ----------
+  var botonMenu = document.querySelector('.menu-boton');
+  var menu = document.getElementById('menu-principal');
+  if (botonMenu && menu) {
+    var abre = function (abierto) {
+      menu.classList.toggle('abierto', abierto);
+      botonMenu.setAttribute('aria-expanded', abierto ? 'true' : 'false');
+    };
+    botonMenu.addEventListener('click', function (e) {
+      e.stopPropagation();
+      abre(botonMenu.getAttribute('aria-expanded') !== 'true');
+    });
+    // Se cierra al tocar fuera, con Escape y al elegir una sección.
+    document.addEventListener('click', function (e) {
+      if (!menu.contains(e.target) && !botonMenu.contains(e.target)) abre(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && botonMenu.getAttribute('aria-expanded') === 'true') {
+        abre(false);
+        botonMenu.focus();
+      }
+    });
+    menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') abre(false); });
+  }
 
   function seguidas() {
     try { return JSON.parse(localStorage.getItem(CLAVE)) || []; } catch (e) { return []; }

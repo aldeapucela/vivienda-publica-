@@ -71,6 +71,7 @@ escribe('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITIO}/sitemap.xml\
 
 copia('src/styles.css', 'styles.css');
 copia('src/app.js', 'app.js');
+copiaDir('src/img', 'img');
 copiaDir('data', 'data');
 copia('.nojekyll', '.nojekyll');
 // El CNAME solo se publica cuando el dominio propio ya apunta aquí: si se sube
@@ -103,47 +104,76 @@ function layout({ titulo, descripcion, ruta, cuerpo, activo = '' }) {
 <meta property="og:title" content="${esc(t)}">
 <meta property="og:description" content="${esc(descripcion)}">
 <meta property="og:url" content="${SITIO}${ruta}">
+<link rel="icon" href="/img/aldea-pucela.jpg">
 <link rel="stylesheet" href="/styles.css">
+<script>document.documentElement.className += ' con-js';</script>
 ${matomo()}</head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 <header class="topbar">
   <div class="container topbar__inner">
-    <a class="marca" href="/">
-      <span class="marca__kicker">Aldea Pucela</span>
-      <span class="marca__titulo">Vivienda</span>
-    </a>
-    <nav class="menu" aria-label="Menú principal">
+    ${marca()}
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <svg class="menu-boton__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path class="menu-boton__barras" d="M4 7h16M4 12h16M4 17h16"/>
+        <path class="menu-boton__cruz" d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+      <span>Menú</span>
+    </button>
+    <nav class="menu" id="menu-principal" aria-label="Menú principal">
       <a href="/"${activo === 'inicio' ? ' aria-current="page"' : ''}>Promociones</a>
+      <a href="/avisos/"${activo === 'avisos' ? ' aria-current="page"' : ''}>Avisos y plazos</a>
       <a href="/como-funciona/"${activo === 'como' ? ' aria-current="page"' : ''}>Cómo funciona</a>
-      <a href="/avisos/"${activo === 'avisos' ? ' aria-current="page"' : ''}>Avisos</a>
-      <a href="/datos/"${activo === 'datos' ? ' aria-current="page"' : ''}>Datos</a>
-      <a href="https://aldeapucela.org" rel="noopener">Comunidad</a>
+      <a href="/datos/"${activo === 'datos' ? ' aria-current="page"' : ''}>Datos abiertos</a>
+      <a href="https://aldeapucela.org" rel="noopener">La comunidad</a>
     </nav>
   </div>
 </header>
-<main id="contenido" class="container">
+<main id="contenido" class="container principal">
 ${cuerpo}
 </main>
 <footer class="pie">
-  <div class="container">
-    <p><strong>Esta web no es oficial.</strong> Es un proyecto vecinal de la comunidad de
-      <a href="https://aldeapucela.org" rel="noopener">Aldea Pucela</a> que ordena información ya publicada por
-      <a href="https://tuyavivienda.es" rel="noopener">tuyavivienda.es</a> (SOMACYL, Junta de Castilla y León).
-      Para cualquier trámite, la fuente válida es la oficial y el BOCYL.</p>
-    <p class="fino">No publicamos datos personales de solicitantes ni adjudicatarios:
-      <a href="/privacidad/">por qué y cómo</a>. ·
-      <a href="/fuentes/">De dónde salen los datos</a> ·
-      <a href="/datos/">Datos abiertos</a></p>
-    <p class="fino">Código <a href="https://github.com/aldeapucela/vivienda-publica-" rel="noopener">AGPL-3.0</a> ·
-      Datos <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" rel="noopener">CC BY-SA 4.0</a> ·
-      Hecho por vecinas y vecinos voluntarios</p>
+  <div class="container pie__inner">
+    ${marca('pie')}
+    <div class="pie__texto">
+      <p><strong>Esta web no es oficial.</strong> La hacen vecinas y vecinos de
+        <a href="https://aldeapucela.org" rel="noopener">Aldea Pucela</a>, y ordena información que ya publica
+        <a href="https://tuyavivienda.es" rel="noopener">tuyavivienda.es</a> (SOMACYL, Junta de Castilla y León).
+        Para cualquier trámite, lo que vale es la web oficial y el boletín.</p>
+      <p>Aquí no se publican datos personales de quienes solicitan o reciben una vivienda.</p>
+    </div>
+    <nav class="pie__enlaces" aria-label="Enlaces del pie">
+      <a href="/como-funciona/">Cómo funciona el proceso</a>
+      <a href="/avisos/">Avisos y plazos</a>
+      <a href="/datos/">Datos abiertos</a>
+      <a href="/fuentes/">De dónde salen los datos</a>
+      <a href="/privacidad/">Privacidad</a>
+      <a href="https://github.com/aldeapucela/vivienda-publica-" rel="noopener">Código fuente</a>
+    </nav>
+    <p class="fino">Contenido y datos con licencia
+      <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" rel="license noopener">CC BY-SA 4.0</a> ·
+      Código con licencia
+      <a href="https://github.com/aldeapucela/vivienda-publica-/blob/main/LICENSE" rel="license noopener">AGPL-3.0</a></p>
   </div>
 </footer>
 <script src="/app.js" defer></script>
 </body>
 </html>
 `;
+}
+
+/**
+ * La marca de la casa: isotipo de Aldea Pucela + nombre de la comunidad +
+ * nombre de este proyecto, igual que en el resto de webs vecinales.
+ */
+function marca(donde = 'topbar') {
+  return `<a class="marca marca--${donde}" href="/">
+      <img class="marca__isotipo" src="/img/aldea-pucela.jpg" alt="" width="48" height="48" decoding="async">
+      <span class="marca__texto">
+        <span class="marca__kicker">Aldea Pucela</span>
+        <span class="marca__titulo">Vivienda pública</span>
+      </span>
+    </a>`;
 }
 
 /** Plazos que aún no han terminado, del más urgente al más lejano. */
@@ -237,7 +267,7 @@ ${bloquePlazos(plazosVivos())}
 
 <section class="bloque bloque--tuyo" id="lo-tuyo" hidden>
   <h2>Lo que sigues</h2>
-  <p class="fino">Marcado en este navegador. No sale de aquí: ni cuentas, ni correo, ni servidor.</p>
+  <p class="fino">Las promociones que has marcado. Vuelve a pulsar «La sigues» para quitarlas.</p>
   <ul class="tarjetas" id="tuyo-listado"></ul>
 </section>
 
@@ -329,7 +359,7 @@ function paginaPromocion(p) {
     ${desfase ? `<p class="aviso">La ficha oficial anuncia ${p.n_viviendas} viviendas pero su tabla detalla ${d.total}.
        No sabemos por qué: lo dejamos tal cual lo publica la fuente.</p>` : ''}
     ${tablaViviendas(p.viviendas)}
-    ${serie.length > 1 ? historicoHtml(serie) : `<p class="fino">Empezamos a registrar los cambios de ocupación el ${esc(serie[0]?.fecha ?? p.capturado)}. Cada día que cambie algo, quedará anotado aquí.</p>`}
+    ${serie.length > 1 ? historicoHtml(serie) : `<p class="fino">Miramos esta tabla todos los días desde el ${esc(serie[0]?.fecha ?? p.capturado)}. Cuando cambie algo, aparecerá aquí.</p>`}
     ` : `<p class="aviso">La web oficial todavía no publica la tabla de viviendas de esta promoción, así que no
        podemos decir cuántas quedan libres. En cuanto la publique, aparecerá aquí sola.</p>`}
   </section>
@@ -370,7 +400,8 @@ function paginaPromocion(p) {
     <ul class="fino">
       <li>Fuente: <a href="${esc(p.url_oficial)}" rel="noopener nofollow">ficha oficial en tuyavivienda.es</a></li>
       <li>Leída el ${esc(p.capturado)}${p.actualizado_fuente ? ` · la fuente dice haberla actualizado el ${esc(p.actualizado_fuente.slice(0, 10))}` : ''}</li>
-      <li>Huella sha256 de la página leída: <code>${esc((p.sha256_pagina ?? '').slice(0, 16))}…</code></li>
+      <li>Huella digital de la página que leímos: <code>${esc((p.sha256_pagina ?? '').slice(0, 16))}…</code>
+        (sirve para comprobar que el dato salió exactamente de ahí)</li>
     </ul>
   </section>
 </article>
@@ -542,11 +573,10 @@ function paginaAvisos() {
 </ul>
 
 <h2>Los plazos salen del propio boletín</h2>
-<p>Nadie los teclea. El sistema descarga los anuncios oficiales que enlaza cada promoción, les lee el texto y
-   busca la regla tal cual está escrita —«un plazo máximo que concluirá a los quince días naturales contados
-   desde el día siguiente a la publicación de este Acuerdo en el Boletín Oficial de la Provincia»— y la combina
-   con la fecha en que se publicó ese boletín, que va en la cabecera de todas sus páginas. De ahí sale la fecha
-   exacta.</p>
+<p>Nadie los teclea a mano. Se leen los anuncios oficiales que enlaza cada promoción y se busca la regla tal
+   cual está escrita —«un plazo máximo que concluirá a los quince días naturales contados desde el día siguiente
+   a la publicación de este Acuerdo en el Boletín Oficial de la Provincia»— y se combina con la fecha en que se
+   publicó ese boletín, que aparece en la cabecera de todas sus páginas. De ahí sale la fecha exacta.</p>
 <p>En cada plazo puedes desplegar <em>«Lo que dice el documento»</em> y leer la frase literal de la que sale, con
    enlace al PDF oficial. Si el plazo cuelga de algo que aún no ha pasado —«diez días desde que se publique la
    lista provisional»— <strong>no nos inventamos una fecha</strong>: enseñamos la regla y ya está.</p>
@@ -561,8 +591,8 @@ ${sinFecha.length ? `<h2>Plazos que dependen de lo que pase antes</h2>
 ${bloquePlazos(sinFecha)}` : ''}
 
 <h2>Cada cuánto</h2>
-<p>La comprobación es diaria. Un cambio puede tardar hasta 24 horas en detectarse, así que para un plazo que
-   cierra hoy no te fíes solo de esto: los recordatorios empiezan tres semanas antes precisamente por eso.</p>
+<p>Se comprueba una vez al día, así que un cambio puede tardar hasta 24 horas en aparecer. Para un plazo que
+   cierra hoy no te fíes solo de esta web: por eso los recordatorios empiezan tres semanas antes.</p>
 </article>`;
   return layout({
     titulo: 'Avisos',
@@ -644,26 +674,27 @@ function paginaDatos() {
 <h1>Datos abiertos</h1>
 <p>Todo lo que ves en esta web sale de estos ficheros, que puedes usar libremente citando la fuente
    (<a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" rel="noopener">CC BY-SA 4.0</a>).
-   Se regeneran solos cada día y su historial completo está en Git: cada cambio de un dato queda fechado.</p>
+   Se actualizan solos cada día y se guarda el historial completo: de cada dato se puede saber cuándo cambió.</p>
 <ul class="docs">
   <li><a href="/data/promociones.json">promociones.json</a> <span class="pastilla pastilla--doc">Índice</span>
       <p class="fino">Una entrada por promoción con su estado y el resumen de viviendas libres.</p></li>
   <li><a href="/data/historico.json">historico.json</a> <span class="pastilla pastilla--doc">Serie temporal</span>
       <p class="fino">Cuántas viviendas había libres cada día que hubo algún cambio.</p></li>
   <li><a href="/data/fuentes.json">fuentes.json</a> <span class="pastilla pastilla--doc">Trazabilidad</span>
-      <p class="fino">Qué página o documento respalda cada dato, cuándo se leyó y con qué huella sha256.</p></li>
+      <p class="fino">Qué página o documento respalda cada dato, cuándo se leyó y con qué huella digital.</p></li>
   <li><a href="/data/promociones/">data/promociones/&lt;id&gt;.json</a> <span class="pastilla pastilla--doc">Detalle</span>
       <p class="fino">Ficha completa de cada promoción, vivienda a vivienda.</p></li>
 </ul>
 <h2>Lo que no vas a encontrar aquí</h2>
-<p>Ningún dato personal: ni nombres, ni DNI, ni posiciones de lista asociadas a personas. No es un descuido,
-   es la regla del proyecto y hay un test automático que impide publicar nada que lo parezca.
+<p>Ningún dato personal: ni nombres, ni DNI, ni la posición de nadie en una lista. No es un descuido: es la regla
+   del proyecto, y hay una comprobación automática que impide publicar nada que lo parezca.
    <a href="/privacidad/">Explicación completa</a>.</p>
 <h2>Cómo se generan</h2>
-<p>Un script sin dependencias lee las fichas públicas de <code>tuyavivienda.es</code> una vez al día, respetando
-   su <code>robots.txt</code>, y extrae solo hechos: cifras, estados y enlaces. El código está
-   <a href="https://github.com/aldeapucela/vivienda-publica-" rel="noopener">en GitHub</a> y cualquiera puede revisarlo o
-   levantar su propia copia. <a href="/fuentes/">Detalle de las fuentes</a>.</p>
+<p>Una vez al día se leen las fichas públicas de <code>tuyavivienda.es</code> y los anuncios oficiales que
+   enlazan, y de ahí se extraen solo hechos: cifras, estados, plazos y enlaces.
+   <a href="/fuentes/">Aquí está el detalle de las fuentes</a>, y el programa que lo hace es libre y está
+   <a href="https://github.com/aldeapucela/vivienda-publica-" rel="noopener">publicado en GitHub</a> para que
+   cualquiera pueda revisarlo.</p>
 </article>`;
   return layout({ titulo: 'Datos abiertos', descripcion: 'Ficheros JSON con las promociones de vivienda pública, su disponibilidad y la trazabilidad de cada dato.', ruta: '/datos/', cuerpo, activo: 'datos' });
 }
@@ -752,7 +783,7 @@ ${css}
     </nav>
   </div>
 </header>
-<main id="contenido" class="container">
+<main id="contenido" class="container principal">
 ${secciones}
 </main>
 <footer class="pie">
@@ -824,6 +855,16 @@ function markdown(md) {
       cierraParrafo(); cierraTabla();
       if (lista !== 'ol') { cierraLista(); salida.push('<ol>'); lista = 'ol'; }
       salida.push(`<li>${enLinea(l.replace(/^\d+[.)]\s+/, ''))}</li>`); continue;
+    }
+    // Un elemento de lista que sigue en la línea de abajo (sangrado) continúa
+    // el mismo <li>: si no, se parte en dos y la negrita a caballo entre ambas
+    // líneas sale con los asteriscos a la vista.
+    if (lista && /^\s{2,}\S/.test(linea)) {
+      const anterior = salida[salida.length - 1];
+      if (anterior && anterior.endsWith('</li>')) {
+        salida[salida.length - 1] = `${anterior.slice(0, -5)} ${enLinea(l.trim())}</li>`;
+        continue;
+      }
     }
     if (/^\|/.test(l)) {
       cierraParrafo(); cierraLista();
