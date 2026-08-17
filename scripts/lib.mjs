@@ -341,6 +341,24 @@ export function minusculiza(s, propios = []) {
   return t;
 }
 
+/**
+ * Huella estable del contenido de un objeto, ignorando los campos que se
+ * indiquen. Sirve para saber si un dato ha cambiado de verdad: la página que lo
+ * publica trae identificadores aleatorios en cada visita, así que su propio
+ * `sha256` cambia a diario aunque no haya novedades.
+ */
+export function huellaDatos(objeto, ignorar = []) {
+  const estable = (v) => {
+    if (Array.isArray(v)) return v.map(estable);
+    if (v && typeof v === 'object') {
+      return Object.keys(v).filter((k) => !ignorar.includes(k)).sort()
+        .reduce((acc, k) => { acc[k] = estable(v[k]); return acc; }, {});
+    }
+    return v;
+  };
+  return sha256(JSON.stringify(estable(objeto)));
+}
+
 // ----------------------------------------------------------- plazos ----
 
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio',
@@ -512,6 +530,13 @@ export function selfTest() {
   ok(loc1.localidad === 'Medina del Campo' && loc1.provincia === 'Valladolid', 'localidad con provincia');
   ok(partirLocalidad('Valladolid').provincia === 'Valladolid', 'localidad capital');
   ok(partirLocalidad('Ponferrada').provincia === null, 'localidad sin provincia deducible');
+
+  const a1 = { id: 'x', dato: 1, capturado: '2026-08-16', lista: [{ b: 2, a: 1 }] };
+  const a2 = { dato: 1, id: 'x', capturado: '2026-08-17', lista: [{ a: 1, b: 2 }] };
+  ok(huellaDatos(a1, ['capturado']) === huellaDatos(a2, ['capturado']),
+    'la huella ignora el orden de las claves y los campos excluidos');
+  ok(huellaDatos(a1, ['capturado']) !== huellaDatos({ ...a1, dato: 2 }, ['capturado']),
+    'la huella cambia si cambia un dato');
 
   ok(cantidadDePlazo('quince') === 15 && cantidadDePlazo('14') === 14, 'cantidad en palabras y en cifras');
   ok(cantidadDePlazo('pocos') === null, 'cantidad que no se entiende → null');

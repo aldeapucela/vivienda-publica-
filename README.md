@@ -156,6 +156,30 @@ En local se puede probar igual: `BASE_PATH=/vivienda-publica- SITIO_URL=https://
 La analítica de Matomo está preparada en `scripts/build.mjs` pero desactivada hasta que la comunidad
 asigne un `siteId`.
 
+## Cómo se mantiene al día
+
+El circuito es un `cron` de GitHub Actions, **dos pasadas al día** (06:30 y 16:30 UTC). Con una
+bastaría para el ritmo al que publica la fuente; la segunda existe porque GitHub retrasa y a veces se
+salta las ejecuciones programadas.
+
+Cada pasada: lee las fichas → descarga los boletines nuevos y extrae plazos → detecta novedades →
+comprueba privacidad → commitea `data/` si algo cambió → genera el sitio → despliega.
+
+Tres cosas que hacen que esto se pueda dejar solo:
+
+- **Los commits solo aparecen cuando hay novedades de verdad.** La fecha de captura de cada promoción
+  se conserva mientras su contenido no cambie, así que `git log` sirve para saber qué cambió y qué
+  día. (La página de la fuente trae identificadores aleatorios en cada visita: su `sha256` cambia a
+  diario aunque no haya novedades, y por eso el cambio se mide con una huella del **dato extraído**,
+  no de la página.) Lo único que se anota cada día es el campo `comprobado`.
+- **Si la fuente cambia de forma, no se publica basura.** Antes de escribir, `sync.mjs` comprueba que
+  lo leído cuadra: número de promociones, nombres, localidades, cuántas publican tabla y cuántos
+  documentos hay. Si algo se desploma, aborta y la web se queda con los datos anteriores.
+- **Si la actualización se rompe, se nota.** El workflow abre una incidencia con la etiqueta
+  `actualizacion-parada` (solo una a la vez), y la propia web avisa en su cabecera si los datos llevan
+  más de cuatro días sin comprobarse. Ese aviso lo calcula el navegador de quien entra: si el circuito
+  muere, la web ya no se regenera y nadie más podría darse cuenta.
+
 ## Operación y mantenimiento
 
 - **El cron** (`.github/workflows/update.yml`) corre una vez al día. Si `data/` cambia, commitea y

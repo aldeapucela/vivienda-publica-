@@ -115,6 +115,22 @@
     try { localStorage.setItem(CLAVE_VISITA, new Date().toISOString().slice(0, 10)); } catch (e) { /* modo privado */ }
   }
 
+  // ---------- ¿están los datos rancios? ----------
+  // Si la actualización automática se rompe, la web deja de regenerarse y
+  // seguiría enseñando cifras viejas con toda la naturalidad. El único que
+  // puede darse cuenta es el navegador de quien entra, comparando la fecha de
+  // la última comprobación con la de hoy.
+  var avisoRancio = document.getElementById('rancio');
+  if (avisoRancio && avisoRancio.dataset.comprobado) {
+    var DIAS_TOLERADOS = 4;
+    var dias = Math.floor((Date.now() - Date.parse(avisoRancio.dataset.comprobado + 'T00:00:00Z')) / 86400000);
+    if (dias > DIAS_TOLERADOS) {
+      avisoRancio.textContent = 'Ojo: estos datos no se han comprobado desde hace ' + dias +
+        ' días, así que puede que la actualización automática esté parada. Contrasta con la web oficial.';
+      avisoRancio.hidden = false;
+    }
+  }
+
   // ---------- filtros de la portada ----------
   if (!listado) return;
   var tarjetas = [].slice.call(listado.querySelectorAll('.tarjeta'));

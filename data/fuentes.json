@@ -1,12 +1,12 @@
 {
-  "actualizado": "2026-08-17",
+  "comprobado": "2026-08-17",
   "fuentes": [
     {
       "id": "pagina:10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon",
       "tipo": "web",
       "titulo": "10 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN ASTORGA (LEÓN)",
       "url": "https://tuyavivienda.es/10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon/",
-      "sha256": "1e0a263a477cc61860e0d9d86326be614a0df1fbfb7d79bda487f9f9fa5055b1",
+      "sha256": "5f30af5c3d302333e1dc961652cef9f8e9182e8afe702a97aecbbd1e175a28ef",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -33,7 +33,7 @@
       "tipo": "web",
       "titulo": "9 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EL BARCO DE ÁVILA (AV)",
       "url": "https://tuyavivienda.es/10-viviendas-de-proteccion-publica-en-alquiler-en-el-barco-de-avila-avila/",
-      "sha256": "0486599aa89903db0143f1c2125a0f93537d23278486d2c0a8f7e5869fde8d89",
+      "sha256": "f721cb6787134be2411e759aed823c3472f9c4f7c6d4aec2a46ff97a83461a8b",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -60,7 +60,7 @@
       "tipo": "web",
       "titulo": "10 VIVIENDAS DE PROTECCIÓN PÚBLICA EN ALQUILER EN PAREDES DE NAVA (PALENCIA)",
       "url": "https://tuyavivienda.es/10-viviendas-de-proteccion-publica-en-alquiler-en-paredes-de-nava-palencia/",
-      "sha256": "ab88ab2004f1edb2eb31b5cf909b4e43fdb145307b67781485cc55233146ced1",
+      "sha256": "3e811a655360923533eab62b0bacb4fd05f402969fb461215d8a12139d584f17",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -96,7 +96,7 @@
       "tipo": "web",
       "titulo": "10 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PUEBLA DE SANABRIA (ZAMORA)",
       "url": "https://tuyavivienda.es/10-viviendas-promocion-publica-alquiler-puebla-de-sanabria-zamora/",
-      "sha256": "4e9a334320e5013dfba9cd364e986fcc620f6041061f598ddaba1bc01b12abb8",
+      "sha256": "8c8ce7a291914329b3b17ca60b075ed3f229a9ab4752b81b9f42afdb20453080",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -114,7 +114,7 @@
       "tipo": "web",
       "titulo": "100 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN LEÓN",
       "url": "https://tuyavivienda.es/100-viviendas-promocion-publica-alquiler-leon/",
-      "sha256": "9060bab42bec29fa5b14c923a8437472ca7c57201c43cd6cfd7286085f8aaf5b",
+      "sha256": "4bdbe38480f56aefb31a59a7c8328774845b9fa757f59fff65bfcd4673e3c0df",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -123,7 +123,7 @@
       "tipo": "web",
       "titulo": "114 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PARQUESOL EN VALLADOLID",
       "url": "https://tuyavivienda.es/114-viviendas-de-promocion-publica-en-alquiler-en-parquesol-valladolid/",
-      "sha256": "633f684006dea711d876bbb538a26ca814586f61a2284f499e55d3bbf7e470b5",
+      "sha256": "96c57adbcd76a35a5cc261c58cc2fcc64f91a1d24542f47f3dad05d1e86acf51",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -132,7 +132,7 @@
       "tipo": "web",
       "titulo": "12 VIVIENDAS DE PROMOC. PÚB. EN ALQUILER EN PEÑARANDA DE BRACAMONTE (SALAMANCA)",
       "url": "https://tuyavivienda.es/12-viviendas-de-proteccion-publica-en-alquiler-en-penaranda-de-bracamonte-salamanca/",
-      "sha256": "ca285a806a49b13185f2b1c4f556d184395dd0f787d63c393c6b6685af1549ee",
+      "sha256": "3f1fe18465e2da5586c0ec17435da2d608ab8a4df25e1643e256aceb658f5668",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -159,7 +159,7 @@
       "tipo": "web",
       "titulo": "144 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN BURGOS",
       "url": "https://tuyavivienda.es/144-viviendas-de-promocion-publica-en-alquiler-en-burgos/",
-      "sha256": "0293d0ec7d887b891ba3863b7553619a001c8f2fee851e273bfea564bfa8d618",
+      "sha256": "d70f52bfc2b32d6db7cf8624e3f369a20cb8fbc317d178dcedea391cbba7bc43",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -168,7 +168,7 @@
       "tipo": "web",
       "titulo": "15 VIVIENDAS PROMOCIÓN PÚBLICA EN VENTA EN STA. CRISTINA DE LA POLVOROSA (ZA)",
       "url": "https://tuyavivienda.es/15-viviendas-santa-cristina-de-la-polvorosa/",
-      "sha256": "a305d16856ce9d5cdb5125b960ee893bba6f4bb0570f640c67712e4b014c5188",
+      "sha256": "2ec07b5f54a63ad9998da7f31effa4fa7dfe35b773152266896db5d1a99b8748",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -177,7 +177,7 @@
       "tipo": "web",
       "titulo": "152 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PARQUE ALAMEDA (VALLADOLID)",
       "url": "https://tuyavivienda.es/152-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid/",
-      "sha256": "50e53c38fefa5d8c3a899c72ce938908c512db05cf61bdfc627ef0f526c84acd",
+      "sha256": "b67386c9b7d9848bdaa553a9a8f045f42f803663d6cf96de7c9296b5d303f4a9",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -186,7 +186,7 @@
       "tipo": "web",
       "titulo": "17 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN SORIA",
       "url": "https://tuyavivienda.es/17-viviendas-de-proteccion-publica-en-alquiler-en-soria/",
-      "sha256": "d78cae1f7d7d2a75423108957a6da40c8157069f5a55233214c8a04b584797ae",
+      "sha256": "e9bfa2a95d7be76960d096dae420d737ad8161814b8a778ebd115aeb4f8a557f",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -204,7 +204,7 @@
       "tipo": "web",
       "titulo": "19 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN VILLALÓN DE CAMPOS (VA)",
       "url": "https://tuyavivienda.es/19-viviendas-de-protec-publica-en-venta-en-villalon-de-campos-valladolid/",
-      "sha256": "afe0510128fbb30c1b181193a3e64e86cd838b6f244848d052da9155fe8368bc",
+      "sha256": "392f8d4f2443900699289ed1809dea482244fe7f3694f5e2f9111255169306f4",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -231,7 +231,7 @@
       "tipo": "web",
       "titulo": "20 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PONFERRADA (LEÓN)",
       "url": "https://tuyavivienda.es/20-viviendas-de-promocion-publica-en-alquiler-en-ponferrada/",
-      "sha256": "d59c48dca907362ab3925f94321c4b22ef92a16e2747673cdec26906e465b52b",
+      "sha256": "859781a3540b9aec0f1cbee5ed45cb9d11ac4b1ef757f3a5c96982ec8c206c43",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -240,7 +240,7 @@
       "tipo": "web",
       "titulo": "27 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN MEDINA DEL CAMPO (VALLADOLID)",
       "url": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
-      "sha256": "3770fb9bb8ca4125e2e99662ad5cd76bd7a6c5d605fe3944e80f8683f35e7170",
+      "sha256": "38055bccf3f23ca3d10f20cd45f4795d588d1aacf783d77685daf983cb4d1f26",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -294,7 +294,7 @@
       "tipo": "web",
       "titulo": "28 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN MIRANDA DE EBRO (BURGOS)",
       "url": "https://tuyavivienda.es/28-viviendas-de-promocion-publica-en-alquiler-en-miranda-de-ebro-burgos/",
-      "sha256": "e646606b431f05a9e177dc96ee36d7f9474934bf2b38a2f4675073ddfad000bc",
+      "sha256": "7b186e0fe1025759ffa1d26619a7453f6495f82e7aefe6aed660aae5e6871f40",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -303,7 +303,7 @@
       "tipo": "web",
       "titulo": "28 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN VALENCIA DE DON JUAN (LEÓN)",
       "url": "https://tuyavivienda.es/28-viviendas-de-proteccion-publica-en-alquiler-en-valencia-de-don-juan-leon/",
-      "sha256": "92c946b89a0573f0488d63b3687a56fb3b70409d1c1c971a9da8acf1a68666a1",
+      "sha256": "2b239e5a024b2d6a4b06d6e244106998257a8921377b64a721dd6b64ca52b907",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -330,7 +330,7 @@
       "tipo": "web",
       "titulo": "38 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN ARANDA DE DUERO (BURGOS)",
       "url": "https://tuyavivienda.es/38-viviendas-de-promocion-publica-en-aranda-de-duero-burgos/",
-      "sha256": "96963feb6a5f3ba8754eb0d4cfbb771c235080f0bf3d4fd1764cbf54ee60185a",
+      "sha256": "4cc46f27dc67d73d6c0371668d265a50e4166fc80c95c2ae5df5b56652a4b295",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -339,7 +339,7 @@
       "tipo": "web",
       "titulo": "38 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN SORIA",
       "url": "https://tuyavivienda.es/38-viviendas-promocion-publica-colaborativa-soria/",
-      "sha256": "8bd9d26b18606182f02bf3aa202846eec6c7319b27ef46a31ff421c99a7d6f37",
+      "sha256": "c36d973426228975e3eb00fe2869cc96489187ce8cfc909cff514720bc039894",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -348,7 +348,7 @@
       "tipo": "web",
       "titulo": "40 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN ÁVILA",
       "url": "https://tuyavivienda.es/40-viviendas-promocion-publica-colaborativa-alquiler-avila/",
-      "sha256": "dc3acad1bcf162c652270ee1b2c3b88c5631508978480a7eb7940478108c380b",
+      "sha256": "dad79a5b756191188332b76200140b3c8dc41d7e80f50c496b7690726ed4fce9",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -357,7 +357,7 @@
       "tipo": "web",
       "titulo": "42 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN ZAMORA",
       "url": "https://tuyavivienda.es/42-viviendas-de-promocion-publica-en-alquiler-en-zamora/",
-      "sha256": "03978f332d9585501c902de7aa8212a53bc436cf89f62798c633d5524bd5909b",
+      "sha256": "95d73e5dc3d821df20a90212e6221b1ec7933c5527afea89bda3b33311001750",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -366,7 +366,7 @@
       "tipo": "web",
       "titulo": "50 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN C/MIESES EN VALLADOLID",
       "url": "https://tuyavivienda.es/50-viviendas-de-promocion-publica-en-alquiler-en-mieses-valladolid/",
-      "sha256": "04faabae0dd73a67a39e060c887841c66fb0dd998b949106773418721369f8af",
+      "sha256": "42fcec4a1d634259ebe40aa850c581e1170dcf869e01b034f452ef058d850fbd",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -375,7 +375,7 @@
       "tipo": "web",
       "titulo": "50 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PALENCIA",
       "url": "https://tuyavivienda.es/50-viviendas-promocion-publica-alquiler-colaborativa-palencia/",
-      "sha256": "80cc61f416c0564e6f150c30b1bf7b05831b4ce004ba86dfc87fac2f25fab9ba",
+      "sha256": "b612cd42a3545c0e9039d1aaa44c3ecd627cc2f6fb7c6ca4919627be3f063417",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -384,7 +384,7 @@
       "tipo": "web",
       "titulo": "59 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN LOS VIVEROS-VALLADOLID",
       "url": "https://tuyavivienda.es/59-viviendas-alquiler-los-viveros-valladolid/",
-      "sha256": "09fcc1c758bf2b7ae55a67d2140a68a63cb04fef44b17fdc8700645c587c6504",
+      "sha256": "5a0c48001c6f19e2524680bbb1185ca91301eb33b914773377b090f8b03555fc",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -492,7 +492,7 @@
       "tipo": "web",
       "titulo": "7 VIVIENDAS DE PROMOCIÓN PÚBLICA EN VENTA EN VIANA DE CEGA (VALLADOLID)",
       "url": "https://tuyavivienda.es/7-viviendas-promocion-publica-viana-de-cega-valladolid/",
-      "sha256": "a9d85eacae644d4acb24b06115d23384b551230d24d1d392522a6ce88fd75754",
+      "sha256": "c85d2d8386e7ba8a1f66f5309ee36a7e0fbd986f60bd460657c202318b40f791",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -501,7 +501,7 @@
       "tipo": "web",
       "titulo": "8 VIVIENDAS DE PROTECCIÓN PÚBLICA EN ALQUILER CIUDAD RODRIGO (SAL)",
       "url": "https://tuyavivienda.es/8-viviendas-de-promocion-publica-ciudad-rodrigo/",
-      "sha256": "a5492e377ae3d0008c60d96cbe470d2f6765b7d6617abbf9de6a521397d0f2bc",
+      "sha256": "cfe12e9a1f34935d6fec89a591eed8514e5d00383c0267767eef016b50847293",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -528,7 +528,7 @@
       "tipo": "web",
       "titulo": "9 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN ZAMORA",
       "url": "https://tuyavivienda.es/9-viviendas-alquiler-zamora/",
-      "sha256": "7cec50de477b16b97db795dd8c8ed4f1ce102baccaa2e4832b4431285d40fd1c",
+      "sha256": "770770e8758fba2b9f50aeca39e443c7c6a389e40ebab897dd0511659b5221d0",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
@@ -555,7 +555,7 @@
       "tipo": "web",
       "titulo": "93 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN SEGOVIA",
       "url": "https://tuyavivienda.es/93-viviendas-promocion-publica-colaborativa-alquier-segovia/",
-      "sha256": "0409b329852950cbda92ad9593ba20a0932198528404282ff354c7682d3c7d04",
+      "sha256": "a6f89390616b59a3a45d238deeb942c90430ef375aae2ea85df73b2b106fe93a",
       "fecha_captura": "2026-08-17",
       "descargado": true
     }

@@ -21,6 +21,8 @@ const MATOMO_SITE_ID = null; // se rellena cuando Aldea Pucela dé el id en stat
 const PROVINCIA_POR_DEFECTO = 'Valladolid';
 
 const indice = json('data/promociones.json');
+const COMPROBADO = indice.comprobado ?? indice.actualizado ?? HOY_INICIAL();
+function HOY_INICIAL() { return new Date().toISOString().slice(0, 10); }
 const NOMBRES_PROPIOS = json('config/estilo.json', { nombres_propios: [] }).nombres_propios ?? [];
 const historico = json('data/historico.json', { registros: [] });
 const avisos = json('data/avisos.json', { avisos: [] }).avisos ?? [];
@@ -129,6 +131,7 @@ ${matomo()}</head>
     </nav>
   </div>
 </header>
+<p class="rancio" id="rancio" data-comprobado="${esc(COMPROBADO)}" hidden></p>
 <main id="contenido" class="container principal">
 ${cuerpo}
 </main>
@@ -258,9 +261,10 @@ function paginaPortada() {
     <div><dt>Viviendas anunciadas</dt><dd>${viviendas || '—'}</dd></div>
     <div><dt>Libres ahora mismo</dt><dd>${conTabla.length ? `${libres} <span class="de">de ${totalTabla}</span>` : '—'}</dd></div>
   </dl>
-  <p class="fino">Datos leídos de la ficha oficial de cada promoción el ${esc(indice.actualizado)}.
+  <p class="fino">La fuente oficial se comprueba todos los días; la última vez, el ${esc(COMPROBADO)}.
+     El último cambio en los datos es del ${esc(indice.actualizado)}.
      «Libres» son las viviendas que la web oficial marca como <em>LIBRE</em> en su tabla; solo algunas promociones
-     la publican todavía.</p>
+     publican esa tabla todavía.</p>
 </section>
 
 ${bloquePlazos(plazosVivos())}
@@ -792,6 +796,7 @@ ${css}
     </nav>
   </div>
 </header>
+<p class="rancio" id="rancio" data-comprobado="${esc(COMPROBADO)}" hidden></p>
 <main id="contenido" class="container principal">
 ${secciones}
 </main>

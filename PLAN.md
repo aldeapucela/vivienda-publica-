@@ -156,5 +156,7 @@ además publica **el dato que hoy no existe en ninguna parte**: cuánta gente pi
 6. **Días hábiles.** Los plazos en días hábiles se calculan descontando sábados y domingos, pero no
    los festivos locales, y la web lo advierte. ¿Merece la pena meter el calendario laboral de
    Valladolid o basta con el aviso?
-7. **Cadencia del cron.** Ahora, una vez al día. Si la fuente actualiza sus tablas más a menudo de
+7. **Cadencia del cron.** Dos pasadas al día (06:30 y 16:30 UTC), con aviso por incidencia si falla
+   y aviso en la propia web si los datos llevan más de cuatro días sin comprobarse. Subirlo más solo
+   tendría sentido si la fuente empezara a publicar varias veces al día, y hoy no lo hace. Si la fuente actualiza sus tablas más a menudo de
    lo que parece, subirlo a dos veces cuesta lo mismo.

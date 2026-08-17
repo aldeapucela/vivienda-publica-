@@ -6,7 +6,11 @@ name: Actualizar datos
 
 on:
   schedule:
-    - cron: '30 6 * * *'   # 06:30 UTC, best-effort: GitHub lo retrasa a menudo
+    # Dos pasadas al día. Con una bastaría para el ritmo al que publica la
+    # fuente, pero GitHub retrasa y a veces se salta las ejecuciones
+    # programadas: la segunda es el seguro de la primera.
+    - cron: '30 6 * * *'    # ~08:30 en Valladolid
+    - cron: '30 16 * * *'   # ~18:30 en Valladolid
   workflow_dispatch:
 
 permissions:
@@ -76,3 +80,25 @@ jobs:
           path: ./dist
       - id: deploy
         uses: actions/deploy-pages@v4
+
+      # Si algo se rompe (la fuente rediseña su web, el parseo devuelve
+      # basura, la comprobación de privacidad salta), que no se quede en un
+      # aspa dentro de la pestaña Actions: se abre una incidencia. Solo una
+      # abierta a la vez, para no llenar el repositorio de duplicados.
+      - name: Avisar si la actualización ha fallado
+        if: failure()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EJECUCION: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          abiertas=$(curl -sS -H "Authorization: Bearer $GH_TOKEN" \
+            "${{ github.api_url }}/repos/${{ github.repository }}/issues?state=open&labels=actualizacion-parada" \
+            | grep -c '"number"' || true)
+          if [ "$abiertas" != "0" ]; then
+            echo "ya hay una incidencia abierta por esto"; exit 0
+          fi
+          cuerpo="La actualización automática de hoy ha fallado, así que la web sigue mostrando los datos anteriores.\n\nEjecución: $EJECUCION\n\nSospechosos habituales:\n- la fuente ha cambiado su web y el parseo ya no encuentra lo que buscaba (scripts/lib.mjs)\n- la comprobación de coherencia ha parado la escritura a propósito\n- la comprobación de privacidad ha encontrado algo que no debía publicarse\n\nMientras esto siga roto, la web avisa por sí sola: a los cuatro días sin comprobar, sale un aviso en la cabecera."
+          curl -sS -X POST -H "Authorization: Bearer $GH_TOKEN" \
+            "${{ github.api_url }}/repos/${{ github.repository }}/issues" \
+            -d "$(printf '{"title":"La actualización automática ha fallado (%s)","labels":["actualizacion-parada"],"body":"%s"}' "$(date -u +%Y-%m-%d)" "$cuerpo")" \
+            -o /dev/null -w 'incidencia creada: %{http_code}\n'

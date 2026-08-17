@@ -175,6 +175,14 @@ h2 { font-size: 1.25rem; margin: 0 0 .75rem; }
 main.principal { padding-block: 2.5rem 3rem; }
 @media (min-width: 40rem) { main.principal { padding-block: 3.75rem 4rem; } }
 
+/* Aviso de datos rancios: solo aparece si la actualización automática se ha
+   quedado parada varios días. */
+.rancio {
+  margin: 0; padding: .7rem 1rem; text-align: center; font-size: .9rem;
+  background: var(--proxima-fondo); color: var(--proxima);
+  border-bottom: 1px solid var(--linea);
+}
+
 /* ---------- portada ---------- */
 .hero { margin-bottom: 2rem; }
 .hero__sub { font-size: 1.05rem; color: var(--tinta-suave); max-width: 44rem; margin: 0 0 1.25rem; }

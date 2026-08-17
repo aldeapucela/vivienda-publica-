@@ -18,7 +18,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  parseFicha, parseRobots, robotsPermite, rutaDeUrl, sha256, selfTest, norm,
+  parseFicha, parseRobots, robotsPermite, rutaDeUrl, sha256, selfTest, norm, huellaDatos,
 } from './lib.mjs';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -53,10 +53,27 @@ async function main() {
     return { ...f, provincia };
   }).sort((a, b) => a.id.localeCompare(b.id, 'es'));
 
+  // Solo se toca la fecha de captura de lo que ha cambiado de verdad. Si no,
+  // los 27 ficheros cambiarían todos los días sin que nadie haya publicado
+  // nada, y el historial dejaría de servir para saber qué cambió y cuándo.
+  const previos = new Map(promociones.map((p) => [p.id, leeJson(`data/promociones/${p.id}.json`, null)]));
+  let sinCambios = 0;
+  for (const p of promociones) {
+    const previo = previos.get(p.id);
+    p.huella_datos = huellaDatos(p, ['capturado', 'sha256_pagina', 'huella_datos']);
+    if (previo && previo.huella_datos === p.huella_datos) {
+      p.capturado = previo.capturado;
+      p.sha256_pagina = previo.sha256_pagina;
+      sinCambios++;
+    }
+  }
+  compruebaCoherencia(promociones, previos);
+
   escribeDetalle(promociones);
   escribeIndice(promociones);
-  escribeFuentes(promociones);
+  escribeFuentes(promociones, previos);
   const cambios = actualizaHistorico(promociones);
+  console.log(`\n  ${sinCambios} promociones siguen exactamente igual que la última vez`);
 
   console.log(`\n✔ ${promociones.length} promociones · ${cambios} cambios de disponibilidad registrados hoy`);
   const conTabla = promociones.filter((p) => p.disponibilidad.publicada);
@@ -68,6 +85,42 @@ async function main() {
   if (desconocidas.size) {
     console.log(`\n⚠ localidades sin provincia en config/localidades.json: ${[...desconocidas].join(', ')}`);
     console.log('  añádelas a mano (dato geográfico, no se inventa desde el script).');
+  }
+}
+
+/**
+ * Antes de escribir nada, comprobar que lo leído tiene sentido. Si la fuente
+ * rediseña su web, el parseo puede devolver campos vacíos: es mejor que la
+ * actualización falle a gritos que publicar una web vacía con fecha de hoy.
+ */
+function compruebaCoherencia(promociones, previos) {
+  const problemas = [];
+  const antes = [...previos.values()].filter(Boolean);
+
+  if (promociones.length < 20) problemas.push(`solo se han leído ${promociones.length} promociones (esperábamos 27 o más)`);
+
+  const sinNombre = promociones.filter((p) => !p.nombre).length;
+  if (sinNombre) problemas.push(`${sinNombre} promociones sin nombre: la ficha ha cambiado de forma`);
+
+  const sinLocalidad = promociones.filter((p) => !p.localidad).length;
+  if (sinLocalidad > promociones.length / 4) problemas.push(`${sinLocalidad} promociones sin localidad`);
+
+  if (antes.length) {
+    const conTablaAntes = antes.filter((p) => p.disponibilidad?.publicada).length;
+    const conTablaAhora = promociones.filter((p) => p.disponibilidad?.publicada).length;
+    if (conTablaAhora < conTablaAntes - 2) {
+      problemas.push(`ayer ${conTablaAntes} promociones publicaban tabla de viviendas y hoy solo ${conTablaAhora}`);
+    }
+    const docsAntes = antes.reduce((n, p) => n + (p.documentos?.length ?? 0), 0);
+    const docsAhora = promociones.reduce((n, p) => n + (p.documentos?.length ?? 0), 0);
+    if (docsAhora < docsAntes / 2) problemas.push(`los documentos enlazados han caído de ${docsAntes} a ${docsAhora}`);
+  }
+
+  if (problemas.length) {
+    console.error('\n✖ Lo leído no cuadra, así que no se escribe nada:');
+    for (const x of problemas) console.error(`  · ${x}`);
+    console.error('\nRevisa si la fuente ha cambiado su web (scripts/lib.mjs) antes de volver a ejecutar.');
+    process.exit(1);
   }
 }
 
@@ -139,7 +192,8 @@ function escribeDetalle(promociones) {
 
 function escribeIndice(promociones) {
   guardaJson('data/promociones.json', {
-    actualizado: HOY,
+    comprobado: HOY,     // último día que se miró la fuente, cambie algo o no
+    actualizado: ultimaNovedad(promociones),
     fuente: ORIGEN,
     licencia_datos: 'CC BY-SA 4.0 (Aldea Pucela) · datos de hecho extraídos de fuentes oficiales',
     promociones: promociones.map((p) => ({
@@ -162,7 +216,7 @@ function escribeIndice(promociones) {
 }
 
 /** Registro de trazabilidad: qué documento se leyó, cuándo y con qué hash. */
-function escribeFuentes(promociones) {
+function escribeFuentes(promociones, previos = new Map()) {
   const fuentes = [];
   for (const p of promociones) {
     fuentes.push({
@@ -178,7 +232,7 @@ function escribeFuentes(promociones) {
       });
     }
   }
-  guardaJson('data/fuentes.json', { actualizado: HOY, fuentes });
+  guardaJson('data/fuentes.json', { comprobado: HOY, fuentes });
 }
 
 /**
@@ -186,6 +240,12 @@ function escribeFuentes(promociones) {
  * lista?»: cuántas viviendas quedaban libres cada día, según la propia fuente
  * oficial y sin tocar un solo dato personal.
  */
+/** La fecha del último cambio real, para poder decir «datos de tal día». */
+function ultimaNovedad(promociones) {
+  const fechas = promociones.map((p) => p.capturado).filter(Boolean).sort();
+  return fechas[fechas.length - 1] ?? HOY;
+}
+
 function actualizaHistorico(promociones) {
   const historico = leeJson('data/historico.json', { registros: [] });
   const registros = historico.registros ?? [];
