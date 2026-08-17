@@ -748,14 +748,18 @@ function matomo() {
  */
 function unaSolaPagina() {
   const css = fs.readFileSync(path.join(RAIZ, 'src/styles.css'), 'utf8');
+  // En un fichero suelto no hay carpeta de imágenes: el isotipo va incrustado.
+  const isotipo = `data:image/jpeg;base64,${fs.readFileSync(path.join(RAIZ, 'src/img/aldea-pucela.jpg')).toString('base64')}`;
   const filtros = fs.readFileSync(path.join(RAIZ, 'src/app.js'), 'utf8');
   const utiles = paginas.filter((p) => p.ruta !== '/404.html');
 
   const secciones = utiles.map((p) => `<section class="pagina" data-ruta="${esc(p.ruta)}" hidden>
 ${enlacesInternos(p.cuerpo)}
 </section>`).join('\n');
+  const conIsotipo = (html) => html.replace(/src="\/img\/aldea-pucela\.jpg"/g, `src="${isotipo}"`);
 
   return `<title>Vivienda Pucela</title>
+<script>document.documentElement.className += ' con-js';</script>
 <style>
 ${css}
 .pagina[hidden] { display: none; }
@@ -770,14 +774,19 @@ ${css}
   <code>${esc(SITIO.replace(/^https?:\/\//, ''))}</code>.</p></div></div>
 <header class="topbar">
   <div class="container topbar__inner">
-    <a class="marca" href="#/">
-      <span class="marca__kicker">Aldea Pucela</span>
-      <span class="marca__titulo">Vivienda</span>
-    </a>
-    <nav class="menu" aria-label="Menú principal">
+    ${conIsotipo(marca()).replace('href="/"', 'href="#/"')}
+    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">
+      <svg class="menu-boton__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path class="menu-boton__barras" d="M4 7h16M4 12h16M4 17h16"/>
+        <path class="menu-boton__cruz" d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+      <span>Menú</span>
+    </button>
+    <nav class="menu" id="menu-principal" aria-label="Menú principal">
       <a href="#/">Promociones</a>
+      <a href="#/avisos/">Avisos y plazos</a>
       <a href="#/como-funciona/">Cómo funciona</a>
-      <a href="#/datos/">Datos</a>
+      <a href="#/datos/">Datos abiertos</a>
       <a href="#/fuentes/">Fuentes</a>
       <a href="#/privacidad/">Privacidad</a>
     </nav>
@@ -787,13 +796,16 @@ ${css}
 ${secciones}
 </main>
 <footer class="pie">
-  <div class="container">
-    <p><strong>Esta web no es oficial.</strong> Es un proyecto vecinal de la comunidad de
-      <a href="https://aldeapucela.org" rel="noopener">Aldea Pucela</a> que ordena información ya publicada por
-      tuyavivienda.es (SOMACYL, Junta de Castilla y León). Para cualquier trámite, la fuente válida es la
-      oficial y el BOCYL.</p>
-    <p class="fino">No publicamos datos personales de solicitantes ni adjudicatarios.
-      Código AGPL-3.0 · Datos CC BY-SA 4.0 · Hecho por vecinas y vecinos voluntarios</p>
+  <div class="container pie__inner">
+    ${conIsotipo(marca('pie')).replace('href="/"', 'href="#/"')}
+    <div class="pie__texto">
+      <p><strong>Esta web no es oficial.</strong> La hacen vecinas y vecinos de
+        <a href="https://aldeapucela.org" rel="noopener">Aldea Pucela</a>, y ordena información que ya publica
+        tuyavivienda.es (SOMACYL, Junta de Castilla y León). Para cualquier trámite, lo que vale es la web
+        oficial y el boletín.</p>
+      <p>Aquí no se publican datos personales de quienes solicitan o reciben una vivienda.</p>
+    </div>
+    <p class="fino">Contenido y datos con licencia CC BY-SA 4.0 · Código con licencia AGPL-3.0</p>
   </div>
 </footer>
 <script>
