@@ -16,7 +16,7 @@ import { fileURLToPath } from 'node:url';
 import { minusculiza } from './lib.mjs';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const SITIO = process.env.SITIO_URL ?? 'https://aldeapucela.github.io/vivienda-publica-';
+const SITIO = process.env.SITIO_URL ?? 'https://vivienda.aldeapucela.org';
 
 // Con cuánta antelación se avisa de un plazo que se cierra. La lista manda:
 // si el plazo se registra tarde, se avisa igual del recordatorio que toque.

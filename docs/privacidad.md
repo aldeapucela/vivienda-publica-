@@ -59,9 +59,9 @@ no:
 
 - No hay cuentas, ni registro, ni formularios, ni cookies de sesión.
 - No hay publicidad ni rastreadores de terceros.
-- Si en algún momento se activan las estadísticas de visitas, serán las de la propia comunidad
-  (Matomo, alojado por Aldea Pucela), con la misma configuración que el resto de sus webs: sin vender
-  datos a nadie y sin perfilar a nadie.
+- Las estadísticas de visitas son las de la propia comunidad (Matomo, alojado por Aldea Pucela en
+  `stats.aldeapucela.org`), con la misma configuración que el resto de sus webs: sin vender datos a
+  nadie y sin perfilar a nadie.
 - La web es estática y está alojada en GitHub Pages, que registra peticiones como cualquier
   servidor.
 

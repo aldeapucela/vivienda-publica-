@@ -17,13 +17,6 @@ concurrency:
 jobs:
   desplegar:
     runs-on: ubuntu-latest
-    env:
-      # El sitio se publica en la URL de GitHub. El día que haya dominio
-      # propio: fichero CNAME, variable de repositorio DOMINIO_PROPIO=1 y el
-      # dominio en DOMINIO_URL. Ver README.
-      BASE_PATH: ${{ vars.DOMINIO_PROPIO == '1' && '' || '/vivienda-publica-' }}
-      SITIO_URL: ${{ vars.DOMINIO_PROPIO == '1' && vars.DOMINIO_URL || 'https://aldeapucela.github.io/vivienda-publica-' }}
-      DOMINIO_PROPIO: ${{ vars.DOMINIO_PROPIO }}
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
