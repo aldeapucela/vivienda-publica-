@@ -1,0 +1,31 @@
+{
+  "actualizado": "2026-08-18",
+  "hitos": [
+    {
+      "id": "59-viviendas-alquiler-los-viveros-valladolid:sorteo",
+      "promocion_id": "59-viviendas-alquiler-los-viveros-valladolid",
+      "tipo": "sorteo",
+      "titulo": "Sorteo celebrado",
+      "fecha": "2026-07-01",
+      "fecha_es_del_acuerdo": false,
+      "publicado_en": "2026-07-01",
+      "cita": "Los referidos adjudicatarios aparecen precedidos del número de orden que obtuvieron en el sorteo notarial celebrado.",
+      "fuente_url": "https://tuyavivienda.es/wp-content/uploads/2026/07/BOPVA-A-2026-01944.pdf",
+      "fuente_ref": "BOPVA-A-2026-01944",
+      "extraido": "2026-08-18"
+    },
+    {
+      "id": "59-viviendas-alquiler-los-viveros-valladolid:adjudicacion",
+      "promocion_id": "59-viviendas-alquiler-los-viveros-valladolid",
+      "tipo": "adjudicacion",
+      "titulo": "Lista definitiva de adjudicatarios",
+      "fecha": "2026-06-19",
+      "fecha_es_del_acuerdo": true,
+      "publicado_en": "2026-07-01",
+      "cita": "De conformidad con lo previsto en el apartado noveno 2 de la convocatoria publicada en el Boletín Oficial de Castilla y León (BOCYL) de 16 de marzo de 2026, y en el Boletín Oficial de la Provincia (BOP) de Valladolid del día 20 de marzo, el Consejero delegado de SOMACYL ha acordado, con fecha 19 de junio de 2026, aprobar la lista de adjudicatarios definitivos del alquiler de las viviendas colab…",
+      "fuente_url": "https://tuyavivienda.es/wp-content/uploads/2026/07/BOPVA-A-2026-01944.pdf",
+      "fuente_ref": "BOPVA-A-2026-01944",
+      "extraido": "2026-08-18"
+    }
+  ]
+}

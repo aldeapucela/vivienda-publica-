@@ -147,6 +147,7 @@
       var okEstado =
         filtros.estado === 'todas' ||
         (filtros.estado === 'libres' && t.dataset.libres === 'si') ||
+        (filtros.estado === 'reparto' && t.dataset.libres === 'reparto') ||
         (filtros.estado === 'sin-tabla' && t.dataset.libres === 'sin-tabla') ||
         (filtros.estado === 'seguidas' && seguidas().indexOf(t.querySelector('[data-seguir]') ? t.querySelector('[data-seguir]').dataset.seguir : '') !== -1);
       var visible = okProvincia && okEstado;

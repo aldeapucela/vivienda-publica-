@@ -21,7 +21,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   parseRobots, robotsPermite, rutaDeUrl, sha256, esDescargable,
-  extraeReglasDePlazo, fechaDePublicacion, calculaFin, indiciosPersonales, norm,
+  extraeReglasDePlazo, fechaDePublicacion, calculaFin, indiciosPersonales, norm, extraeHitos,
 } from './lib.mjs';
 import { textoDePdf, limpiaBoletin, selfTest as pdfSelfTest } from './pdf.mjs';
 
@@ -81,10 +81,16 @@ async function principal() {
   }
 
   const plazos = construyePlazos(detalles, documentos);
+  const hitos = construyeHitos(detalles, documentos);
   guardaJson('data/documentos.json', { actualizado: HOY, documentos });
   guardaJson('data/plazos.json', { actualizado: HOY, plazos });
+  guardaJson('data/hitos.json', { actualizado: HOY, hitos });
 
   console.log(`\n✔ plazos: ${plazos.length} extraídos de ${Object.keys(documentos).length} documentos (${descargados} nuevos)`);
+  if (hitos.length) {
+    console.log(`✔ hitos del procedimiento: ${hitos.length}`);
+    for (const h of hitos) console.log(`  · ${h.promocion_id} · ${h.titulo}${h.fecha ? ` (${h.fecha})` : ''}`);
+  }
   for (const z of plazos) {
     console.log(`  · ${z.promocion_id} · ${z.titulo}: ${z.fin ?? `sin fecha (${z.regla.cantidad} días ${z.regla.unidad} desde ${z.regla.ancla_texto ?? 'un hecho sin fecha conocida'})`}`);
   }
@@ -93,9 +99,10 @@ async function principal() {
 /** Lee un documento y se queda solo con lo que hace falta. El PDF no se guarda. */
 export function analiza(buffer, { titulo, tipo }) {
   const texto = limpiaBoletin(textoDePdf(buffer));
-  const reglas = extraeReglasDePlazo(texto)
-    // Una cita jamás puede llevar datos personales (los boletines van firmados).
-    .filter((r) => indiciosPersonales(r.cita).length === 0);
+  // Una cita jamás puede llevar datos personales (los boletines van firmados).
+  const sinDatosPersonales = (x) => indiciosPersonales(x.cita).length === 0;
+  const reglas = extraeReglasDePlazo(texto).filter(sinDatosPersonales);
+  const hitos = extraeHitos(texto).filter(sinDatosPersonales);
   return {
     titulo: titulo ?? null,
     tipo,
@@ -104,6 +111,7 @@ export function analiza(buffer, { titulo, tipo }) {
     leido: HOY,
     caracteres: texto.length,
     reglas,
+    hitos,
   };
 }
 
@@ -159,6 +167,41 @@ export function construyePlazos(detalles, documentos) {
   }
 
   return plazos.sort((a, b) => (a.fin ?? '9999').localeCompare(b.fin ?? '9999') || a.id.localeCompare(b.id, 'es'));
+}
+
+/**
+ * Hitos del procedimiento leídos en los boletines: que se aprobó la lista de
+ * adjudicatarios, que se celebró el sorteo… Con esto la web sabe que una
+ * promoción está repartida aunque su tabla de viviendas siga sin tocar.
+ */
+export function construyeHitos(detalles, documentos) {
+  const salida = [];
+  for (const p of detalles) {
+    for (const doc of p.documentos ?? []) {
+      const info = documentos[doc.url];
+      for (const h of info?.hitos ?? []) {
+        const id = `${p.id}:${h.tipo}`;
+        const previo = salida.find((x) => x.id === id);
+        if (previo && (previo.fecha || !h.fecha)) continue;
+        const registro = {
+          id,
+          promocion_id: p.id,
+          tipo: h.tipo,
+          titulo: h.titulo,
+          fecha: h.fecha ?? info.fecha_publicacion ?? null,
+          fecha_es_del_acuerdo: Boolean(h.fecha),
+          publicado_en: info.fecha_publicacion ?? null,
+          cita: h.cita,
+          fuente_url: doc.url,
+          fuente_ref: doc.titulo ?? null,
+          extraido: info.leido,
+        };
+        if (previo) salida[salida.indexOf(previo)] = registro;
+        else salida.push(registro);
+      }
+    }
+  }
+  return salida.sort((a, b) => (b.fecha ?? '').localeCompare(a.fecha ?? '') || a.id.localeCompare(b.id, 'es'));
 }
 
 /**
@@ -268,6 +311,17 @@ export function selfTest() {
   ok(fechaDelAncla({ ancla: 'web' }, docBocyl, infoBocyl, todos) === null, 'un ancla sin documento no da fecha');
   ok(fechaDelAncla({ ancla: 'bop' }, docBocyl, { fecha_publicacion: '2025-01-01' }, todos) === null,
     'un boletín demasiado lejano no sirve de ancla');
+
+  const conHitos = {
+    'https://tuyavivienda.es/bop.pdf': {
+      ...documentos['https://tuyavivienda.es/bop.pdf'],
+      hitos: [{ tipo: 'adjudicacion', titulo: 'Lista definitiva de adjudicatarios', fecha: '2026-06-19', cita: 'aprobar la lista de adjudicatarios definitivos.' }],
+    },
+  };
+  const h = construyeHitos(detalles, conHitos);
+  ok(h.length === 1 && h[0].tipo === 'adjudicacion' && h[0].fecha === '2026-06-19', 'hito de adjudicación con su fecha');
+  ok(h[0].fuente_url.endsWith('bop.pdf') && h[0].cita, 'el hito lleva fuente y cita');
+  ok(!construyeHitos(detalles, documentos).length, 'sin hitos en el documento, no se inventa ninguno');
 
   ok(DESCARGABLES.every((t) => esDescargable(t)), 'la lista de descargables respeta el veto de los listados');
   ok(!DESCARGABLES.includes('listado_nominal'), 'listado_nominal nunca es descargable');

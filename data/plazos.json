@@ -22,7 +22,7 @@
       "fuente_ref": "BOPVA-A-2026-00824",
       "fuente_sha256": "036dffe0be31ad79171700ceaac1da2b1aa0bf9d6bb1f2d10d83a5d87a61b416",
       "fuente_publicado": "2026-03-20",
-      "extraido": "2026-08-13",
+      "extraido": "2026-08-18",
       "origen": "automatico"
     },
     {
@@ -46,7 +46,7 @@
       "fuente_ref": "BOPVA-A-2026-01557",
       "fuente_sha256": "d797bf629ea2388c1037ea317c8384a3ada7d5fe8dfa3a3342b2bb30cef7b399",
       "fuente_publicado": "2026-05-28",
-      "extraido": "2026-08-13",
+      "extraido": "2026-08-18",
       "origen": "automatico"
     },
     {
@@ -70,7 +70,7 @@
       "fuente_ref": "BOCYL-D-04052026-82-22",
       "fuente_sha256": "a5152cd75a2b01c989ba089be1de121950a9c3ba55297c15605a33a0c61f16b9",
       "fuente_publicado": "2026-05-04",
-      "extraido": "2026-08-13",
+      "extraido": "2026-08-18",
       "origen": "automatico"
     },
     {
@@ -94,7 +94,7 @@
       "fuente_ref": "BOPVA-A-2026-01557",
       "fuente_sha256": "d797bf629ea2388c1037ea317c8384a3ada7d5fe8dfa3a3342b2bb30cef7b399",
       "fuente_publicado": "2026-05-28",
-      "extraido": "2026-08-13",
+      "extraido": "2026-08-18",
       "origen": "automatico"
     },
     {
@@ -118,7 +118,7 @@
       "fuente_ref": "BOPVA-A-2026-01557",
       "fuente_sha256": "d797bf629ea2388c1037ea317c8384a3ada7d5fe8dfa3a3342b2bb30cef7b399",
       "fuente_publicado": "2026-05-28",
-      "extraido": "2026-08-13",
+      "extraido": "2026-08-18",
       "origen": "automatico"
     },
     {
@@ -142,7 +142,7 @@
       "fuente_ref": "BOCYL-D-16032026-51-24",
       "fuente_sha256": "1c54798976609ed80a6b37a4406284436fc66159af0689bd650b27619c0b3679",
       "fuente_publicado": "2026-03-16",
-      "extraido": "2026-08-13",
+      "extraido": "2026-08-18",
       "origen": "automatico"
     },
     {
@@ -166,7 +166,7 @@
       "fuente_ref": "BOPVA-A-2026-00824",
       "fuente_sha256": "036dffe0be31ad79171700ceaac1da2b1aa0bf9d6bb1f2d10d83a5d87a61b416",
       "fuente_publicado": "2026-03-20",
-      "extraido": "2026-08-13",
+      "extraido": "2026-08-18",
       "origen": "automatico"
     }
   ]

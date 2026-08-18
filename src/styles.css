@@ -346,3 +346,7 @@ main.principal { padding-block: 2.5rem 3rem; }
   content: 'nuevo'; margin-left: .4rem; font-size: .7rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .06em; color: var(--libre);
 }
+
+.bloque--reparto { border-left: 4px solid var(--ocupada); }
+.bloque--reparto h2 { color: var(--ocupada); }
+.bloque--reparto .plazos { margin-top: 1rem; }

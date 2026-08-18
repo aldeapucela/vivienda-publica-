@@ -13,7 +13,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { minusculiza } from './lib.mjs';
+import { minusculiza, estadoAdjudicacion, libresSignificaDisponible } from './lib.mjs';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITIO = process.env.SITIO_URL ?? 'https://vivienda.aldeapucela.org';
@@ -43,6 +43,8 @@ function principal() {
     leeJson('data/plazos.json', { plazos: [] }).plazos ?? [],
     leeJson('config/plazos.json', { plazos: [] }).plazos ?? []);
   const previos = leeJson('data/avisos.json', { avisos: [] }).avisos ?? [];
+  const hitos = leeJson('data/hitos.json', { hitos: [] }).hitos ?? [];
+  for (const p of detalles) p.hitos = hitos.filter((h) => h.promocion_id === p.id);
   const propios = leeJson('config/estilo.json', { nombres_propios: [] }).nombres_propios ?? [];
   for (const p of detalles) p.nombre = minusculiza(p.nombre, [...propios, p.localidad, p.provincia]);
 
@@ -108,7 +110,11 @@ export function detecta({ detalles, estadoPrevio, plazos, hoy }) {
       url_oficial: p.url_oficial,
     };
 
+    const reparto = estadoAdjudicacion({ documentos: p.documentos ?? [], hitos: p.hitos ?? [] });
+
     estado.promociones[p.id] = {
+      reparto: reparto.estado,
+      reparto_desde: reparto.desde ?? null,
       estado_procedimiento: p.estado_procedimiento ?? null,
       estado_obra: p.estado_obra ?? null,
       documentos: docs,
@@ -144,6 +150,13 @@ export function detecta({ detalles, estadoPrevio, plazos, hoy }) {
       }));
     }
 
+    if (previo.reparto !== 'adjudicada' && reparto.estado === 'adjudicada') {
+      avisos.push(aviso({ ...comun, fecha: hoy, tipo: 'adjudicada', urgencia: 'alta',
+        titulo: `Ya está adjudicada: ${p.localidad ?? p.nombre}`,
+        detalle: `La lista definitiva de adjudicatarios está aprobada${reparto.desde ? ` (acuerdo de ${reparto.desde})` : ''} y publicada en el boletín. Estas viviendas ya tienen destinatario.`,
+        clave: reparto.desde ?? 'sin-fecha' }));
+    }
+
     if (previo.estado_procedimiento !== p.estado_procedimiento && p.estado_procedimiento) {
       const abierto = p.estado_procedimiento === 'abierto';
       avisos.push(aviso({ ...comun, fecha: hoy,
@@ -163,7 +176,11 @@ export function detecta({ detalles, estadoPrevio, plazos, hoy }) {
         detalle: `${d.libres} libres de ${d.total}.` }));
     } else if (d.publicada && previo.disponibilidad?.publicada) {
       const antes = previo.disponibilidad.libres ?? 0;
-      if (d.libres > antes) {
+      // Si el reparto está en marcha o resuelto, que suba el número de
+      // «libres» no significa que haya viviendas disponibles: la tabla oficial
+      // se actualiza tarde. Avisar de eso sería mandar a la gente a una puerta
+      // cerrada.
+      if (d.libres > antes && libresSignificaDisponible(reparto.estado)) {
         avisos.push(aviso({ ...comun, fecha: hoy, tipo: 'viviendas_libres', urgencia: 'alta',
           titulo: `${d.libres - antes} vivienda${d.libres - antes === 1 ? '' : 's'} libre${d.libres - antes === 1 ? '' : 's'} en ${p.localidad ?? p.nombre}`,
           detalle: `Antes había ${antes} libres y ahora ${d.libres} de ${d.total}. Cuando quedan viviendas sin adjudicar se alquilan por orden de solicitud.` }));
@@ -307,6 +324,23 @@ export function selfTest() {
   const conListado = { ...conDoc, documentos: [...conDoc.documentos, { titulo: 'Listado de adjudicatarios', url: 'https://ejemplo/lista.pdf', tipo: 'listado_nominal' }] };
   r = detecta({ detalles: [conListado], estadoPrevio: r.estado, plazos: [], hoy: '2026-08-16' });
   ok(r.avisos.some((a) => a.tipo === 'listado_publicado'), 'detecta listado publicado');
+
+  // Adjudicación detectada en el boletín
+  const conAdjudicacion = { ...base, hitos: [{ tipo: 'adjudicacion', fecha: '2026-06-19' }] };
+  let ra = detecta({ detalles: [conAdjudicacion], estadoPrevio: { promociones: { x: { documentos: [], disponibilidad: { publicada: false } } } }, plazos: [], hoy: '2026-08-20' });
+  ok(ra.avisos.some((a) => a.tipo === 'adjudicada' && a.urgencia === 'alta'), 'avisa cuando se adjudica');
+  ok(ra.estado.promociones.x.reparto === 'adjudicada', 'el estado recuerda que ya está repartida');
+  ra = detecta({ detalles: [conAdjudicacion], estadoPrevio: ra.estado, plazos: [], hoy: '2026-08-21' });
+  ok(!ra.avisos.some((a) => a.tipo === 'adjudicada'), 'no repite el aviso al día siguiente');
+
+  // Una promoción adjudicada cuya tabla «libera» viviendas no manda a nadie a una puerta cerrada
+  const repartidaConLibres = { ...conAdjudicacion, disponibilidad: { publicada: true, libres: 5, total: 10 } };
+  const rr = detecta({
+    detalles: [repartidaConLibres],
+    estadoPrevio: { promociones: { x: { reparto: 'adjudicada', documentos: [], disponibilidad: { publicada: true, libres: 0, total: 10 } } } },
+    plazos: [], hoy: '2026-08-22',
+  });
+  ok(!rr.avisos.some((a) => a.tipo === 'viviendas_libres'), 'no avisa de viviendas «libres» en una promoción ya repartida');
 
   // Viviendas que se liberan
   const previo = { promociones: { x: { estado_procedimiento: 'cerrado', documentos: [], disponibilidad: { publicada: true, libres: 0, total: 10 } } } };

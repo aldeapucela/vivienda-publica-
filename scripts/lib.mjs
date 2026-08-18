@@ -461,6 +461,108 @@ export function calculaFin(desde, cantidad, unidad = 'naturales') {
   return dia.toISOString().slice(0, 10);
 }
 
+
+// ------------------------------------------------------------ hitos ----
+
+const HITOS = [
+  {
+    tipo: 'adjudicacion',
+    titulo: 'Lista definitiva de adjudicatarios',
+    re: /lista(?:\s+principal\s+y\s+de\s+reserva)?\s+de\s+adjudicatarios(?:\s+definitivos)?|lista\s+de\s+adjudicatarios\s+definitivos|adjudicaci[óo]n\s+definitiva/i,
+  },
+  { tipo: 'sorteo', titulo: 'Sorteo celebrado', re: /sorteo\s+(?:notarial|p[úu]blico)?\s*celebrado|celebrado\s+el\s+sorteo/i },
+  { tipo: 'lista_provisional', titulo: 'Listado provisional de admitidos', re: /lista\s+provisional\s+de\s+admitidos/i },
+];
+
+/**
+ * Busca en el texto de un boletín los hitos del procedimiento: que se ha
+ * aprobado la lista de adjudicatarios, que se ha celebrado el sorteo… Es lo que
+ * permite saber que una promoción ya está adjudicada aunque su tabla de
+ * viviendas siga sin actualizarse.
+ */
+export function extraeHitos(texto) {
+  const candidatos = new Map();
+  for (const frase of norm(texto).split(/(?<=\.)\s+/)) {
+    if (!esHecho(frase)) continue;
+    for (const hito of HITOS) {
+      if (!hito.re.test(frase)) continue;
+      const encontrado = {
+        tipo: hito.tipo,
+        titulo: hito.titulo,
+        // «ha acordado, con fecha 19 de junio de 2026, aprobar la lista…»
+        fecha: fechaEnTexto(frase),
+        cita: frase.length > 400 ? `${frase.slice(0, 397)}…` : frase,
+      };
+      const previo = candidatos.get(hito.tipo);
+      // El titular del anuncio también encaja, pero la fecha está en el cuerpo:
+      // entre dos frases que hablan de lo mismo, gana la que trae fecha.
+      if (!previo || (!previo.fecha && encontrado.fecha)) candidatos.set(hito.tipo, encontrado);
+    }
+  }
+  return [...candidatos.values()];
+}
+
+/**
+ * ¿Esta frase cuenta algo que ha pasado, o describe lo que pasará?
+ *
+ * Las convocatorias explican el procedimiento entero en futuro («concluidos los
+ * trámites se procederá a aprobar la lista de adjudicatarios definitivos»), y
+ * eso no significa que ya esté adjudicada: tomarlo por un hecho daría por
+ * repartida una promoción que sigue en trámite.
+ */
+export function esHecho(frase) {
+  if (/\b(?:se\s+)?(?:proceder[áa]|aprobar[áa]|publicar[áa]|expondr[áa]|celebrar[áa]|elaborar[áa]|remitir[áa]|ser[áa]n?)\b/i.test(frase)) return false;
+  return /\b(ha\s+acordado|ha\s+resuelto|se\s+acuerda|se\s+resuelve|se\s+aprueba|queda(?:n)?\s+aprobad|celebrado|se\s+ha\s+publicado|resoluci[óo]n)\b/i.test(frase);
+}
+
+/**
+ * Fecha del acuerdo dentro de una frase de boletín. La frase suele citar antes
+ * la fecha de la convocatoria («la convocatoria publicada en el BOCYL de 16 de
+ * marzo… ha acordado, con fecha 19 de junio de 2026, aprobar la lista»), así
+ * que manda la que va detrás de «con fecha»; si no la hay, la primera.
+ */
+export function fechaEnTexto(texto) {
+  const s = String(texto);
+  const conFecha = s.match(/(?:con|de)\s+fecha\s+(\d{1,2}) de ([a-záéíóú]+) de (\d{4})/i);
+  const m = conFecha ?? s.match(/(\d{1,2}) de ([a-záéíóú]+) de (\d{4})/i);
+  if (!m) return null;
+  const mes = MESES.indexOf(m[2].toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''));
+  if (mes === -1) return null;
+  return `${m[3]}-${String(mes + 1).padStart(2, '0')}-${String(Number(m[1])).padStart(2, '0')}`;
+}
+
+/**
+ * En qué punto está el reparto de una promoción, mirando documentos y hitos.
+ *
+ * Importa porque la tabla de viviendas de la web oficial no se actualiza al
+ * ritmo del procedimiento: en Los Viveros seguía marcando las 59 viviendas como
+ * libres meses después de aprobarse la lista de adjudicatarios. Mientras el
+ * reparto está en marcha o recién resuelto, «libre» significa «sin actualizar»,
+ * no «disponible».
+ */
+export function estadoAdjudicacion({ documentos = [], hitos = [] } = {}) {
+  const adjudicacion = hitos.find((h) => h.tipo === 'adjudicacion');
+  if (adjudicacion) {
+    return { estado: 'adjudicada', desde: adjudicacion.fecha ?? null, hito: adjudicacion };
+  }
+  const tituloAdjudicatarios = documentos.some((d) => /adjudicatario/i.test(d.titulo ?? ''));
+  if (tituloAdjudicatarios) return { estado: 'adjudicada', desde: null, hito: null };
+
+  const enMarcha = hitos.some((h) => h.tipo === 'lista_provisional' || h.tipo === 'sorteo') ||
+    documentos.some((d) => /provisional|admitidos/i.test(d.titulo ?? ''));
+  if (enMarcha) return { estado: 'en_reparto', desde: null, hito: hitos.find((h) => h.tipo !== 'adjudicacion') ?? null };
+
+  return { estado: 'sin_reparto', desde: null, hito: null };
+}
+
+/**
+ * ¿El número de viviendas libres de la tabla significa que hay viviendas
+ * disponibles? Solo cuando no hay un reparto en marcha o recién cerrado.
+ */
+export function libresSignificaDisponible(estado) {
+  return estado === 'sin_reparto';
+}
+
 // ------------------------------------------------------------ privacidad ----
 
 // Patrones que jamás deben aparecer en data/. Si el día de mañana alguien
@@ -537,6 +639,33 @@ export function selfTest() {
     'la huella ignora el orden de las claves y los campos excluidos');
   ok(huellaDatos(a1, ['capturado']) !== huellaDatos({ ...a1, dato: 2 }, ['capturado']),
     'la huella cambia si cambia un dato');
+
+  const textoBop = 'ANUNCIO DE LA RESOLUCIÓN DEL CONSEJERO DELEGADO DE SOMACYL POR EL QUE SE ACUERDA LA LISTA PRINCIPAL Y DE RESERVA DE ADJUDICATARIOS DEL ARRENDAMIENTO. ' +
+    'El Consejero delegado ha acordado, con fecha 19 de junio de 2026, aprobar la lista de adjudicatarios definitivos del alquiler de las viviendas colaborativas. ' +
+    'Contra la precitada resolución los participantes podrán presentar recurso.';
+  const hitos = extraeHitos(textoBop);
+  ok(hitos.some((h) => h.tipo === 'adjudicacion'), 'detecta la adjudicación en el boletín');
+  ok(hitos.find((h) => h.tipo === 'adjudicacion').fecha === '2026-06-19', 'saca la fecha del acuerdo');
+  ok(extraeHitos('Se convoca el procedimiento de selección de arrendatarios.').length === 0, 'no ve hitos donde no los hay');
+  ok(extraeHitos('Concluidos los trámites anteriores se procederá a aprobar la lista de adjudicatarios definitivos, que se publicará.').length === 0,
+    'la convocatoria explica el procedimiento en futuro: eso no es una adjudicación');
+  ok(extraeHitos('Séptimo. Lista provisional de admitidos.').length === 0, 'un epígrafe del pliego tampoco es un hecho');
+  ok(esHecho('el Consejero delegado ha acordado aprobar la lista') && !esHecho('se procederá a aprobar la lista'),
+    'distingue lo hecho de lo anunciado');
+  ok(fechaEnTexto('con fecha 19 de junio de 2026, aprobar') === '2026-06-19', 'fecha en texto');
+  ok(fechaEnTexto('la convocatoria publicada en el BOCYL de 16 de marzo de 2026, y en el BOP del día 20 de marzo, ha acordado, con fecha 19 de junio de 2026, aprobar la lista') === '2026-06-19',
+    'manda la fecha del acuerdo, no la de la convocatoria que se cita antes');
+  ok(fechaEnTexto('sin fecha ninguna') === null, 'sin fecha → null');
+
+  ok(estadoAdjudicacion({ hitos }).estado === 'adjudicada', 'promoción adjudicada por el boletín');
+  ok(estadoAdjudicacion({ hitos }).desde === '2026-06-19', 'con la fecha del acuerdo');
+  ok(estadoAdjudicacion({ documentos: [{ titulo: 'Listado de adjudicatarios' }] }).estado === 'adjudicada',
+    'adjudicada también si solo consta el listado publicado');
+  ok(estadoAdjudicacion({ documentos: [{ titulo: 'Listado provisional admitidos' }] }).estado === 'en_reparto',
+    'con listado provisional, el reparto está en marcha');
+  ok(estadoAdjudicacion({}).estado === 'sin_reparto', 'sin documentos, no consta reparto');
+  ok(!libresSignificaDisponible('adjudicada') && !libresSignificaDisponible('en_reparto') &&
+     libresSignificaDisponible('sin_reparto'), 'cuándo «libre» significa disponible');
 
   ok(cantidadDePlazo('quince') === 15 && cantidadDePlazo('14') === 14, 'cantidad en palabras y en cifras');
   ok(cantidadDePlazo('pocos') === null, 'cantidad que no se entiende → null');

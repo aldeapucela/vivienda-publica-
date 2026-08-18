@@ -2,6 +2,8 @@
   "actualizado": "2026-08-18",
   "promociones": {
     "10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizada",
       "documentos": [
@@ -15,6 +17,8 @@
       }
     },
     "10-viviendas-de-proteccion-publica-en-alquiler-en-el-barco-de-avila-avila": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizada",
       "documentos": [
@@ -28,6 +32,8 @@
       }
     },
     "10-viviendas-de-proteccion-publica-en-alquiler-en-paredes-de-nava-palencia": {
+      "reparto": "en_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizadas",
       "documentos": [
@@ -42,6 +48,8 @@
       }
     },
     "10-viviendas-promocion-publica-alquiler-puebla-de-sanabria-zamora": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizada",
       "documentos": [
@@ -54,6 +62,8 @@
       }
     },
     "100-viviendas-promocion-publica-alquiler-leon": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -64,6 +74,8 @@
       }
     },
     "114-viviendas-de-promocion-publica-en-alquiler-en-parquesol-valladolid": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -74,6 +86,8 @@
       }
     },
     "12-viviendas-de-proteccion-publica-en-alquiler-en-penaranda-de-bracamonte-salama": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizadas",
       "documentos": [
@@ -87,6 +101,8 @@
       }
     },
     "144-viviendas-de-promocion-publica-en-alquiler-en-burgos": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -97,6 +113,8 @@
       }
     },
     "15-viviendas-santa-cristina-de-la-polvorosa": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "Entregada",
       "documentos": [],
@@ -107,6 +125,8 @@
       }
     },
     "152-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -117,6 +137,8 @@
       }
     },
     "17-viviendas-de-proteccion-publica-en-alquiler-en-soria": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizada",
       "documentos": [
@@ -129,6 +151,8 @@
       }
     },
     "19-viviendas-de-protec-publica-en-venta-en-villalon-de-campos-valladolid": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizada",
       "documentos": [
@@ -142,6 +166,8 @@
       }
     },
     "20-viviendas-de-promocion-publica-en-alquiler-en-ponferrada": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -152,6 +178,8 @@
       }
     },
     "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid": {
+      "reparto": "en_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [
@@ -168,6 +196,8 @@
       }
     },
     "28-viviendas-de-promocion-publica-en-alquiler-en-miranda-de-ebro-burgos": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -178,6 +208,8 @@
       }
     },
     "28-viviendas-de-proteccion-publica-en-alquiler-en-valencia-de-don-juan-leon": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizadas",
       "documentos": [
@@ -191,6 +223,8 @@
       }
     },
     "38-viviendas-de-promocion-publica-en-aranda-de-duero-burgos": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -201,6 +235,8 @@
       }
     },
     "38-viviendas-promocion-publica-colaborativa-soria": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -211,6 +247,8 @@
       }
     },
     "40-viviendas-promocion-publica-colaborativa-alquiler-avila": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -221,6 +259,8 @@
       }
     },
     "42-viviendas-de-promocion-publica-en-alquiler-en-zamora": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -231,6 +271,8 @@
       }
     },
     "50-viviendas-de-promocion-publica-en-alquiler-en-mieses-valladolid": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -241,6 +283,8 @@
       }
     },
     "50-viviendas-promocion-publica-alquiler-colaborativa-palencia": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],
@@ -251,6 +295,8 @@
       }
     },
     "59-viviendas-alquiler-los-viveros-valladolid": {
+      "reparto": "adjudicada",
+      "reparto_desde": "2026-06-19",
       "estado_procedimiento": "cerrado",
       "estado_obra": "En ejecución",
       "documentos": [
@@ -273,6 +319,8 @@
       }
     },
     "7-viviendas-promocion-publica-viana-de-cega-valladolid": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "Entregada",
       "documentos": [],
@@ -283,6 +331,8 @@
       }
     },
     "8-viviendas-de-promocion-publica-ciudad-rodrigo": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizada",
       "documentos": [
@@ -296,6 +346,8 @@
       }
     },
     "9-viviendas-alquiler-zamora": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": "cerrado",
       "estado_obra": "Finalizada",
       "documentos": [
@@ -309,6 +361,8 @@
       }
     },
     "93-viviendas-promocion-publica-colaborativa-alquier-segovia": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
       "documentos": [],

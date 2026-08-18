@@ -8,7 +8,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { minusculiza } from './lib.mjs';
+import { minusculiza, estadoAdjudicacion, libresSignificaDisponible } from './lib.mjs';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(RAIZ, 'dist');
@@ -40,6 +40,21 @@ function mezcla(automaticos, manuales) {
 const promociones = indice.promociones ?? [];
 const HOY = new Date().toISOString().slice(0, 10);
 
+// Ficha completa y hitos de cada promoción: hacen falta para saber si su tabla
+// de viviendas significa algo. La web oficial no actualiza esa tabla al ritmo
+// del procedimiento, así que «libre» puede querer decir «sin tocar desde antes
+// del sorteo».
+const HITOS = json('data/hitos.json', { hitos: [] }).hitos ?? [];
+const DETALLES = new Map(promociones.map((p) => [p.id, json(`data/promociones/${p.id}.json`)]));
+const REPARTO = new Map(promociones.map((p) => [p.id, estadoAdjudicacion({
+  documentos: DETALLES.get(p.id)?.documentos ?? [],
+  hitos: hitosDe(p.id),
+})]));
+
+function hitosDe(id) { return HITOS.filter((h) => h.promocion_id === id); }
+function reparto(id) { return REPARTO.get(id) ?? { estado: 'sin_reparto', desde: null }; }
+function ofrece(id) { return libresSignificaDisponible(reparto(id).estado); }
+
 // En modo `--single` se genera además un único HTML autocontenido con todas las
 // páginas dentro (vista previa compartible mientras no hay dominio).
 const SOLO_UNA = process.argv.includes('--single');
@@ -50,7 +65,7 @@ fs.mkdirSync(DIST, { recursive: true });
 
 escribe('index.html', paginaPortada());
 for (const p of promociones) {
-  escribe(`promocion/${p.id}/index.html`, paginaPromocion(json(`data/promociones/${p.id}.json`)));
+  escribe(`promocion/${p.id}/index.html`, paginaPromocion(DETALLES.get(p.id)));
 }
 escribe('como-funciona/index.html', paginaDoc('docs/proceso.md', 'Cómo funciona el proceso', '/como-funciona/'));
 escribe('privacidad/index.html', paginaDoc('docs/privacidad.md', 'Privacidad', '/privacidad/'));
@@ -249,9 +264,9 @@ function nombrePromocion(id) {
 
 function paginaPortada() {
   const deValladolid = promociones.filter((p) => p.provincia === PROVINCIA_POR_DEFECTO);
-  const conTabla = deValladolid.filter((p) => p.disponibilidad?.publicada);
-  const libres = suma(conTabla.map((p) => p.disponibilidad.libres));
-  const totalTabla = suma(conTabla.map((p) => p.disponibilidad.total));
+  const disponibles = deValladolid.filter((p) => p.disponibilidad?.publicada && ofrece(p.id));
+  const libres = suma(disponibles.map((p) => p.disponibilidad.libres));
+  const repartidas = deValladolid.filter((p) => reparto(p.id).estado === 'adjudicada').length;
   const viviendas = suma(deValladolid.map((p) => p.n_viviendas ?? 0));
 
   const cuerpo = `
@@ -262,12 +277,14 @@ function paginaPortada() {
   <dl class="cifras">
     <div><dt>Promociones en la provincia</dt><dd>${deValladolid.length}</dd></div>
     <div><dt>Viviendas anunciadas</dt><dd>${viviendas || '—'}</dd></div>
-    <div><dt>Libres ahora mismo</dt><dd>${conTabla.length ? `${libres} <span class="de">de ${totalTabla}</span>` : '—'}</dd></div>
+    <div><dt>Ya repartidas</dt><dd>${repartidas}</dd></div>
+    <div${libres ? ' class="es-libre"' : ''}><dt>Se pueden pedir hoy</dt><dd>${libres || '0'}</dd></div>
   </dl>
   <p class="fino">La fuente oficial se comprueba todos los días; la última vez, el ${esc(COMPROBADO)}.
      El último cambio en los datos es del ${esc(indice.actualizado)}.
-     «Libres» son las viviendas que la web oficial marca como <em>LIBRE</em> en su tabla; solo algunas promociones
-     publican esa tabla todavía.</p>
+     <strong>Ojo con el dato de viviendas libres:</strong> la tabla de la web oficial no se actualiza al ritmo del
+     procedimiento, así que en una promoción ya sorteada puede seguir marcando viviendas «libres» que en realidad
+     están adjudicadas. Aquí solo se cuentan como disponibles las de promociones sin reparto en marcha.</p>
 </section>
 
 ${bloquePlazos(plazosVivos())}
@@ -285,7 +302,8 @@ ${bloquePlazos(plazosVivos())}
   </div>
   <div class="filtros__grupo" role="group" aria-label="Situación">
     <button type="button" data-estado="todas" class="activo">Todas</button>
-    <button type="button" data-estado="libres">Con viviendas libres</button>
+    <button type="button" data-estado="libres">Se pueden pedir</button>
+    <button type="button" data-estado="reparto">En reparto o adjudicadas</button>
     <button type="button" data-estado="sin-tabla">Aún sin tabla</button>
   </div>
 </section>
@@ -308,9 +326,12 @@ ${ultimosAvisos()}
 function ordenadas(lista) {
   const prioridad = (p) => {
     const d = p.disponibilidad ?? {};
-    if (d.publicada && d.libres > 0) return 0;
-    if (!d.publicada) return 1;
-    return 2;
+    const r = reparto(p.id);
+    if (r.estado === 'adjudicada') return 3;              // ya repartida: al final
+    if (d.publicada && d.libres > 0 && ofrece(p.id)) return 0;
+    if (r.estado === 'en_reparto') return 1;
+    if (!d.publicada) return 2;
+    return 3;
   };
   return lista.slice().sort((a, b) =>
     prioridad(a) - prioridad(b) ||
@@ -320,11 +341,22 @@ function ordenadas(lista) {
 
 function tarjeta(p) {
   const d = p.disponibilidad ?? {};
-  const clase = d.publicada ? (d.libres > 0 ? 'libre' : 'completa') : 'pendiente';
-  const etiqueta = d.publicada
-    ? (d.libres > 0 ? `${d.libres} libres de ${d.total}` : `Sin viviendas libres (${d.total})`)
-    : 'Aún sin tabla de viviendas';
-  return `  <li class="tarjeta" data-provincia="${esc(p.provincia ?? '')}" data-libres="${d.publicada ? (d.libres > 0 ? 'si' : 'no') : 'sin-tabla'}">
+  const r = reparto(p.id);
+  let clase = 'pendiente';
+  let etiqueta = 'Aún sin tabla de viviendas';
+  if (r.estado === 'adjudicada') {
+    clase = 'completa';
+    etiqueta = r.desde ? `Adjudicada el ${r.desde}` : 'Ya adjudicada';
+  } else if (r.estado === 'en_reparto') {
+    clase = 'pendiente';
+    etiqueta = 'Reparto en marcha';
+  } else if (d.publicada) {
+    clase = d.libres > 0 ? 'libre' : 'completa';
+    etiqueta = d.libres > 0 ? `${d.libres} libres de ${d.total}` : `Sin viviendas libres (${d.total})`;
+  }
+  const marcaFiltro = r.estado !== 'sin_reparto' ? 'reparto'
+    : d.publicada ? (d.libres > 0 ? 'si' : 'no') : 'sin-tabla';
+  return `  <li class="tarjeta" data-provincia="${esc(p.provincia ?? '')}" data-libres="${marcaFiltro}">
     <article>
       <p class="tarjeta__lugar">${esc(p.localidad ?? '')}${p.provincia && p.provincia !== p.localidad ? ` <span class="fino">(${esc(p.provincia)})</span>` : ''}</p>
       <h2><a href="/promocion/${esc(p.id)}/">${esc(minusculiza(p.nombre, [...NOMBRES_PROPIOS, p.localidad, p.provincia]))}</a></h2>
@@ -354,11 +386,13 @@ function paginaPromocion(p) {
     ${p.direccion ? `<p class="direccion">${esc(p.direccion)}</p>` : ''}
   </header>
 
+  ${bloqueReparto(p, d)}
+
   <section class="bloque">
-    <h2>Viviendas libres</h2>
+    <h2>${reparto(p.id).estado === 'sin_reparto' ? 'Viviendas libres' : 'Qué dice la tabla de la web oficial'}</h2>
     ${d.publicada ? `
     <dl class="cifras cifras--ficha">
-      <div class="es-libre"><dt>Libres</dt><dd>${d.libres}</dd></div>
+      <div${ofrece(p.id) ? ' class="es-libre"' : ''}><dt>Marcadas «libre»</dt><dd>${d.libres}</dd></div>
       <div><dt>Próximamente</dt><dd>${d.proximamente}</dd></div>
       <div><dt>Ocupadas</dt><dd>${d.ocupadas}</dd></div>
       <div><dt>En la tabla</dt><dd>${d.total}</dd></div>
@@ -420,6 +454,44 @@ function paginaPromocion(p) {
   });
 }
 
+/**
+ * Lo primero de la ficha cuando la promoción ya se ha repartido: decirlo, con
+ * la fecha del acuerdo y el boletín que lo publica. Sin esto, la tabla de la
+ * web oficial —que sigue marcando las viviendas como libres— hace creer que
+ * hay 59 pisos esperando a quien entre.
+ */
+function bloqueReparto(p, d) {
+  const r = reparto(p.id);
+  const hitos = hitosDe(p.id).filter((h) => h.tipo !== 'lista_provisional');
+  if (r.estado === 'sin_reparto') return '';
+
+  const desfase = r.estado === 'adjudicada' && d.publicada && d.libres === d.total;
+  const titular = r.estado === 'adjudicada'
+    ? (r.desde ? `Esta promoción ya está adjudicada (${esc(r.desde)})` : 'Esta promoción ya está adjudicada')
+    : 'El reparto de estas viviendas está en marcha';
+
+  return `<section class="bloque bloque--reparto">
+    <h2>${titular}</h2>
+    ${r.estado === 'adjudicada'
+      ? `<p>La lista definitiva de adjudicatarios está aprobada y publicada en el boletín oficial, así que
+         <strong>estas viviendas ya tienen destinatario</strong>. Si estabas en la lista de reserva, tu turno
+         depende de que alguien renuncie, y eso se comunica de forma individual.</p>`
+      : `<p>Hay un procedimiento en marcha: se han presentado solicitudes y todavía no consta publicada la lista
+         definitiva de adjudicatarios. Hasta que eso ocurra, estas viviendas no se pueden pedir por libre.</p>`}
+    ${desfase ? `<p class="aviso"><strong>La tabla de la web oficial sigue marcando las ${d.total} viviendas como
+       «libres»</strong>, pero eso no significa que estén disponibles: esa tabla no se ha actualizado desde que se
+       resolvió el reparto. Nos fiamos del boletín, que es el documento con validez.</p>` : ''}
+    ${hitos.length ? `<ul class="plazos">
+      ${hitos.map((h) => `<li class="plazo plazo--pasado">
+        <p class="plazo__cuenta">${esc(h.fecha ?? 'Sin fecha')}</p>
+        <p class="plazo__que">${esc(h.titulo)}${h.fecha && !h.fecha_es_del_acuerdo ? ' <span class="fino">(fecha de publicación del boletín)</span>' : ''}</p>
+        ${h.cita ? `<details class="cita"><summary>Lo que dice el documento</summary><blockquote>${esc(h.cita)}</blockquote></details>` : ''}
+        <p class="fino"><a href="${esc(h.fuente_url)}" rel="noopener nofollow">${esc(h.fuente_ref ?? 'Documento oficial')}</a></p>
+      </li>`).join('\n      ')}
+    </ul>` : ''}
+  </section>`;
+}
+
 function tablaViviendas(viviendas = []) {
   if (!viviendas.length) return '';
   const filas = viviendas.map((v) => `      <tr class="v-${esc(v.estado ?? 'sin-dato')}">
@@ -465,6 +537,10 @@ ${filas}
 /** Explicación en lenguaje claro del punto del proceso, sin inventar plazos. */
 function situacion(p, d) {
   const partes = [];
+  const r = reparto(p.id);
+  if (r.estado === 'adjudicada') {
+    partes.push(`Esta promoción <strong>ya está adjudicada</strong>${r.desde ? ` (acuerdo de ${esc(r.desde)})` : ''}: la lista definitiva está publicada en el boletín. Si presentaste solicitud, tu situación —adjudicataria o en lista de reserva— consta en ese listado, que se abre en la web oficial.`);
+  }
   if (p.estado_procedimiento === 'abierto') {
     partes.push('La ficha oficial marca el <strong>procedimiento como abierto</strong>: se pueden presentar solicitudes. Los plazos exactos están en el anuncio del BOCYL o del Boletín de la Provincia que enlazamos abajo — son los que valen.');
   } else if (p.estado_procedimiento === 'cerrado') {
@@ -475,8 +551,10 @@ function situacion(p, d) {
   if (p.estado_obra) {
     partes.push(`Estado de la obra según la fuente: <strong>${esc(p.estado_obra.toLowerCase())}</strong>.`);
   }
-  if (d.publicada && d.libres > 0) {
+  if (d.publicada && d.libres > 0 && ofrece(p.id)) {
     partes.push(`Hay <strong>${d.libres} viviendas marcadas como libres</strong>. Cuando quedan viviendas sin adjudicar, SOMACYL las arrienda por orden de solicitud; para saber cómo optar a ellas hay que preguntar directamente a <a href="mailto:tuyavivienda@somacyl.es">tuyavivienda@somacyl.es</a> o al 983 450 544.`);
+  } else if (d.publicada && !ofrece(p.id)) {
+    partes.push('Aunque la tabla oficial marque viviendas como libres, <strong>no están disponibles</strong>: el reparto ya se ha resuelto o está en marcha. Para preguntar por una vacante, el canal es <a href="mailto:tuyavivienda@somacyl.es">tuyavivienda@somacyl.es</a> o el 983 450 544.');
   } else if (d.publicada) {
     partes.push('Ahora mismo <strong>no hay ninguna vivienda marcada como libre</strong> en la tabla oficial. Si estás en lista de reserva, tu turno depende de que alguien renuncie: aquí verás el cambio el día que la fuente lo publique.');
   }

@@ -18,7 +18,12 @@ anota lo que ha cambiado. De cada una se guardan solo **hechos**: cuántas vivie
 libres, cuánto miden, qué renta tienen, en qué fase va el procedimiento y qué documentos se han
 publicado.
 
-También se leen los anuncios oficiales que enlaza cada promoción, para sacar los plazos. La fecha no
+De los anuncios oficiales que enlaza cada promoción se sacan además **los hitos del procedimiento**:
+que se ha celebrado el sorteo, que se ha aprobado la lista definitiva de adjudicatarios y con qué
+fecha. Solo cuenta lo que el boletín declara como hecho: las convocatorias describen todo el
+procedimiento en futuro («se procederá a aprobar la lista…»), y eso no significa que ya haya pasado.
+
+También se leen esos mismos anuncios para sacar los plazos. La fecha no
 se estima: se busca la regla tal y como está escrita en el documento…
 
 > «Los interesados dispondrán de un plazo máximo para presentar sus solicitudes […] que concluirá a
@@ -52,8 +57,13 @@ publicado lleva el enlace al documento original precisamente para poder comproba
 coincide, manda el documento oficial y el error es nuestro**: avísanos en
 [Aldea Pucela](https://aldeapucela.org) y se corrige.
 
-Dos cosas que ya sabemos que no cuadran, y que preferimos dejar a la vista en vez de disimularlas:
+Tres cosas que ya sabemos que no cuadran, y que preferimos dejar a la vista en vez de disimularlas:
 
+- **La tabla de viviendas no se actualiza al ritmo del procedimiento.** En *Los Viveros* seguía
+  marcando las 59 viviendas como «libres» dos meses después de que se aprobara la lista definitiva de
+  adjudicatarios y mientras ya se entregaban llaves. Por eso el estado del reparto se toma del
+  **boletín oficial**, no de esa tabla: cuando consta que la adjudicación está resuelta, la web lo
+  dice y deja de contar esas viviendas como disponibles, aunque la tabla siga diciendo otra cosa.
 - En **Villalón de Campos** la ficha anuncia 19 viviendas y su tabla detalla 15. En **Valencia de Don
   Juan**, 28 anunciadas y 17 en la tabla. No sabemos por qué; se muestra tal cual lo publica la fuente.
 - Cuando un plazo se cuenta en días hábiles, aquí se descuentan sábados y domingos, pero no los

@@ -41,6 +41,14 @@ promoción de esta web tienes esos documentos enlazados. Son los que mandan.
 10. **Viviendas libres.** Si se agota la lista o quedan viviendas sin adjudicar, SOMACYL las
     alquila por **orden de solicitud**, y en ese caso ya no se exige el requisito de edad.
 
+## Cuidado con las «viviendas libres» de la web oficial
+
+La tabla de viviendas de cada promoción no se actualiza a la vez que el procedimiento. Puede seguir
+marcando todas las viviendas como **libres** meses después del sorteo, con las llaves ya entregándose.
+Mientras haya un reparto en marcha o recién resuelto, ese «libre» significa «sin actualizar», no
+«disponible». Aquí lo tenemos en cuenta: si el boletín dice que la promoción está adjudicada, se dice,
+por mucho que la tabla insista.
+
 ## ¿Y yo cómo sé por dónde va mi lista?
 
 No hay ninguna página oficial que diga «la lista va por el número 47». Nosotros no podemos
