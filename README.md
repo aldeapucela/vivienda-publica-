@@ -148,6 +148,10 @@ que reescribir esos enlaces al generar; hoy no hace falta y no se generan prefij
 Para probar el sitio con otra URL: `SITIO_URL=https://ejemplo.org npm run build` (solo afecta a las
 URL absolutas del sitemap, el RSS y las etiquetas Open Graph).
 
+La imagen de vista previa al compartir enlaces es `src/img/og.jpg` (1200×630, la misma para todas
+las páginas). Si se cambia, hay que subir el número de `?v=` en las etiquetas `og:image` de
+`scripts/build.mjs`: las redes sociales cachean la anterior por URL y si no cambia no la recargan.
+
 La analítica es **Matomo** en `stats.aldeapucela.org` (`siteId` 28), incrustada por
 `scripts/build.mjs` en todas las páginas. Sin cookies de terceros y sin perfilado.
 

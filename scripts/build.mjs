@@ -103,6 +103,12 @@ function layout({ titulo, descripcion, ruta, cuerpo, activo = '' }) {
 <meta property="og:title" content="${esc(t)}">
 <meta property="og:description" content="${esc(descripcion)}">
 <meta property="og:url" content="${SITIO}${ruta}">
+<meta property="og:image" content="${SITIO}/img/og.jpg?v=1">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Vivienda pública · Aldea Pucela: promociones de alquiler en Valladolid">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="${SITIO}/img/og.jpg?v=1">
 <link rel="icon" href="/img/aldea-pucela.jpg">
 <link rel="stylesheet" href="/styles.css">
 <script>document.documentElement.className += ' con-js';</script>
