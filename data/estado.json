@@ -178,7 +178,7 @@
       }
     },
     "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid": {
-      "reparto": "en_reparto",
+      "reparto": "adjudicada",
       "reparto_desde": null,
       "estado_procedimiento": null,
       "estado_obra": "En ejecución",
@@ -186,6 +186,7 @@
         "https://tuyavivienda.es/wp-content/uploads/2026/05/BOCYL-D-04052026-82-22.pdf",
         "https://tuyavivienda.es/wp-content/uploads/2026/05/BOPVA-A-2026-01557.pdf",
         "https://tuyavivienda.es/wp-content/uploads/2026/07/LISTADO-PROVISIONAL-VIVIENDAS-MEDINA-DEL-CAMPO.pdf",
+        "https://tuyavivienda.es/wp-content/uploads/2026/08/PUBLICACION-LISTA-DEFINITIVA-Y-FIRMA-CONTRATOS-VIVIENDAS-COLABORATIVAS-bocyl-y-bop.pdf",
         "https://tuyavivienda.es/wp-content/uploads/2026/04/MEMORIA-DE-CALIDADES_MEDINA.pdf",
         "https://tuyavivienda.es/wp-content/uploads/2026/04/FICHAS-COLIVING_MEDINA.pdf"
       ],

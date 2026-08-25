@@ -10,7 +10,7 @@
   "provincia": "Valladolid",
   "direccion": "Calle de la Cerámica",
   "publicado_fuente": "2025-02-17T11:42:47+00:00",
-  "actualizado_fuente": "2026-07-28T13:02:54+00:00",
+  "actualizado_fuente": "2026-08-25T12:49:03+00:00",
   "documentos": [
     {
       "titulo": "BOCYL-D-04052026-82-22",
@@ -27,6 +27,12 @@
     {
       "titulo": "Listado provisional admitidos",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/07/LISTADO-PROVISIONAL-VIVIENDAS-MEDINA-DEL-CAMPO.pdf",
+      "tipo": "listado_nominal",
+      "descargable": false
+    },
+    {
+      "titulo": "Listado de adjudicatarios",
+      "url": "https://tuyavivienda.es/wp-content/uploads/2026/08/PUBLICACION-LISTA-DEFINITIVA-Y-FIRMA-CONTRATOS-VIVIENDAS-COLABORATIVAS-bocyl-y-bop.pdf",
       "tipo": "listado_nominal",
       "descargable": false
     },
@@ -268,7 +274,7 @@
     "proximamente": 0,
     "ocupadas": 0
   },
-  "capturado": "2026-08-17",
-  "sha256_pagina": "38055bccf3f23ca3d10f20cd45f4795d588d1aacf783d77685daf983cb4d1f26",
-  "huella_datos": "6ca1d1055681ceb241f9ed8f503f5a6c657dba8d8dd9df29442b015ca5e658fd"
+  "capturado": "2026-08-25",
+  "sha256_pagina": "eee292501b9ab7a088e56e4b9c00d7cd2af86ee68062fcf72d32ca1800c7f983",
+  "huella_datos": "678261ffb0d926a6489ee14de2459646ff89bc86e07d28693429d27e6b17b846"
 }

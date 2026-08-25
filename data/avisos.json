@@ -2,6 +2,38 @@
   "actualizado": "2026-08-25",
   "avisos": [
     {
+      "id": "2026-08-25:27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid:listado_publicado:PUBLICACION-LISTA-DEFINITIVA-Y-FIRMA-CONTRATOS-VIVIENDAS-COLABORATIVAS-bocyl-y-bop.pdf",
+      "notificado": false,
+      "enlace_documento": "https://tuyavivienda.es/wp-content/uploads/2026/08/PUBLICACION-LISTA-DEFINITIVA-Y-FIRMA-CONTRATOS-VIVIENDAS-COLABORATIVAS-bocyl-y-bop.pdf",
+      "promocion_id": "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid",
+      "promocion": "27 viviendas de promoción pública en alquiler en Medina del Campo (Valladolid)",
+      "localidad": "Medina del Campo",
+      "provincia": "Valladolid",
+      "url": "https://vivienda.aldeapucela.org/promocion/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "url_oficial": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "fecha": "2026-08-25",
+      "tipo": "listado_publicado",
+      "urgencia": "alta",
+      "titulo": "Listado publicado en Medina del Campo",
+      "detalle": "«Listado de adjudicatarios». Contiene datos personales: se abre en la web oficial. Mira si estás y en qué situación."
+    },
+    {
+      "id": "2026-08-25:27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid:adjudicada:sin-fecha",
+      "notificado": false,
+      "enlace_documento": null,
+      "promocion_id": "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid",
+      "promocion": "27 viviendas de promoción pública en alquiler en Medina del Campo (Valladolid)",
+      "localidad": "Medina del Campo",
+      "provincia": "Valladolid",
+      "url": "https://vivienda.aldeapucela.org/promocion/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "url_oficial": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "fecha": "2026-08-25",
+      "tipo": "adjudicada",
+      "urgencia": "alta",
+      "titulo": "Ya está adjudicada: Medina del Campo",
+      "detalle": "La lista definitiva de adjudicatarios está aprobada y publicada en el boletín. Estas viviendas ya tienen destinatario."
+    },
+    {
       "id": "2026-08-18:93-viviendas-promocion-publica-colaborativa-alquier-segovia:promocion_nueva",
       "notificado": true,
       "enlace_documento": null,
