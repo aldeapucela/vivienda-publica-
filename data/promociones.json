@@ -1,6 +1,6 @@
 {
-  "comprobado": "2026-08-26",
-  "actualizado": "2026-08-25",
+  "comprobado": "2026-08-28",
+  "actualizado": "2026-08-28",
   "fuente": "https://tuyavivienda.es",
   "licencia_datos": "CC BY-SA 4.0 (Aldea Pucela) · datos de hecho extraídos de fuentes oficiales",
   "promociones": [
@@ -301,14 +301,14 @@
       "n_viviendas": 27,
       "direccion": "Calle de la Cerámica",
       "url_oficial": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
-      "actualizado_fuente": "2026-08-25T12:49:03+00:00",
-      "capturado": "2026-08-25",
+      "actualizado_fuente": "2026-08-27T08:56:23+00:00",
+      "capturado": "2026-08-28",
       "disponibilidad": {
         "publicada": true,
         "total": 27,
-        "libres": 27,
+        "libres": 22,
         "proximamente": 0,
-        "ocupadas": 0
+        "ocupadas": 5
       },
       "n_documentos": 6
     },

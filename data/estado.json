@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-26",
+  "actualizado": "2026-08-28",
   "promociones": {
     "10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon": {
       "reparto": "sin_reparto",
@@ -192,7 +192,7 @@
       ],
       "disponibilidad": {
         "publicada": true,
-        "libres": 27,
+        "libres": 22,
         "total": 27
       }
     },

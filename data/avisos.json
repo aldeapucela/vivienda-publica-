@@ -1,6 +1,22 @@
 {
-  "actualizado": "2026-08-26",
+  "actualizado": "2026-08-28",
   "avisos": [
+    {
+      "id": "2026-08-28:27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid:viviendas_adjudicadas",
+      "notificado": false,
+      "enlace_documento": null,
+      "promocion_id": "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid",
+      "promocion": "27 viviendas de promoción pública en alquiler en Medina del Campo (Valladolid)",
+      "localidad": "Medina del Campo",
+      "provincia": "Valladolid",
+      "url": "https://vivienda.aldeapucela.org/promocion/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "url_oficial": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "fecha": "2026-08-28",
+      "tipo": "viviendas_adjudicadas",
+      "urgencia": "baja",
+      "titulo": "La lista se ha movido en Medina del Campo",
+      "detalle": "Quedan 22 viviendas libres de 27 (antes 27)."
+    },
     {
       "id": "2026-08-25:27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid:listado_publicado:PUBLICACION-LISTA-DEFINITIVA-Y-FIRMA-CONTRATOS-VIVIENDAS-COLABORATIVAS-bocyl-y-bop.pdf",
       "notificado": false,
