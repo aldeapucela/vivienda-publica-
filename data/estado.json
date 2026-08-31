@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-30",
+  "actualizado": "2026-08-31",
   "promociones": {
     "10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon": {
       "reparto": "sin_reparto",
@@ -124,18 +124,6 @@
         "total": null
       }
     },
-    "152-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid": {
-      "reparto": "sin_reparto",
-      "reparto_desde": null,
-      "estado_procedimiento": null,
-      "estado_obra": "En ejecución",
-      "documentos": [],
-      "disponibilidad": {
-        "publicada": false,
-        "libres": null,
-        "total": null
-      }
-    },
     "17-viviendas-de-proteccion-publica-en-alquiler-en-soria": {
       "reparto": "sin_reparto",
       "reparto_desde": null,
@@ -148,6 +136,18 @@
         "publicada": true,
         "libres": 0,
         "total": 17
+      }
+    },
+    "170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid": {
+      "reparto": "sin_reparto",
+      "reparto_desde": null,
+      "estado_procedimiento": null,
+      "estado_obra": "En ejecución",
+      "documentos": [],
+      "disponibilidad": {
+        "publicada": true,
+        "libres": 58,
+        "total": 58
       }
     },
     "19-viviendas-de-protec-publica-en-venta-en-villalon-de-campos-valladolid": {
@@ -192,7 +192,7 @@
       ],
       "disponibilidad": {
         "publicada": true,
-        "libres": 22,
+        "libres": 19,
         "total": 27
       }
     },

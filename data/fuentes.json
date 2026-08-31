@@ -1,5 +1,5 @@
 {
-  "comprobado": "2026-08-30",
+  "comprobado": "2026-08-31",
   "fuentes": [
     {
       "id": "pagina:10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon",
@@ -173,15 +173,6 @@
       "descargado": true
     },
     {
-      "id": "pagina:152-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid",
-      "tipo": "web",
-      "titulo": "152 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PARQUE ALAMEDA (VALLADOLID)",
-      "url": "https://tuyavivienda.es/152-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid/",
-      "sha256": "b67386c9b7d9848bdaa553a9a8f045f42f803663d6cf96de7c9296b5d303f4a9",
-      "fecha_captura": "2026-08-17",
-      "descargado": true
-    },
-    {
       "id": "pagina:17-viviendas-de-proteccion-publica-en-alquiler-en-soria",
       "tipo": "web",
       "titulo": "17 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN SORIA",
@@ -198,6 +189,15 @@
       "sha256": null,
       "fecha_captura": "2026-08-17",
       "descargado": false
+    },
+    {
+      "id": "pagina:170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid",
+      "tipo": "web",
+      "titulo": "170 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PARQUE ALAMEDA (VALLADOLID)",
+      "url": "https://tuyavivienda.es/170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid/",
+      "sha256": "9f78ccb9606a2d758ffc2865fea869404ed7e28177c9c8fe47e030c4b2897577",
+      "fecha_captura": "2026-08-31",
+      "descargado": true
     },
     {
       "id": "pagina:19-viviendas-de-protec-publica-en-venta-en-villalon-de-campos-valladolid",
@@ -240,8 +240,8 @@
       "tipo": "web",
       "titulo": "27 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN MEDINA DEL CAMPO (VALLADOLID)",
       "url": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
-      "sha256": "d4e739fa644bd9b2be741af9c2296bcafb97b8a07f4a3cef7bbd822ec1a1a37d",
-      "fecha_captura": "2026-08-28",
+      "sha256": "761cfb0c4a731cecd466f3b64df68778b101971a66c42e32e310b8ce30a82b06",
+      "fecha_captura": "2026-08-31",
       "descargado": true
     },
     {
@@ -250,7 +250,7 @@
       "titulo": "BOCYL-D-04052026-82-22",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/05/BOCYL-D-04052026-82-22.pdf",
       "sha256": null,
-      "fecha_captura": "2026-08-28",
+      "fecha_captura": "2026-08-31",
       "descargado": false
     },
     {
@@ -259,7 +259,7 @@
       "titulo": "BOPVA-A-2026-01557",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/05/BOPVA-A-2026-01557.pdf",
       "sha256": null,
-      "fecha_captura": "2026-08-28",
+      "fecha_captura": "2026-08-31",
       "descargado": false
     },
     {
@@ -268,7 +268,7 @@
       "titulo": "Listado provisional admitidos",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/07/LISTADO-PROVISIONAL-VIVIENDAS-MEDINA-DEL-CAMPO.pdf",
       "sha256": null,
-      "fecha_captura": "2026-08-28",
+      "fecha_captura": "2026-08-31",
       "descargado": false
     },
     {
@@ -277,7 +277,7 @@
       "titulo": "Listado de adjudicatarios",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/08/PUBLICACION-LISTA-DEFINITIVA-Y-FIRMA-CONTRATOS-VIVIENDAS-COLABORATIVAS-bocyl-y-bop.pdf",
       "sha256": null,
-      "fecha_captura": "2026-08-28",
+      "fecha_captura": "2026-08-31",
       "descargado": false
     },
     {
@@ -286,7 +286,7 @@
       "titulo": "Memoria de calidades",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/04/MEMORIA-DE-CALIDADES_MEDINA.pdf",
       "sha256": null,
-      "fecha_captura": "2026-08-28",
+      "fecha_captura": "2026-08-31",
       "descargado": false
     },
     {
@@ -295,7 +295,7 @@
       "titulo": "Plano espacio coliving",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/04/FICHAS-COLIVING_MEDINA.pdf",
       "sha256": null,
-      "fecha_captura": "2026-08-28",
+      "fecha_captura": "2026-08-31",
       "descargado": false
     },
     {

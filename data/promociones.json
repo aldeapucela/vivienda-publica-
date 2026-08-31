@@ -1,6 +1,6 @@
 {
-  "comprobado": "2026-08-30",
-  "actualizado": "2026-08-28",
+  "comprobado": "2026-08-31",
+  "actualizado": "2026-08-31",
   "fuente": "https://tuyavivienda.es",
   "licencia_datos": "CC BY-SA 4.0 (Aldea Pucela) · datos de hecho extraídos de fuentes oficiales",
   "promociones": [
@@ -203,28 +203,6 @@
       "n_documentos": 0
     },
     {
-      "id": "152-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid",
-      "nombre": "152 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PARQUE ALAMEDA (VALLADOLID)",
-      "localidad": "Valladolid",
-      "provincia": "Valladolid",
-      "categoria": "Alquiler",
-      "estado_obra": "En ejecución",
-      "estado_procedimiento": null,
-      "n_viviendas": 152,
-      "direccion": "Intersección de las calles Campo Charro, Valdeón, Campo de Vitigudino y Salón de Abadengo",
-      "url_oficial": "https://tuyavivienda.es/152-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid/",
-      "actualizado_fuente": "2025-05-14T10:12:51+00:00",
-      "capturado": "2026-08-17",
-      "disponibilidad": {
-        "publicada": false,
-        "total": null,
-        "libres": null,
-        "proximamente": null,
-        "ocupadas": null
-      },
-      "n_documentos": 0
-    },
-    {
       "id": "17-viviendas-de-proteccion-publica-en-alquiler-en-soria",
       "nombre": "17 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN SORIA",
       "localidad": "Soria",
@@ -245,6 +223,28 @@
         "ocupadas": 17
       },
       "n_documentos": 1
+    },
+    {
+      "id": "170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid",
+      "nombre": "170 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PARQUE ALAMEDA (VALLADOLID)",
+      "localidad": "Valladolid",
+      "provincia": "Valladolid",
+      "categoria": "Alquiler",
+      "estado_obra": "En ejecución",
+      "estado_procedimiento": null,
+      "n_viviendas": 152,
+      "direccion": "Intersección de las calles Campo Charro, Valdeón, Campo de Vitigudino y Salón de Abadengo",
+      "url_oficial": "https://tuyavivienda.es/170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid/",
+      "actualizado_fuente": "2026-08-31T14:08:39+00:00",
+      "capturado": "2026-08-31",
+      "disponibilidad": {
+        "publicada": true,
+        "total": 58,
+        "libres": 58,
+        "proximamente": 0,
+        "ocupadas": 0
+      },
+      "n_documentos": 0
     },
     {
       "id": "19-viviendas-de-protec-publica-en-venta-en-villalon-de-campos-valladolid",
@@ -301,14 +301,14 @@
       "n_viviendas": 27,
       "direccion": "Calle de la Cerámica",
       "url_oficial": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
-      "actualizado_fuente": "2026-08-27T08:56:23+00:00",
-      "capturado": "2026-08-28",
+      "actualizado_fuente": "2026-08-31T06:30:20+00:00",
+      "capturado": "2026-08-31",
       "disponibilidad": {
         "publicada": true,
         "total": 27,
-        "libres": 22,
+        "libres": 19,
         "proximamente": 0,
-        "ocupadas": 5
+        "ocupadas": 8
       },
       "n_documentos": 6
     },

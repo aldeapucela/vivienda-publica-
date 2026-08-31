@@ -1,6 +1,38 @@
 {
-  "actualizado": "2026-08-30",
+  "actualizado": "2026-08-31",
   "avisos": [
+    {
+      "id": "2026-08-31:27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid:viviendas_adjudicadas",
+      "notificado": false,
+      "enlace_documento": null,
+      "promocion_id": "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid",
+      "promocion": "27 viviendas de promoción pública en alquiler en Medina del Campo (Valladolid)",
+      "localidad": "Medina del Campo",
+      "provincia": "Valladolid",
+      "url": "https://vivienda.aldeapucela.org/promocion/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "url_oficial": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "fecha": "2026-08-31",
+      "tipo": "viviendas_adjudicadas",
+      "urgencia": "baja",
+      "titulo": "La lista se ha movido en Medina del Campo",
+      "detalle": "Quedan 19 viviendas libres de 27 (antes 22)."
+    },
+    {
+      "id": "2026-08-31:170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid:promocion_nueva",
+      "notificado": false,
+      "enlace_documento": null,
+      "promocion_id": "170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid",
+      "promocion": "170 viviendas de promoción pública en alquiler en Parque Alameda (Valladolid)",
+      "localidad": "Valladolid",
+      "provincia": "Valladolid",
+      "url": "https://vivienda.aldeapucela.org/promocion/170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid/",
+      "url_oficial": "https://tuyavivienda.es/170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid/",
+      "fecha": "2026-08-31",
+      "tipo": "promocion_nueva",
+      "urgencia": "media",
+      "titulo": "Nueva promoción: 170 viviendas de promoción pública en alquiler en Parque Alameda (Valladolid)",
+      "detalle": "152 viviendas en Valladolid."
+    },
     {
       "id": "2026-08-28:27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid:viviendas_adjudicadas",
       "notificado": false,

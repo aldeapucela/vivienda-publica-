@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-08-30",
+  "actualizado": "2026-08-31",
   "registros": [
     {
       "fecha": "2026-08-13",
@@ -88,6 +88,22 @@
       "libres": 22,
       "proximamente": 0,
       "ocupadas": 5
+    },
+    {
+      "fecha": "2026-08-31",
+      "promocion_id": "170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid",
+      "total": 58,
+      "libres": 58,
+      "proximamente": 0,
+      "ocupadas": 0
+    },
+    {
+      "fecha": "2026-08-31",
+      "promocion_id": "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid",
+      "total": 27,
+      "libres": 19,
+      "proximamente": 0,
+      "ocupadas": 8
     }
   ]
 }
