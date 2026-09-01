@@ -1,5 +1,5 @@
 {
-  "comprobado": "2026-08-31",
+  "comprobado": "2026-09-01",
   "fuentes": [
     {
       "id": "pagina:10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon",
@@ -189,15 +189,6 @@
       "sha256": null,
       "fecha_captura": "2026-08-17",
       "descargado": false
-    },
-    {
-      "id": "pagina:170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid",
-      "tipo": "web",
-      "titulo": "170 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PARQUE ALAMEDA (VALLADOLID)",
-      "url": "https://tuyavivienda.es/170-viviendas-de-promocion-publica-en-alquiler-en-parque-alameda-valladolid/",
-      "sha256": "9f78ccb9606a2d758ffc2865fea869404ed7e28177c9c8fe47e030c4b2897577",
-      "fecha_captura": "2026-08-31",
-      "descargado": true
     },
     {
       "id": "pagina:19-viviendas-de-protec-publica-en-venta-en-villalon-de-campos-valladolid",
