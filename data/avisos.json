@@ -1,6 +1,22 @@
 {
-  "actualizado": "2026-09-01",
+  "actualizado": "2026-09-02",
   "avisos": [
+    {
+      "id": "2026-09-02:27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid:viviendas_adjudicadas",
+      "notificado": false,
+      "enlace_documento": null,
+      "promocion_id": "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid",
+      "promocion": "27 viviendas de promoción pública en alquiler en Medina del Campo (Valladolid)",
+      "localidad": "Medina del Campo",
+      "provincia": "Valladolid",
+      "url": "https://vivienda.aldeapucela.org/promocion/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "url_oficial": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
+      "fecha": "2026-09-02",
+      "tipo": "viviendas_adjudicadas",
+      "urgencia": "baja",
+      "titulo": "La lista se ha movido en Medina del Campo",
+      "detalle": "Quedan 18 viviendas libres de 27 (antes 19)."
+    },
     {
       "id": "2026-08-31:27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid:viviendas_adjudicadas",
       "notificado": false,
