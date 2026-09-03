@@ -117,7 +117,7 @@ la web no carga nada de terceros.
 | `scripts/build.mjs` | Generador del sitio estático → `dist/` (incluye RSS y calendario). |
 | `scripts/contexto.mjs` | Cruza los datos abiertos de la JCyL (población y viviendas por municipio) con las promociones → `data/contexto-municipios.json`. Con `--actualizar` mira la ficha del conjunto y baja el CSV solo si la Junta ha publicado datos nuevos. |
 | `scripts/check-privacidad.mjs` | Test que impide publicar cualquier cosa que parezca un dato personal. |
-| `src/styles.css` · `src/app.js` | Hoja única y el único JS (filtra tarjetas; la web funciona sin él). |
+| `src/styles.css` · `src/app.js` | Hoja única y el único JS (filtros, «me interesa» y tema claro/oscuro; la web funciona sin él). |
 | `src/fonts/` | Inter e Inter Tight (OFL) autoalojadas: la web no hace ninguna petición a terceros. |
 | `data/` | Datos generados. Única fuente de verdad del sitio. |
 | `config/` | Lo poco que se mantiene a mano: correcciones de plazos, provincia de localidades que no son capital y nombres propios para los títulos. |

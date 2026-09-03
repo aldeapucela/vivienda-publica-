@@ -151,5 +151,6 @@ Frases nuevas, tal cual van (lo demás se conserva):
   «(Junta de Castilla y León, AAAA)» enlazado.
 - Aviso de plazo: «Cierra el AAAA-MM-DD. N días naturales desde el día siguiente a …» y, si es
   hábiles, «Ojo: no descontamos festivos locales; comprueba el documento».
-- Pie: «**Esta web no es oficial.** Para cualquier trámite, ve a la web de SOMACYL y al boletín.
-  Todo dato lleva enlace a su fuente y aquí no hay datos personales de nadie.»
+- Pie: «**Esta web no es oficial.** Para cualquier trámite, ve a la web de SOMACYL y al boletín. La
+  hacen vecinas y vecinos de Aldea Pucela; todo dato lleva enlace a su fuente y aquí no hay datos
+  personales de nadie.»
