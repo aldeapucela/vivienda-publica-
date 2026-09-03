@@ -63,6 +63,32 @@ function ofrece(id) { return libresSignificaDisponible(reparto(id).estado); }
 const SOLO_UNA = process.argv.includes('--single');
 const paginas = [];
 
+// Iconos de línea, 24×24, trazo 1.75. Los dibuja el sprite una vez por página y
+// cada uso es un <use>: sin librería, sin peticiones, sin fuentes de iconos.
+const ICONOS = {
+  llave: '<circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.3-9.3M14 6l3 3M16.5 3.5l3 3"/>',
+  reloj: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  edificio: '<rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3"/>',
+  vecinos: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4.5-6.2"/>',
+  baja: '<path d="m3 7 7 7 4-4 7 7M15 17h6v-6"/>',
+  doc: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+  ok: '<circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/>',
+  flecha: '<path d="M5 12h14M13 6l6 6-6 6"/>',
+  pin: '<path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/>',
+  campana: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 21a2 2 0 0 0 4 0"/>',
+};
+
+function sprite() {
+  return `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+${Object.entries(ICONOS).map(([n, d]) => `  <symbol id="i-${n}" viewBox="0 0 24 24">${d}</symbol>`).join('\n')}
+</svg>`;
+}
+
+function icono(nombre) {
+  if (!ICONOS[nombre]) throw new Error(`icono desconocido: ${nombre}`);
+  return `<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-${nombre}"/></svg>`;
+}
+
 fs.rmSync(DIST, { recursive: true, force: true });
 fs.mkdirSync(DIST, { recursive: true });
 
@@ -134,6 +160,7 @@ function layout({ titulo, descripcion, ruta, cuerpo, activo = '' }) {
 try { if (localStorage.getItem('vivienda:tema') === 'oscuro') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
 ${matomo()}</head>
 <body>
+${sprite()}
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 <header class="topbar">
   <div class="container topbar__inner">
