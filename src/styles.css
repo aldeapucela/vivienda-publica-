@@ -300,16 +300,6 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 }
 .seccion__titulo .ic { font-size: 1rem; }
 
-.cifras { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); margin: 0 0 1rem; }
-.cifras > div {
-  background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio);
-  padding: .9rem 1rem; box-shadow: var(--sombra);
-}
-.cifras dt { font-size: .8rem; color: var(--tinta-suave); margin-bottom: .2rem; }
-.cifras dd { margin: 0; font-size: 1.7rem; font-weight: 700; line-height: 1.1; }
-.cifras .de { font-size: .95rem; font-weight: 400; color: var(--tinta-suave); }
-.cifras--ficha .es-libre dd { color: var(--libre); }
-
 /* ---------- filtros: chips ---------- */
 .filtros { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-bottom: 1rem; }
 .filtros__grupo { display: flex; flex-wrap: wrap; gap: .45rem; }
@@ -361,21 +351,40 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .vacio { color: var(--tinta-suave); }
 
 /* ---------- ficha ---------- */
-.miga { font-size: .85rem; color: var(--tinta-suave); margin-bottom: 1rem; }
-.ficha header { margin-bottom: 1.5rem; }
-.direccion { margin: .25rem 0 0; color: var(--tinta-suave); }
-.bloque {
-  background: var(--tarjeta); border: 1px solid var(--linea); border-radius: var(--radio);
-  padding: 1.25rem; margin-bottom: 1.25rem; box-shadow: var(--sombra);
-}
-.bloque--fuente { background: var(--brand-50); }
-.bloque p:last-child { margin-bottom: 0; }
+.miga { margin-bottom: 1rem; }
+.miga a { text-decoration: none; }
+.ficha__cabecera { margin-bottom: 2rem; }
+.ficha__lugar { display: flex; align-items: center; gap: .4rem; margin: 0 0 .5rem; font-size: .8125rem; color: var(--tinta-suave); }
+.ficha__lugar .ic { color: var(--acento); font-size: 1rem; }
+.ficha__cabecera h1 { margin-bottom: .35rem; }
 
-.aviso {
-  background: var(--proxima-fondo); color: var(--proxima);
-  border-left: 4px solid currentColor; border-radius: .4rem;
-  padding: .75rem 1rem; font-size: .92rem;
+/* Paneles: superficie sin sombra (la sombra es de tarjetas y avisos de plazo). */
+.panel { background: var(--panel); border: 1px solid var(--linea); border-radius: var(--radio-l); padding: 1.125rem 1.25rem; }
+.panel > :last-child { margin-bottom: 0; }
+.panel > h3 { margin-bottom: .5rem; }
+.panel--fuente { background: var(--acento-fondo); border-color: transparent; }
+.panel--fuente p { margin: 0 0 .5rem; }
+.panel--reparto { border-left: 3px solid var(--ocupada); }
+.panel--aviso {
+  background: var(--aviso-fondo); color: var(--aviso); border-color: transparent;
+  padding: .75rem 1rem; font-size: .9rem; margin: .75rem 0;
 }
+.panel .seguir--grande { margin-bottom: 1rem; }
+.hitos { margin-top: 1rem; }
+
+/* Tejas: rótulo, cifra grande, unidad debajo. */
+.tejas { display: grid; gap: .625rem; grid-template-columns: repeat(auto-fit, minmax(8.25rem, 1fr)); margin: 0 0 .75rem; }
+.teja { background: var(--panel); border: 1px solid var(--linea); border-radius: var(--radio-m); padding: .8rem .875rem; }
+.teja dt { display: flex; align-items: center; gap: .4rem; font-size: .8125rem; color: var(--tinta-suave); margin-bottom: .3rem; }
+.teja dt .ic { color: var(--acento); font-size: .95rem; }
+.teja dd { margin: 0; font: 600 1.625rem/1.05 'Inter Tight', Inter, system-ui, sans-serif; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+.teja__unidad { display: block; font: 400 .8125rem/1.4 Inter, system-ui, sans-serif; letter-spacing: 0; color: var(--tinta-suave); margin-top: .2rem; }
+.teja--foco { background: var(--acento); border-color: var(--acento); box-shadow: var(--sombra); }
+.teja--foco dt, .teja--foco dd { color: var(--sobre-acento); }
+.teja--foco dt .ic { color: var(--sobre-acento); }
+.teja--baja dd { color: var(--urge); }
+.teja--baja dt .ic { color: var(--urge); }
+.panel .tejas .teja { background: var(--papel); }
 
 /* ---------- tablas ---------- */
 .tabla-scroll { overflow-x: auto; margin: 1rem 0; }
@@ -425,22 +434,6 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 }
 
 /* ---------- plazos y avisos ---------- */
-.plazos { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
-.plazo { border-left: 3px solid var(--linea); padding-left: .85rem; }
-.plazo--urge { border-color: var(--ocupada); }
-.plazo__cuenta {
-  margin: 0; font-weight: 700; font-size: 1.05rem;
-  font-variant-numeric: tabular-nums; letter-spacing: .01em;
-}
-.plazo--urge .plazo__cuenta { color: var(--ocupada); }
-.plazo--normal .plazo__cuenta { color: var(--brand-600); }
-.plazo__que { margin: .1rem 0 .2rem; }
-.plazo p:last-child { margin-bottom: 0; }
-
-.bloque--tuyo { border-left: 4px solid var(--libre); }
-.bloque--tuyo .tarjetas { margin-top: 1rem; }
-.bloque--seguir .docs { margin-top: 1rem; }
-
 .seguir {
   font: 500 .8125rem/1 Inter, system-ui, sans-serif; cursor: pointer; min-height: 32px;
   background: transparent; color: var(--acento);
@@ -449,9 +442,6 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .seguir:hover { border-color: var(--acento); }
 .seguir.activo { background: var(--acento-fondo); border-color: var(--acento); font-weight: 600; }
 .seguir--grande { font-size: .9rem; padding: .55rem .95rem; min-height: 36px; }
-
-.plazo--pasado { opacity: .75; }
-.plazo--pasado .plazo__cuenta { color: var(--tinta-suave); font-weight: 600; }
 
 /* ---------- avisos de plazo ---------- */
 .avisos-plazo { list-style: none; margin: 0 0 .75rem; padding: 0; display: grid; gap: .75rem; }
@@ -490,7 +480,3 @@ main.principal { padding-block: 2.125rem 3.5rem; }
   content: 'nuevo'; margin-left: .4rem; font-size: .7rem; font-weight: 700;
   text-transform: uppercase; letter-spacing: .06em; color: var(--libre);
 }
-
-.bloque--reparto { border-left: 4px solid var(--ocupada); }
-.bloque--reparto h2 { color: var(--ocupada); }
-.bloque--reparto .plazos { margin-top: 1rem; }

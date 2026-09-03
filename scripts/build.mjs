@@ -526,26 +526,27 @@ function bloqueContexto(localidad) {
   const viv = conjuntoDe('viviendas');
   const d = c.variacion_decada_pct;
   const frase = d == null ? ''
-    : d <= -1 ? `${esc(localidad)} tiene un ${porcentaje(d).replace('−', '')} menos de habitantes que hace diez años.`
-    : d >= 1 ? `${esc(localidad)} tiene un ${porcentaje(d).replace('+', '')} más de habitantes que hace diez años.`
-    : `La población de ${esc(localidad)} está prácticamente igual que hace diez años.`;
+    : d <= -1 ? `Un ${porcentaje(d).replace('−', '')} menos de vecinos que hace diez años.`
+    : d >= 1 ? `Un ${porcentaje(d).replace('+', '')} más de vecinos que hace diez años.`
+    : 'Casi los mismos vecinos que hace diez años.';
 
-  return `<section class="bloque bloque--contexto">
-    <h2>El municipio</h2>
-    <dl class="cifras cifras--ficha">
-      ${c.poblacion ? `<div><dt>Habitantes</dt><dd>${miles(c.poblacion.habitantes)}
-        <span class="de">en ${c.poblacion.anio}</span></dd></div>` : ''}
-      ${c.variacion_decada_pct != null ? `<div><dt>En diez años</dt><dd>${porcentaje(c.variacion_decada_pct)}
-        <span class="de">desde ${c.poblacion_referencia.anio}</span></dd></div>` : ''}
-      ${c.viviendas ? `<div><dt>Viviendas que ya hay</dt><dd>${miles(c.viviendas.total)}
-        <span class="de">censo de ${c.viviendas.anio}</span></dd></div>` : ''}
-    </dl>
-    ${frase ? `<p>${frase}</p>` : ''}
-    <p class="fino">Fuente: ${c.poblacion ? `<a href="${esc(pob.ficha)}" rel="noopener">${esc(pob.titulo)}</a>` : ''}${c.poblacion && c.viviendas ? ' y ' : ''}${c.viviendas ? `<a href="${esc(viv.ficha)}" rel="noopener">${esc(viv.titulo)}</a>` : ''},
-       <strong>Junta de Castilla y León</strong> (<a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="noopener">CC BY 4.0</a>),
-       del <a href="https://datosabiertos.jcyl.es" rel="noopener">Portal de Datos Abiertos de Castilla y León</a>.
-       Ficheros leídos el ${esc(pob.fecha_captura ?? viv.fecha_captura ?? '')}.
-       En esos ficheros el municipio es «${esc(c.municipio_jcyl)}», código INE ${esc(c.codigo_ine)}.</p>
+  return `<section class="seccion">
+    <h2 class="seccion__titulo">${icono('pin')}El municipio · ${esc(localidad)}</h2>
+    <div class="panel">
+      <dl class="tejas tejas--municipio">
+        ${c.poblacion ? `<div class="teja"><dt>${icono('vecinos')}Habitantes</dt><dd>${miles(c.poblacion.habitantes)}
+          <span class="teja__unidad">en ${c.poblacion.anio}</span></dd></div>` : ''}
+        ${c.variacion_decada_pct != null ? `<div class="teja${c.variacion_decada_pct < 0 ? ' teja--baja' : ''}"><dt>${icono('baja')}En diez años</dt><dd>${porcentaje(c.variacion_decada_pct)}
+          <span class="teja__unidad">desde ${c.poblacion_referencia.anio}</span></dd></div>` : ''}
+        ${c.viviendas ? `<div class="teja"><dt>${icono('edificio')}Viviendas que ya hay</dt><dd>${miles(c.viviendas.total)}
+          <span class="teja__unidad">censo de ${c.viviendas.anio}</span></dd></div>` : ''}
+      </dl>
+      ${frase ? `<p>${frase}</p>` : ''}
+      <p class="fino">Fuente: <strong>Junta de Castilla y León</strong>, ${c.poblacion ? `<a href="${esc(pob.ficha)}" rel="noopener">${esc(pob.titulo)}</a>` : ''}${c.poblacion && c.viviendas ? ' y ' : ''}${c.viviendas ? `<a href="${esc(viv.ficha)}" rel="noopener">${esc(viv.titulo)}</a>` : ''}
+         (<a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="noopener">CC BY 4.0</a>), del
+         <a href="https://datosabiertos.jcyl.es" rel="noopener">Portal de Datos Abiertos de Castilla y León</a>.
+         Ficheros leídos el ${esc(pob.fecha_captura ?? viv.fecha_captura ?? '')}. En esos ficheros el municipio es «${esc(c.municipio_jcyl)}», código INE ${esc(c.codigo_ine)}.</p>
+    </div>
   </section>`;
 }
 
@@ -566,30 +567,30 @@ function paginaPromocion(p) {
   const desfase = p.n_viviendas && d.total && p.n_viviendas !== d.total;
 
   const cuerpo = `
-<nav class="miga"><a href="/">Promociones</a> › <span>${esc(p.localidad ?? '')}</span></nav>
+<nav class="miga fino"><a href="/">Promociones</a> › <span>${esc(p.localidad ?? '')}</span></nav>
 <article class="ficha">
-  <header>
-    <p class="tarjeta__lugar">${esc([...new Set([p.localidad, p.provincia].filter(Boolean))].join(' · '))}</p>
+  <header class="ficha__cabecera">
+    <p class="ficha__lugar">${icono('pin')}${esc([...new Set([p.localidad, p.provincia].filter(Boolean))].join(' · '))}${p.estado_obra ? ` · obra ${esc(p.estado_obra.toLowerCase())}` : ''}</p>
     <h1>${esc(minusculiza(p.nombre, [...NOMBRES_PROPIOS, p.localidad, p.provincia]))}</h1>
-    ${p.direccion ? `<p class="direccion">${esc(p.direccion)}</p>` : ''}
+    ${p.direccion ? `<p class="fino">${esc(p.direccion)}</p>` : ''}
   </header>
 
   ${bloqueReparto(p, d)}
 
-  <section class="bloque">
-    <h2>${reparto(p.id).estado === 'sin_reparto' ? 'Viviendas libres' : 'Qué dice la tabla de la web oficial'}</h2>
+  <section class="seccion">
+    <h2 class="seccion__titulo">${icono('llave')}${reparto(p.id).estado === 'sin_reparto' ? 'Viviendas libres' : 'Qué dice la tabla de la web oficial'}</h2>
     ${d.publicada ? `
-    <dl class="cifras cifras--ficha">
-      <div${ofrece(p.id) ? ' class="es-libre"' : ''}><dt>Marcadas «libre»</dt><dd>${d.libres}</dd></div>
-      <div><dt>Próximamente</dt><dd>${d.proximamente}</dd></div>
-      <div><dt>Ocupadas</dt><dd>${d.ocupadas}</dd></div>
-      <div><dt>En la tabla</dt><dd>${d.total}</dd></div>
+    <dl class="tejas">
+      <div class="teja${ofrece(p.id) && d.libres ? ' teja--foco' : ''}"><dt>Marcadas «libre»</dt><dd>${d.libres}</dd></div>
+      <div class="teja"><dt>Próximamente</dt><dd>${d.proximamente}</dd></div>
+      <div class="teja"><dt>Ocupadas</dt><dd>${d.ocupadas}</dd></div>
+      <div class="teja"><dt>En la tabla</dt><dd>${d.total}</dd></div>
     </dl>
-    ${desfase ? `<p class="aviso">La ficha oficial anuncia ${p.n_viviendas} viviendas pero su tabla detalla ${d.total}.
+    ${desfase ? `<p class="panel panel--aviso">La ficha oficial anuncia ${p.n_viviendas} viviendas pero su tabla detalla ${d.total}.
        No sabemos por qué: lo dejamos tal cual lo publica la fuente.</p>` : ''}
     ${tablaViviendas(p.viviendas)}
     ${serie.length > 1 ? historicoHtml(serie) : `<p class="fino">Miramos esta tabla todos los días desde el ${esc(serie[0]?.fecha ?? p.capturado)}. Cuando cambie algo, aparecerá aquí.</p>`}
-    ` : `<p class="aviso">La web oficial todavía no publica la tabla de viviendas de esta promoción, así que no
+    ` : `<p class="panel panel--aviso">La web oficial todavía no publica la tabla de viviendas de esta promoción, así que no
        podemos decir cuántas quedan libres. En cuanto la publique, aparecerá aquí sola.</p>`}
   </section>
 
@@ -597,43 +598,49 @@ function paginaPromocion(p) {
   ${bloquePlazos(plazosSinFecha(p.id), { titulo: 'Plazos que dependen de lo que pase antes', conPromocion: false })}
   ${bloquePlazos(plazosPasados(p.id), { titulo: 'Plazos ya cerrados', conPromocion: false, cerrados: true })}
 
-  <section class="bloque bloque--seguir">
-    <h2>Que no se te pase</h2>
-    ${botonSeguir(p.id, 'grande')}
-    <ul class="docs">
-      <li><a href="/promocion/${esc(p.id)}/avisos.xml">Avisos de esta promoción por RSS</a>
-        <p class="fino">Para leerlo con tu lector de siempre o enchufarlo a Telegram.</p></li>
-      ${plazosVivos(p.id).length ? `<li><a href="/promocion/${esc(p.id)}/plazos.ics">Plazos en tu calendario (.ics)</a>
-        <p class="fino">Tu móvil te avisa 14, 7, 3 y 1 días antes del cierre.</p></li>` : ''}
-      <li><a href="/avisos/">Cómo funcionan los avisos</a></li>
-    </ul>
+  <section class="seccion">
+    <h2 class="seccion__titulo">${icono('campana')}Que no se te pase</h2>
+    <div class="panel">
+      ${botonSeguir(p.id, 'grande')}
+      <ul class="docs">
+        <li><a href="/promocion/${esc(p.id)}/avisos.xml">Avisos de esta promoción por RSS</a>
+          <p class="fino">Para tu lector de siempre o para engancharlo a Telegram.</p></li>
+        ${plazosVivos(p.id).length ? `<li><a href="/promocion/${esc(p.id)}/plazos.ics">Plazos en tu calendario (.ics)</a>
+          <p class="fino">Tu móvil te avisa 14, 7, 3 y 1 días antes del cierre.</p></li>` : ''}
+        <li><a href="/avisos/">Cómo funcionan los avisos</a></li>
+      </ul>
+    </div>
   </section>
 
   ${avisosDe(p.id)}
 
-  <section class="bloque">
-    <h2>¿En qué punto está mi solicitud?</h2>
-    ${situacion(p, d)}
-    <p><a href="/como-funciona/">Ver el proceso completo, paso a paso →</a></p>
+  <section class="seccion">
+    <h2 class="seccion__titulo">${icono('ok')}¿En qué punto está mi solicitud?</h2>
+    <div class="panel prosa">
+      ${situacion(p, d)}
+      <p><a href="/como-funciona/">Ver el proceso completo, paso a paso</a></p>
+    </div>
   </section>
 
-  <section class="bloque">
-    <h2>Documentos oficiales</h2>
-    ${p.documentos.length ? `<ul class="docs">
-      ${p.documentos.map(documentoHtml).join('\n      ')}
-    </ul>` : '<p class="fino">La ficha oficial no enlaza documentos todavía.</p>'}
+  <section class="seccion">
+    <h2 class="seccion__titulo">${icono('doc')}Documentos oficiales</h2>
+    <div class="panel">
+      ${p.documentos.length ? `<ul class="docs">
+        ${p.documentos.map(documentoHtml).join('\n        ')}
+      </ul>` : '<p class="fino">La ficha oficial no enlaza documentos todavía.</p>'}
+    </div>
   </section>
 
   ${bloqueContexto(p.localidad)}
 
-  <section class="bloque bloque--fuente">
-    <h2>De dónde sale esto</h2>
-    <ul class="fino">
-      <li>Fuente: <a href="${esc(p.url_oficial)}" rel="noopener nofollow">ficha oficial en tuyavivienda.es</a></li>
-      <li>Leída el ${esc(p.capturado)}${p.actualizado_fuente ? ` · la fuente dice haberla actualizado el ${esc(p.actualizado_fuente.slice(0, 10))}` : ''}</li>
-      <li>Huella digital de la página que leímos: <code>${esc((p.sha256_pagina ?? '').slice(0, 16))}…</code>
-        (sirve para comprobar que el dato salió exactamente de ahí)</li>
-    </ul>
+  <section class="seccion">
+    <h2 class="seccion__titulo">${icono('doc')}De dónde sale esto</h2>
+    <div class="panel panel--fuente fino">
+      <p>Fuente: <a href="${esc(p.url_oficial)}" rel="noopener nofollow">ficha oficial en tuyavivienda.es</a>,
+         leída el ${esc(p.capturado)}${p.actualizado_fuente ? ` (la fuente dice haberla actualizado el ${esc(p.actualizado_fuente.slice(0, 10))})` : ''}.</p>
+      <p>Huella digital de la página que leímos: <code>${esc((p.sha256_pagina ?? '').slice(0, 16))}…</code>.
+         Sirve para comprobar que el dato salió exactamente de ahí.</p>
+    </div>
   </section>
 </article>
 `;
@@ -660,25 +667,31 @@ function bloqueReparto(p, d) {
     ? (r.desde ? `Esta promoción ya está adjudicada (${esc(r.desde)})` : 'Esta promoción ya está adjudicada')
     : 'El reparto de estas viviendas está en marcha';
 
-  return `<section class="bloque bloque--reparto">
-    <h2>${titular}</h2>
-    ${r.estado === 'adjudicada'
-      ? `<p>La lista definitiva de adjudicatarios está aprobada y publicada en el boletín oficial, así que
-         <strong>estas viviendas ya tienen destinatario</strong>. Si estabas en la lista de reserva, tu turno
-         depende de que alguien renuncie, y eso se comunica de forma individual.</p>`
-      : `<p>Hay un procedimiento en marcha: se han presentado solicitudes y todavía no consta publicada la lista
-         definitiva de adjudicatarios. Hasta que eso ocurra, estas viviendas no se pueden pedir por libre.</p>`}
-    ${desfase ? `<p class="aviso"><strong>La tabla de la web oficial sigue marcando las ${d.total} viviendas como
-       «libres»</strong>, pero eso no significa que estén disponibles: esa tabla no se ha actualizado desde que se
-       resolvió el reparto. Nos fiamos del boletín, que es el documento con validez.</p>` : ''}
-    ${hitos.length ? `<ul class="plazos">
-      ${hitos.map((h) => `<li class="plazo plazo--pasado">
-        <p class="plazo__cuenta">${esc(h.fecha ?? 'Sin fecha')}</p>
-        <p class="plazo__que">${esc(h.titulo)}${h.fecha && !h.fecha_es_del_acuerdo ? ' <span class="fino">(fecha de publicación del boletín)</span>' : ''}</p>
-        ${h.cita ? `<details class="cita"><summary>Lo que dice el documento</summary><blockquote>${esc(h.cita)}</blockquote></details>` : ''}
-        <p class="fino"><a href="${esc(h.fuente_url)}" rel="noopener nofollow">${esc(h.fuente_ref ?? 'Documento oficial')}</a></p>
-      </li>`).join('\n      ')}
-    </ul>` : ''}
+  return `<section class="seccion">
+    <h2 class="seccion__titulo">${icono('ok')}Reparto</h2>
+    <div class="panel panel--reparto">
+      <h3>${titular}</h3>
+      ${r.estado === 'adjudicada'
+        ? `<p>La lista definitiva de adjudicatarios está aprobada y publicada en el boletín oficial, así que
+           <strong>estas viviendas ya tienen destinatario</strong>. Si estabas en la lista de reserva, tu turno
+           depende de que alguien renuncie, y eso se comunica de forma individual.</p>`
+        : `<p>Hay un procedimiento en marcha: se han presentado solicitudes y todavía no consta publicada la lista
+           definitiva de adjudicatarios. Hasta que eso ocurra, estas viviendas no se pueden pedir por libre.</p>`}
+      ${desfase ? `<p class="panel panel--aviso"><strong>La tabla de la web oficial sigue marcando las ${d.total} viviendas como
+         «libres»</strong>, pero eso no significa que estén disponibles: esa tabla no se ha actualizado desde que se
+         resolvió el reparto. Nos fiamos del boletín, que es el documento con validez.</p>` : ''}
+      ${hitos.length ? `<ul class="avisos-plazo hitos">
+        ${hitos.map((h) => `<li class="aviso-plazo aviso-plazo--pasado">
+          <span class="reloj reloj--apagado"><b>${esc(h.fecha ? h.fecha.slice(8, 10) : '?')}</b><span>${esc(h.fecha ? mesCorto(h.fecha) : 'sin fecha')}</span></span>
+          <div class="aviso-plazo__cuerpo">
+            <h3>${esc(h.titulo)}</h3>
+            <p>${esc(h.fecha ?? 'Sin fecha')}${h.fecha && !h.fecha_es_del_acuerdo ? ' (fecha de publicación del boletín)' : ''}</p>
+            ${h.cita ? `<details class="cita"><summary>Lo que dice el documento</summary><blockquote>${esc(h.cita)}</blockquote></details>` : ''}
+            <p class="aviso-plazo__fuente">${icono('doc')} <a href="${esc(h.fuente_url)}" rel="noopener nofollow">${esc(h.fuente_ref ?? 'Documento oficial')}</a></p>
+          </div>
+        </li>`).join('\n        ')}
+      </ul>` : ''}
+    </div>
   </section>`;
 }
 
@@ -794,12 +807,14 @@ function ultimosAvisos() {
 function avisosDe(id) {
   const suyos = avisos.filter((a) => a.promocion_id === id && a.tipo !== 'plazo_sin_registrar').slice(0, 8);
   if (!suyos.length) return '';
-  return `<section class="bloque">
-    <h2>Qué ha pasado aquí</h2>
+  return `<section class="seccion">
+    <h2 class="seccion__titulo">${icono('campana')}Qué ha pasado aquí</h2>
+    <div class="panel">
     <ul class="docs">
       ${suyos.map((a) => `<li><strong>${esc(a.fecha)}</strong> · ${esc(a.titulo)}
         <p class="fino">${esc(a.detalle ?? '')}</p></li>`).join('\n      ')}
     </ul>
+    </div>
   </section>`;
 }
 
