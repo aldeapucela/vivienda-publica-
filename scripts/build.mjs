@@ -1044,18 +1044,28 @@ function unaSolaPagina() {
   const css = fs.readFileSync(path.join(RAIZ, 'src/styles.css'), 'utf8');
   // En un fichero suelto no hay carpeta de imágenes: el isotipo va incrustado.
   const isotipo = `data:image/jpeg;base64,${fs.readFileSync(path.join(RAIZ, 'src/img/aldea-pucela.jpg')).toString('base64')}`;
+  const dibujo = `data:image/jpeg;base64,${fs.readFileSync(path.join(RAIZ, 'src/img/promocion.jpg')).toString('base64')}`;
+  const fuente = (f) => `data:font/woff2;base64,${fs.readFileSync(path.join(RAIZ, 'src/fonts', f)).toString('base64')}`;
+  const cssInline = css
+    .replace('url(/fonts/inter.woff2)', `url(${fuente('inter.woff2')})`)
+    .replace('url(/fonts/inter-tight.woff2)', `url(${fuente('inter-tight.woff2')})`);
   const filtros = fs.readFileSync(path.join(RAIZ, 'src/app.js'), 'utf8');
   const utiles = paginas.filter((p) => p.ruta !== '/404.html');
 
+  const conIsotipo = (html) => html
+    .replace(/src="\/img\/aldea-pucela\.jpg"/g, `src="${isotipo}"`)
+    .replace(/src="\/img\/promocion\.jpg"/g, `src="${dibujo}"`);
+
   const secciones = utiles.map((p) => `<section class="pagina" data-ruta="${esc(p.ruta)}" hidden>
-${enlacesInternos(p.cuerpo)}
+${conIsotipo(enlacesInternos(p.cuerpo))}
 </section>`).join('\n');
-  const conIsotipo = (html) => html.replace(/src="\/img\/aldea-pucela\.jpg"/g, `src="${isotipo}"`);
 
   return `<title>Vivienda Pucela</title>
-<script>document.documentElement.className += ' con-js';</script>
+<script>document.documentElement.className += ' con-js';
+try { if (localStorage.getItem('vivienda:tema') === 'oscuro') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
+${sprite()}
 <style>
-${css}
+${cssInline}
 .pagina[hidden] { display: none; }
 .previo {
   background: var(--brand-100); color: var(--brand-700);
@@ -1069,13 +1079,6 @@ ${css}
 <header class="topbar">
   <div class="container topbar__inner">
     ${conIsotipo(marca()).replace('href="/"', 'href="#/"')}
-    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">
-      <svg class="menu-boton__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path class="menu-boton__barras" d="M4 7h16M4 12h16M4 17h16"/>
-        <path class="menu-boton__cruz" d="M6 6l12 12M18 6L6 18"/>
-      </svg>
-      <span>Menú</span>
-    </button>
     <nav class="menu" id="menu-principal" aria-label="Menú principal">
       <a href="#/">Promociones</a>
       <a href="#/avisos/">Avisos y plazos</a>
@@ -1084,6 +1087,16 @@ ${css}
       <a href="#/fuentes/">Fuentes</a>
       <a href="#/privacidad/">Privacidad</a>
     </nav>
+    <div class="topbar__acciones">
+      ${botonTema()}
+      <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path class="menu-boton__barras" d="M4 7h16M4 12h16M4 17h16"/>
+          <path class="menu-boton__cruz" d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+        <span class="menu-boton__texto">Menú</span>
+      </button>
+    </div>
   </div>
 </header>
 <p class="rancio" id="rancio" data-comprobado="${esc(COMPROBADO)}" hidden></p>
@@ -1094,11 +1107,10 @@ ${secciones}
   <div class="container pie__inner">
     ${conIsotipo(marca('pie')).replace('href="/"', 'href="#/"')}
     <div class="pie__texto">
-      <p><strong>Esta web no es oficial.</strong> La hacen vecinas y vecinos de
-        <a href="https://aldeapucela.org" rel="noopener">Aldea Pucela</a>, y ordena información que ya publica
-        tuyavivienda.es (SOMACYL, Junta de Castilla y León). Para cualquier trámite, lo que vale es la web
-        oficial y el boletín.</p>
-      <p>Aquí no se publican datos personales de quienes solicitan o reciben una vivienda.</p>
+      <p><strong>Esta web no es oficial.</strong> Para cualquier trámite, ve a la web de
+        <a href="https://tuyavivienda.es" rel="noopener">SOMACYL</a> y al boletín. La hacen vecinas y vecinos de
+        <a href="https://aldeapucela.org" rel="noopener">Aldea Pucela</a>; todo dato lleva enlace a su fuente y aquí
+        no hay datos personales de nadie.</p>
     </div>
     <p class="fino">Contenido y datos con licencia CC BY-SA 4.0 · Código con licencia AGPL-3.0</p>
   </div>
