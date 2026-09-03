@@ -23,6 +23,11 @@ const PARES = [
   ['--urge', '--papel', 4.5], ['--urge', '--panel', 4.5],
   ['--aviso', '--aviso-fondo', 4.5],
   ['--libre-barra', '--linea', 3],
+  ['--sobre-acento', '--urge', 4.5],
+  ['--tinta-suave', '--acento-fondo', 4.5],
+  ['--libre-barra', '--panel', 3],
+  ['--libre', '--papel', 4.5],
+  ['--tinta', '--acento-fondo', 4.5],
 ];
 
 function tokens(bloque) {

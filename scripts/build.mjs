@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Genera el sitio estático en dist/ a partir de data/. Sin dependencias y sin
 // red: todo el contenido informativo se sirve como HTML ya renderizado, así
-// que la web funciona sin JavaScript (el JS solo filtra tarjetas).
+// que la web funciona sin JavaScript (el JS solo filtra tarjetas, recuerda lo
+// que sigues y el tema elegido).
 //
 //   node scripts/build.mjs
 
@@ -350,6 +351,7 @@ function paginaPortada() {
     .map(([loc, n]) => `<b>${n}</b> en ${esc(loc)}`).join(' · ');
   const proximo = plazosVivos().filter((z) => z.fin)[0] ?? null;
   const urge = proximo && dias(HOY, proximo.fin) <= 3;
+  const terminaHoy = proximo && dias(HOY, proximo.fin) === 0;
   const localidadPlazo = proximo ? (promociones.find((x) => x.id === proximo.promocion_id)?.localidad ?? nombrePromocion(proximo.promocion_id)) : '';
   const cuandoComprobado = dias(COMPROBADO, HOY) === 0 ? 'hoy' : dias(COMPROBADO, HOY) === 1 ? 'ayer' : `el ${esc(COMPROBADO)}`;
 
@@ -365,7 +367,9 @@ function paginaPortada() {
   <div>
     <ul class="hero__hechos">
       ${donde ? `<li>${icono('pin')}<span>${donde}</span></li>` : ''}
-      ${proximo ? `<li>${icono('reloj')}<span><span${urge ? ' class="urge"' : ''}>${esc(cuentaAtras(proximo))}</span> para pedir las de ${esc(localidadPlazo)}</span></li>` : ''}
+      ${proximo ? `<li>${icono('reloj')}<span>${terminaHoy
+        ? `<span class="urge">Hoy es el último día para pedir las de ${esc(localidadPlazo)}</span>`
+        : `<span${urge ? ' class="urge"' : ''}>${esc(cuentaAtras(proximo))}</span> para pedir las de ${esc(localidadPlazo)}`}</span></li>` : ''}
       <li>${icono('ok')}<span>Comprobado ${cuandoComprobado} en la web oficial</span></li>
     </ul>
     <div class="hero__acciones">
@@ -479,7 +483,7 @@ function tarjeta(p) {
         </div>
         <span class="pastilla pastilla--${clase}">${esc(etiqueta)}</span>
       </div>
-      ${ocupacion != null ? `<div class="barra${ocupacion ? '' : ' barra--vacia'}" role="img" aria-label="${d.libres} de ${d.total} libres"><i style="width:${ocupacion}%"></i></div>` : ''}
+      ${ocupacion != null ? `<div class="barra${ocupacion ? '' : ' barra--vacia'}" aria-hidden="true"><i style="width:${ocupacion}%"></i></div>` : ''}
       <div class="tarjeta__pie">
         ${pie ? `<span>${esc(pie)}</span>` : ''}
         ${conPlazo ? `<span>${icono('reloj')} Plazo abierto</span>` : ''}
@@ -871,13 +875,12 @@ function paginaAvisos() {
    lista provisional»— <strong>no nos inventamos una fecha</strong>: enseñamos la regla y ya está.</p>
 <p>De los listados con nombres no se descarga nada, ni para esto: se enlazan y punto.</p>
 
-${vivos.length ? `<h2>Plazos abiertos ahora</h2>${bloquePlazos(vivos)}` :
+${vivos.length ? bloquePlazos(vivos, { titulo: 'Plazos abiertos ahora' }) :
   '<h2>Ahora mismo no hay ningún plazo abierto</h2><p>Los que hay extraídos ya se han cerrado. Cuando salga una convocatoria nueva aparecerá aquí, en la portada y en los tres canales.</p>'}
 
-${sinFecha.length ? `<h2>Plazos que dependen de lo que pase antes</h2>
-<p>Están escritos en el boletín pero se cuentan desde un hecho que todavía no ha ocurrido, así que no tienen
+${sinFecha.length ? `<p>Están escritos en el boletín pero se cuentan desde un hecho que todavía no ha ocurrido, así que no tienen
    fecha. En cuanto ese hecho ocurra y quede publicado, el plazo aparecerá con su día.</p>
-${bloquePlazos(sinFecha)}` : ''}
+${bloquePlazos(sinFecha, { titulo: 'Plazos que dependen de lo que pase antes' })}` : ''}
 
 <h2>Cada cuánto</h2>
 <p>Se comprueba una vez al día, así que un cambio puede tardar hasta 24 horas en aparecer. Para un plazo que
@@ -1068,7 +1071,7 @@ ${sprite()}
 ${cssInline}
 .pagina[hidden] { display: none; }
 .previo {
-  background: var(--brand-100); color: var(--brand-700);
+  background: var(--acento-fondo); color: var(--acento);
   padding: .6rem 0; font-size: .85rem; border-bottom: 1px solid var(--linea);
 }
 .previo p { margin: 0; }
@@ -1119,7 +1122,9 @@ ${secciones}
 (function () {
   var secciones = [].slice.call(document.querySelectorAll('.pagina'));
   function pinta() {
-    var ruta = location.hash.replace(/^#/, '') || '/';
+    var hash = location.hash.replace(/^#/, '');
+    if (hash && hash[0] !== '/') return;
+    var ruta = hash || '/';
     var elegida = secciones.filter(function (s) { return s.dataset.ruta === ruta; })[0] || secciones[0];
     secciones.forEach(function (s) { s.hidden = s !== elegida; });
     document.title = 'Vivienda Pucela';

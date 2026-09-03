@@ -87,7 +87,7 @@ body {
 
 a { color: var(--acento); }
 a:hover { color: var(--acento-fuerte); }
-:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; border-radius: 4px; }
+:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; }
 
 h1, h2, h3 { text-wrap: balance; }
 h1 {
@@ -233,7 +233,7 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .hero__hechos b { font-weight: 600; }
 .hero__hechos .urge { color: var(--urge); font-weight: 600; }
 .hero__acciones { display: flex; flex-wrap: wrap; gap: .625rem 1.125rem; align-items: center; margin-top: 1.5rem; }
-.hero__enlace { font-size: .9rem; font-weight: 500; color: var(--acento); text-decoration: none; border-bottom: 1px solid transparent; }
+.hero__enlace { font-size: .9rem; font-weight: 500; color: var(--acento); text-decoration: none; border-bottom: 1px solid transparent; padding: .35rem 0; }
 .hero__enlace:hover { border-bottom-color: currentColor; }
 
 /* La ilustración se funde con el papel: multiply borra su fondo crema y la
@@ -367,7 +367,7 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .teja--foco dt .ic { color: var(--sobre-acento); }
 .teja--baja dd { color: var(--urge); }
 .teja--baja dt .ic { color: var(--urge); }
-.panel .tejas .teja { background: var(--papel); }
+.panel .tejas .teja:not(.teja--foco) { background: var(--papel); }
 
 /* ---------- tablas ---------- */
 .tabla-scroll { overflow-x: auto; margin: 1rem 0; }
@@ -377,6 +377,7 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .tabla th { font-size: .78rem; font-weight: 600; color: var(--tinta-suave); }
 .tabla .num { text-align: right; font-variant-numeric: tabular-nums; }
 .tabla tbody tr:hover { background: var(--acento-fondo); }
+.prosa .tabla th, .prosa .tabla td { white-space: normal; }
 .historico summary { cursor: pointer; font-weight: 600; color: var(--acento); }
 
 /* ---------- listas de documentos y avisos ---------- */
@@ -425,7 +426,7 @@ main.principal { padding-block: 2.125rem 3.5rem; }
   body { background: #fff; }
 }
 
-/* ---------- plazos y avisos ---------- */
+/* ---------- botón «me interesa» ---------- */
 .seguir {
   font: 500 .8125rem/1 Inter, system-ui, sans-serif; cursor: pointer; min-height: 32px;
   background: transparent; color: var(--acento);
@@ -454,7 +455,7 @@ main.principal { padding-block: 2.125rem 3.5rem; }
   flex: none; text-align: center; min-width: 3.25rem; padding: .4rem .5rem; border-radius: var(--radio-s);
   background: var(--acento); color: var(--sobre-acento);
 }
-.aviso-plazo--urge .reloj { background: var(--urge); color: #fff; }
+.aviso-plazo--urge .reloj { background: var(--urge); color: var(--sobre-acento); }
 .reloj--apagado { background: var(--acento-fondo); color: var(--tinta-suave); }
 .reloj b { display: block; font: 600 1.3rem/1 'Inter Tight', Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums; }
 .reloj span { display: block; font-size: .65rem; margin-top: .15rem; opacity: .9; }
