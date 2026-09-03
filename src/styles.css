@@ -425,7 +425,6 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 }
 
 /* ---------- plazos y avisos ---------- */
-.bloque--plazos { border-left: 4px solid var(--brand-600); }
 .plazos { list-style: none; margin: 0; padding: 0; display: grid; gap: .85rem; }
 .plazo { border-left: 3px solid var(--linea); padding-left: .85rem; }
 .plazo--urge { border-color: var(--ocupada); }
@@ -453,12 +452,38 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 
 .plazo--pasado { opacity: .75; }
 .plazo--pasado .plazo__cuenta { color: var(--tinta-suave); font-weight: 600; }
-.cita { margin: .35rem 0; font-size: .85rem; }
-.cita summary { cursor: pointer; color: var(--brand-600); }
-.cita blockquote {
-  margin: .4rem 0 0; padding: .5rem .8rem; border-left: 3px solid var(--brand-200);
-  background: var(--brand-50); border-radius: .3rem; font-style: italic;
+
+/* ---------- avisos de plazo ---------- */
+.avisos-plazo { list-style: none; margin: 0 0 .75rem; padding: 0; display: grid; gap: .75rem; }
+.aviso-plazo {
+  display: flex; gap: .875rem; align-items: flex-start;
+  background: var(--panel); border: 1px solid var(--linea); border-left: 3px solid var(--acento);
+  border-radius: var(--radio-m); padding: .9rem 1rem; box-shadow: var(--sombra);
 }
+.aviso-plazo--urge { border-left-color: var(--urge); }
+.aviso-plazo--pasado, .aviso-plazo--sin-fecha { border-left-color: var(--linea); box-shadow: none; }
+.aviso-plazo__cuerpo { min-width: 0; flex: 1; }
+.aviso-plazo h3 { margin: 0 0 .2rem; }
+.aviso-plazo p { margin: 0; font-size: .8125rem; line-height: 1.5; color: var(--tinta-suave); }
+.aviso-plazo .aviso-plazo__fuente { margin-top: .4rem; display: flex; flex-wrap: wrap; align-items: center; gap: .3rem; }
+.aviso-plazo__fuente .ic { font-size: .95rem; }
+
+.reloj {
+  flex: none; text-align: center; min-width: 3.25rem; padding: .4rem .5rem; border-radius: var(--radio-s);
+  background: var(--acento); color: var(--sobre-acento);
+}
+.aviso-plazo--urge .reloj { background: var(--urge); color: #fff; }
+.reloj--apagado { background: var(--acento-fondo); color: var(--tinta-suave); }
+.reloj b { display: block; font: 600 1.3rem/1 'Inter Tight', Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums; }
+.reloj span { display: block; font-size: .65rem; margin-top: .15rem; opacity: .9; }
+
+.cita { margin-top: .45rem; font-size: .8125rem; }
+.cita summary { cursor: pointer; color: var(--acento); font-weight: 500; }
+.cita blockquote {
+  margin: .45rem 0 0; padding: .6rem .8rem; border-radius: var(--radio-s);
+  background: var(--acento-fondo); color: var(--tinta); font-style: italic; line-height: 1.55;
+}
+
 .novedades__resumen { font-weight: 600; color: var(--brand-600); }
 .docs li.es-nuevo { border-left: 3px solid var(--libre); padding-left: .7rem; }
 .docs li.es-nuevo > a::after {

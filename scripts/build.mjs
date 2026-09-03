@@ -276,32 +276,55 @@ function cuentaAtras(z) {
   return `Quedan ${quedan} días`;
 }
 
+/** La ficha de reloj del aviso: número grande y unidad debajo. */
+function relojHtml(z, cerrado) {
+  if (!z.fin) return '<span class="reloj reloj--apagado"><b>?</b><span>sin fecha</span></span>';
+  const quedan = dias(HOY, z.fin);
+  if (cerrado || quedan < 0) return `<span class="reloj reloj--apagado"><b>${esc(z.fin.slice(8, 10))}</b><span>${esc(mesCorto(z.fin))}</span></span>`;
+  if (quedan === 0) return '<span class="reloj"><b>Hoy</b><span>cierra</span></span>';
+  return `<span class="reloj"><b>${quedan}</b><span>${quedan === 1 ? 'día' : 'días'}</span></span>`;
+}
+
+function mesCorto(iso) {
+  return ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'][Number(iso.slice(5, 7)) - 1] ?? '';
+}
+
+/** «Cierra el 2026-06-12. 15 días naturales desde el día siguiente a la publicación en el BOP (2026-05-28).» */
+function reglaCorta(z) {
+  const partes = [];
+  if (z.fin) partes.push(`Cierra el ${z.fin}.`);
+  if (z.regla) {
+    partes.push(`${z.regla.cantidad} días ${z.regla.unidad}${z.regla.ancla_texto ? ` desde el día siguiente a ${z.regla.ancla_texto}` : ''}${z.regla.desde ? ` (${z.regla.desde})` : ''}.`);
+  }
+  return esc(partes.join(' '));
+}
+
 function bloquePlazos(lista, { titulo = 'Plazos abiertos', conPromocion = true, cerrados = false } = {}) {
   if (!lista.length) return '';
-  return `<section class="bloque bloque--plazos">
-    <h2>${esc(titulo)}</h2>
-    <ul class="plazos">
+  return `<section class="seccion">
+    <h2 class="seccion__titulo">${icono('reloj')}${esc(titulo)}</h2>
+    <ul class="avisos-plazo">
 ${lista.map((z) => plazoHtml(z, conPromocion, cerrados)).join('\n')}
     </ul>
-    <p class="fino">${cerrados ? 'Plazos ya cerrados, para poder reconstruir la cronología.'
-      : 'Fechas sacadas del propio boletín oficial: se cuenta el plazo que fija el documento desde el día en que se publicó. Si hay discrepancia, manda el documento.'}
-       <a href="/avisos/">Cómo te avisamos con tiempo →</a></p>
+    <p class="fino">${cerrados ? 'Ya cerrados: sirven para reconstruir la cronología.'
+      : 'Las fechas se cuentan desde la publicación del boletín, como dice el propio documento. Si algo no cuadra, manda el documento.'}
+       <a href="/avisos/">Cómo te avisamos con tiempo</a></p>
   </section>`;
 }
 
 function plazoHtml(z, conPromocion, cerrado) {
   const quedan = z.fin ? dias(HOY, z.fin) : null;
-  const clase = cerrado ? 'pasado' : quedan != null && quedan <= 3 ? 'urge' : 'normal';
-  return `      <li class="plazo plazo--${clase}">
-        <p class="plazo__cuenta">${esc(cuentaAtras(z))}</p>
-        <p class="plazo__que">${esc(z.titulo ?? 'Plazo')}${conPromocion ? ` · ${esc(nombrePromocion(z.promocion_id))}` : ''}</p>
-        ${z.regla ? `<p class="fino">${esc(`${z.regla.cantidad} días ${z.regla.unidad}${
-          z.regla.ancla_texto ? ` desde el día siguiente a ${z.regla.ancla_texto}` : ''}${
-          z.regla.desde ? `, que fue el ${z.regla.desde}` : ''}.`)}${
-          z.regla.unidad === 'habiles' ? ' <strong>Ojo:</strong> al contar días hábiles no sabemos los festivos locales; comprueba el documento.' : ''}</p>` : ''}
-        ${z.cita ? `<details class="cita"><summary>Lo que dice el documento</summary><blockquote>${esc(z.cita)}</blockquote></details>` : ''}
-        <p class="fino"><a href="${esc(z.fuente_url)}" rel="noopener nofollow">${esc(z.fuente_ref ?? 'Documento oficial')}</a>
-          · ${z.origen === 'manual' ? 'corregido a mano por la comunidad' : `leído automáticamente del documento el ${esc(z.extraido ?? '')}`}</p>
+  const clase = cerrado || (quedan != null && quedan < 0) ? 'pasado' : !z.fin ? 'sin-fecha' : quedan <= 3 ? 'urge' : 'normal';
+  return `      <li class="aviso-plazo aviso-plazo--${clase}">
+        ${relojHtml(z, cerrado)}
+        <div class="aviso-plazo__cuerpo">
+          <h3>${esc(z.titulo ?? 'Plazo')}${conPromocion ? ` · ${esc(nombrePromocion(z.promocion_id))}` : ''}</h3>
+          <p>${clase === 'sin-fecha' ? 'Depende de una fecha que aún no consta. ' : ''}${reglaCorta(z)}${
+            z.regla?.unidad === 'habiles' ? ' <strong>Ojo:</strong> no descontamos festivos locales; comprueba el documento.' : ''}</p>
+          ${z.cita ? `<details class="cita"><summary>Lo que dice el documento</summary><blockquote>${esc(z.cita)}</blockquote></details>` : ''}
+          <p class="aviso-plazo__fuente">${icono('doc')} <a href="${esc(z.fuente_url)}" rel="noopener nofollow">${esc(z.fuente_ref ?? 'Documento oficial')}</a>
+            · ${z.origen === 'manual' ? 'corregido a mano por la comunidad' : `leído del documento el ${esc(z.extraido ?? '')}`}</p>
+        </div>
       </li>`;
 }
 
