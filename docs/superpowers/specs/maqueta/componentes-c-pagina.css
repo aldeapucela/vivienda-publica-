@@ -1,0 +1,28 @@
+/* ---------- añadidos de C para la página completa ---------- */
+.dir-c .c-nota{margin:12px 0 0; font-size:13px; color:var(--e-suave)}
+.dir-c .c-seccion{font:600 13px/1.4 Inter,sans-serif; letter-spacing:.02em; color:var(--e-suave); margin:0 0 12px}
+.dir-c .c-filtros{display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin-bottom:16px}
+.dir-c .c-separa{width:1px; height:20px; background:var(--e-linea); margin:0 5px}
+.dir-c .c-chip{
+  font:500 13px/1 Inter,sans-serif; cursor:pointer; padding:8px 13px; border-radius:8px;
+  background:var(--e-panel); color:var(--e-tinta); border:1px solid var(--e-linea);
+  transition:border-color .15s ease, color .15s ease;
+}
+.dir-c .c-chip:hover{border-color:var(--e-acento); color:var(--e-acento)}
+.dir-c .c-chip--on{background:var(--e-acento); border-color:var(--e-acento); color:#fff}
+.dir-c .c-rejilla{list-style:none; margin:0; padding:0; display:grid; gap:12px}
+@media (min-width:52rem){ .dir-c .c-rejilla{grid-template-columns:repeat(3,1fr)} }
+.dir-c .c-rejilla .c-tarjeta{margin:0; display:flex; flex-direction:column}
+.dir-c .c-rejilla .c-barra{margin-top:auto}
+.dir-c .c-tarjeta--ancha{margin:0}
+.dir-c .c-tejas--municipio{margin-bottom:14px}
+.dir-c .c-tejas--municipio .c-teja{background:var(--e-papel)}
+.dir-c .c-unidad{display:block; font:400 12.5px/1.4 Inter,sans-serif; color:var(--e-suave); letter-spacing:0; margin-top:3px}
+.dir-c .c-baja{color:#a4444f}
+.dir-c .c-cuerpo{margin:0 0 10px; font-size:14.5px; line-height:1.6}
+.dir-c .c-fuente{margin:8px 0 0; font-size:12.5px; line-height:1.55; color:var(--e-suave)}
+.dir-c .c-fuente a{color:var(--e-acento)}
+.dir-c .c-pastilla--no{background:#f4eaec; color:#8a4b52}
+.dir-c .c-barra i.c-barra--no{background:var(--e-linea)}
+.dir-c .c-aviso{margin-bottom:0}
+

@@ -1,0 +1,68 @@
+/* ---------- C · Producto moderno ---------- */
+.dir-c{
+  --e-papel:#f7f6fa; --e-panel:#ffffff; --e-tinta:#191623; --e-suave:#6c6682;
+  --e-marca:#6b4895; --e-acento:#6b4895; --e-linea:#e7e3ee; --e-sombra:0 1px 2px rgba(25,22,35,.06), 0 8px 24px -16px rgba(25,22,35,.24);
+  font-family:Inter,system-ui,sans-serif;
+}
+.dir-c.esp--oscuro{
+  --e-papel:#100e16; --e-panel:#1a1724; --e-tinta:#f3f0f8; --e-suave:#a49cba;
+  --e-marca:#c2aee4; --e-acento:#c2aee4; --e-linea:#2b2539; --e-sombra:0 1px 2px rgba(0,0,0,.4);
+}
+.dir-c .c-titular{
+  font:600 clamp(27px,2.4vw + 16px,38px)/1.12 'Inter Tight',Inter,sans-serif;
+  letter-spacing:-.03em; margin:0 0 10px; text-wrap:balance; max-width:26ch;
+}
+.dir-c .c-entradilla{margin:0 0 22px; font-size:15.5px; line-height:1.55; color:var(--e-suave); max-width:52ch}
+.dir-c .c-tejas{display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(132px,1fr)); margin-bottom:12px}
+.dir-c .c-teja{background:var(--e-panel); border:1px solid var(--e-linea); border-radius:12px; padding:13px 14px}
+.dir-c .c-teja dt{font-size:12.5px; color:var(--e-suave); margin-bottom:5px}
+.dir-c .c-teja dd{margin:0; font:600 26px/1.05 'Inter Tight',Inter,sans-serif; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.dir-c .c-teja--foco{background:var(--e-acento); border-color:var(--e-acento); box-shadow:var(--e-sombra)}
+.dir-c .c-teja--foco dt{color:rgba(255,255,255,.82)}
+.dir-c .c-teja--foco dd{color:#fff}
+.dir-c.esp--oscuro .c-teja--foco dt{color:rgba(20,16,30,.72)}
+.dir-c.esp--oscuro .c-teja--foco dd{color:#151021}
+.dir-c .c-tarjeta{
+  background:var(--e-panel); border:1px solid var(--e-linea); border-radius:14px;
+  padding:16px; box-shadow:var(--e-sombra); margin-bottom:12px;
+}
+.dir-c .c-tarjeta__alto{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:9px}
+.dir-c .c-tarjeta h3{font:600 16.5px/1.3 'Inter Tight',Inter,sans-serif; margin:0; letter-spacing:-.015em}
+.dir-c .c-tarjeta h3 a{color:inherit; text-decoration:none}
+.dir-c .c-tarjeta h3 a:hover{color:var(--e-acento)}
+.dir-c .c-lugar{margin:2px 0 0; font-size:12.5px; color:var(--e-suave)}
+.dir-c .c-pastilla{
+  flex:none; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:7px;
+  background:#e8f4ec; color:#1a6b40; white-space:nowrap;
+}
+.dir-c.esp--oscuro .c-pastilla{background:#14301f; color:#71dda3}
+.dir-c .c-barra{height:6px; border-radius:99px; background:var(--e-linea); overflow:hidden; margin:11px 0 7px}
+.dir-c .c-barra i{display:block; height:100%; border-radius:99px; background:#2f9160}
+.dir-c.esp--oscuro .c-barra i{background:#71dda3}
+.dir-c .c-pie{display:flex; gap:14px; font-size:12.5px; color:var(--e-suave); font-variant-numeric:tabular-nums}
+.dir-c .c-aviso{
+  display:flex; gap:12px; align-items:flex-start; background:var(--e-panel);
+  border:1px solid var(--e-linea); border-left:3px solid var(--e-acento);
+  border-radius:12px; padding:14px 16px; margin-bottom:12px; box-shadow:var(--e-sombra);
+}
+.dir-c .c-reloj{
+  flex:none; text-align:center; min-width:52px; padding:6px 8px; border-radius:9px;
+  background:var(--e-acento); color:#fff;
+}
+.dir-c.esp--oscuro .c-reloj{color:#151021}
+.dir-c .c-reloj b{display:block; font:600 21px/1 'Inter Tight',Inter,sans-serif; font-variant-numeric:tabular-nums}
+.dir-c .c-reloj span{font-size:10.5px; opacity:.85}
+.dir-c .c-aviso h3{font:600 15.5px/1.3 'Inter Tight',Inter,sans-serif; margin:0 0 3px}
+.dir-c .c-aviso p{margin:0; font-size:13px; line-height:1.5; color:var(--e-suave)}
+.dir-c .c-aviso a{color:var(--e-acento)}
+.dir-c details{margin-top:7px; font-size:13px}
+.dir-c summary{cursor:pointer; color:var(--e-acento); font-weight:500}
+.dir-c blockquote{margin:7px 0 0; padding:9px 12px; background:var(--e-papel); border-radius:9px; font-size:13px; line-height:1.55; color:var(--e-suave)}
+.dir-c .c-boton{
+  display:inline-flex; align-items:center; gap:7px; padding:9px 15px; border-radius:9px;
+  background:var(--e-acento); color:#fff; font-size:14px; font-weight:600; text-decoration:none;
+  transition:transform .12s ease, box-shadow .2s ease; box-shadow:var(--e-sombra);
+}
+.dir-c.esp--oscuro .c-boton{color:#151021}
+.dir-c .c-boton:hover{transform:translateY(-1px); box-shadow:0 6px 18px -6px rgba(107,72,149,.5)}
+

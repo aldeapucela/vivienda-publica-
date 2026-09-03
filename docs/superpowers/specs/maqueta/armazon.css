@@ -1,0 +1,49 @@
+/* ---------- armazón de página, común a las dos direcciones ---------- */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; background:var(--e-papel); color:var(--e-tinta)}
+.pagina{min-height:100vh; display:flex; flex-direction:column}
+.cinta{width:100%; max-width:68rem; margin:0 auto; padding:0 20px}
+@media (min-width:48rem){ .cinta{padding:0 32px} }
+.barra{border-bottom:1px solid var(--e-linea); background:var(--e-papel); position:sticky; top:0; z-index:30}
+.barra__cinta{display:flex; align-items:center; justify-content:space-between; gap:20px; padding:14px 0}
+.marca{display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit}
+.marca__logo{width:40px; height:40px; flex:none; border-radius:10px; background:#fff center/contain no-repeat}
+.marca__kicker{display:block; font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--e-suave)}
+.marca__nombre{display:block; font-size:17px; font-weight:700; color:var(--e-marca)}
+.nav{display:none; gap:26px; font-size:14.5px}
+@media (min-width:62rem){ .nav{display:flex; align-items:center} }
+.nav a{color:var(--e-tinta); text-decoration:none; padding:4px 0}
+.nav a[aria-current]{font-weight:600}
+.acciones{display:flex; align-items:center; gap:8px}
+.tema{
+  display:inline-flex; align-items:center; gap:7px; cursor:pointer;
+  background:transparent; color:var(--e-tinta); font:inherit; font-size:13px; font-weight:500;
+  border:1px solid var(--e-linea); padding:7px 12px;
+}
+.tema svg{width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round}
+/* En pantallas estrechas los botones se quedan en icono: con las dos etiquetas
+   la fila mide más que el viewport y arrastra toda la página. */
+@media (max-width:30rem){
+  .tema, .hamburguesa{padding:8px 10px; gap:0}
+  .etiqueta{position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%)}
+}
+.hamburguesa{
+  display:inline-flex; align-items:center; gap:7px; cursor:pointer;
+  background:transparent; color:var(--e-tinta); font:inherit; font-size:13px; font-weight:500;
+  border:1px solid var(--e-linea); padding:7px 12px;
+}
+@media (min-width:62rem){ .hamburguesa{display:none} }
+.hamburguesa svg{width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round}
+main{flex:1; padding:34px 0 56px}
+@media (min-width:48rem){ main{padding:52px 0 72px} }
+.seccion + .seccion{margin-top:38px}
+@media (min-width:48rem){ .seccion + .seccion{margin-top:52px} }
+.pie{border-top:1px solid var(--e-linea); padding:30px 0 36px; font-size:13.5px; color:var(--e-suave)}
+.pie__cinta{display:grid; gap:18px}
+@media (min-width:52rem){ .pie__cinta{grid-template-columns:minmax(15rem,17rem) 1fr; column-gap:44px} }
+.pie p{margin:0 0 8px; max-width:60ch; line-height:1.6}
+.pie__enlaces{display:flex; flex-wrap:wrap; gap:6px 22px; margin-top:4px}
+.pie__enlaces a{color:var(--e-marca)}
+:focus-visible{outline:3px solid var(--e-acento); outline-offset:2px}
+@media (prefers-reduced-motion:reduce){ *{transition:none !important} }

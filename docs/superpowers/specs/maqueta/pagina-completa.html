@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Producto moderno · Vivienda pública en Valladolid</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@500;600;700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Serif:wght@400;600;700&display=swap">
+<style>
+/* ---------- armazón de página, común a las dos direcciones ---------- */
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; background:var(--e-papel); color:var(--e-tinta)}
+.pagina{min-height:100vh; display:flex; flex-direction:column}
+.cinta{width:100%; max-width:68rem; margin:0 auto; padding:0 20px}
+@media (min-width:48rem){ .cinta{padding:0 32px} }
+.barra{border-bottom:1px solid var(--e-linea); background:var(--e-papel); position:sticky; top:0; z-index:30}
+.barra__cinta{display:flex; align-items:center; justify-content:space-between; gap:20px; padding:14px 0}
+.marca{display:flex; align-items:center; gap:11px; text-decoration:none; color:inherit}
+.marca__logo{width:40px; height:40px; flex:none; border-radius:10px; background:#fff center/contain no-repeat}
+.marca__kicker{display:block; font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--e-suave)}
+.marca__nombre{display:block; font-size:17px; font-weight:700; color:var(--e-marca)}
+.nav{display:none; gap:26px; font-size:14.5px}
+@media (min-width:62rem){ .nav{display:flex; align-items:center} }
+.nav a{color:var(--e-tinta); text-decoration:none; padding:4px 0}
+.nav a[aria-current]{font-weight:600}
+.acciones{display:flex; align-items:center; gap:8px}
+.tema{
+  display:inline-flex; align-items:center; gap:7px; cursor:pointer;
+  background:transparent; color:var(--e-tinta); font:inherit; font-size:13px; font-weight:500;
+  border:1px solid var(--e-linea); padding:7px 12px;
+}
+.tema svg{width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.9; stroke-linecap:round}
+/* En pantallas estrechas los botones se quedan en icono: con las dos etiquetas
+   la fila mide más que el viewport y arrastra toda la página. */
+@media (max-width:30rem){
+  .tema, .hamburguesa{padding:8px 10px; gap:0}
+  .etiqueta{position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%)}
+}
+.hamburguesa{
+  display:inline-flex; align-items:center; gap:7px; cursor:pointer;
+  background:transparent; color:var(--e-tinta); font:inherit; font-size:13px; font-weight:500;
+  border:1px solid var(--e-linea); padding:7px 12px;
+}
+@media (min-width:62rem){ .hamburguesa{display:none} }
+.hamburguesa svg{width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round}
+main{flex:1; padding:34px 0 56px}
+@media (min-width:48rem){ main{padding:52px 0 72px} }
+.seccion + .seccion{margin-top:38px}
+@media (min-width:48rem){ .seccion + .seccion{margin-top:52px} }
+.pie{border-top:1px solid var(--e-linea); padding:30px 0 36px; font-size:13.5px; color:var(--e-suave)}
+.pie__cinta{display:grid; gap:18px}
+@media (min-width:52rem){ .pie__cinta{grid-template-columns:minmax(15rem,17rem) 1fr; column-gap:44px} }
+.pie p{margin:0 0 8px; max-width:60ch; line-height:1.6}
+.pie__enlaces{display:flex; flex-wrap:wrap; gap:6px 22px; margin-top:4px}
+.pie__enlaces a{color:var(--e-marca)}
+:focus-visible{outline:3px solid var(--e-acento); outline-offset:2px}
+@media (prefers-reduced-motion:reduce){ *{transition:none !important} }
+
+.marca__logo{background-image:url(/img/promocion.jpg)}
+
+/* ---------- C · Producto moderno ---------- */
+.dir-c{
+  --e-papel:#f7f6fa; --e-panel:#ffffff; --e-tinta:#191623; --e-suave:#6c6682;
+  --e-marca:#6b4895; --e-acento:#6b4895; --e-linea:#e7e3ee; --e-sombra:0 1px 2px rgba(25,22,35,.06), 0 8px 24px -16px rgba(25,22,35,.24);
+  font-family:Inter,system-ui,sans-serif;
+}
+.dir-c.esp--oscuro{
+  --e-papel:#100e16; --e-panel:#1a1724; --e-tinta:#f3f0f8; --e-suave:#a49cba;
+  --e-marca:#c2aee4; --e-acento:#c2aee4; --e-linea:#2b2539; --e-sombra:0 1px 2px rgba(0,0,0,.4);
+}
+.dir-c .c-titular{
+  font:600 clamp(27px,2.4vw + 16px,38px)/1.12 'Inter Tight',Inter,sans-serif;
+  letter-spacing:-.03em; margin:0 0 10px; text-wrap:balance; max-width:26ch;
+}
+.dir-c .c-entradilla{margin:0 0 22px; font-size:15.5px; line-height:1.55; color:var(--e-suave); max-width:52ch}
+.dir-c .c-tejas{display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(132px,1fr)); margin-bottom:12px}
+.dir-c .c-teja{background:var(--e-panel); border:1px solid var(--e-linea); border-radius:12px; padding:13px 14px}
+.dir-c .c-teja dt{font-size:12.5px; color:var(--e-suave); margin-bottom:5px}
+.dir-c .c-teja dd{margin:0; font:600 26px/1.05 'Inter Tight',Inter,sans-serif; letter-spacing:-.02em; font-variant-numeric:tabular-nums}
+.dir-c .c-teja--foco{background:var(--e-acento); border-color:var(--e-acento); box-shadow:var(--e-sombra)}
+.dir-c .c-teja--foco dt{color:rgba(255,255,255,.82)}
+.dir-c .c-teja--foco dd{color:#fff}
+.dir-c.esp--oscuro .c-teja--foco dt{color:rgba(20,16,30,.72)}
+.dir-c.esp--oscuro .c-teja--foco dd{color:#151021}
+.dir-c .c-tarjeta{
+  background:var(--e-panel); border:1px solid var(--e-linea); border-radius:14px;
+  padding:16px; box-shadow:var(--e-sombra); margin-bottom:12px;
+}
+.dir-c .c-tarjeta__alto{display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:9px}
+.dir-c .c-tarjeta h3{font:600 16.5px/1.3 'Inter Tight',Inter,sans-serif; margin:0; letter-spacing:-.015em}
+.dir-c .c-tarjeta h3 a{color:inherit; text-decoration:none}
+.dir-c .c-tarjeta h3 a:hover{color:var(--e-acento)}
+.dir-c .c-lugar{margin:2px 0 0; font-size:12.5px; color:var(--e-suave)}
+.dir-c .c-pastilla{
+  flex:none; font-size:11.5px; font-weight:600; padding:3px 9px; border-radius:7px;
+  background:#e8f4ec; color:#1a6b40; white-space:nowrap;
+}
+.dir-c.esp--oscuro .c-pastilla{background:#14301f; color:#71dda3}
+.dir-c .c-barra{height:6px; border-radius:99px; background:var(--e-linea); overflow:hidden; margin:11px 0 7px}
+.dir-c .c-barra i{display:block; height:100%; border-radius:99px; background:#2f9160}
+.dir-c.esp--oscuro .c-barra i{background:#71dda3}
+.dir-c .c-pie{display:flex; gap:14px; font-size:12.5px; color:var(--e-suave); font-variant-numeric:tabular-nums}
+.dir-c .c-aviso{
+  display:flex; gap:12px; align-items:flex-start; background:var(--e-panel);
+  border:1px solid var(--e-linea); border-left:3px solid var(--e-acento);
+  border-radius:12px; padding:14px 16px; margin-bottom:12px; box-shadow:var(--e-sombra);
+}
+.dir-c .c-reloj{
+  flex:none; text-align:center; min-width:52px; padding:6px 8px; border-radius:9px;
+  background:var(--e-acento); color:#fff;
+}
+.dir-c.esp--oscuro .c-reloj{color:#151021}
+.dir-c .c-reloj b{display:block; font:600 21px/1 'Inter Tight',Inter,sans-serif; font-variant-numeric:tabular-nums}
+.dir-c .c-reloj span{font-size:10.5px; opacity:.85}
+.dir-c .c-aviso h3{font:600 15.5px/1.3 'Inter Tight',Inter,sans-serif; margin:0 0 3px}
+.dir-c .c-aviso p{margin:0; font-size:13px; line-height:1.5; color:var(--e-suave)}
+.dir-c .c-aviso a{color:var(--e-acento)}
+.dir-c details{margin-top:7px; font-size:13px}
+.dir-c summary{cursor:pointer; color:var(--e-acento); font-weight:500}
+.dir-c blockquote{margin:7px 0 0; padding:9px 12px; background:var(--e-papel); border-radius:9px; font-size:13px; line-height:1.55; color:var(--e-suave)}
+.dir-c .c-boton{
+  display:inline-flex; align-items:center; gap:7px; padding:9px 15px; border-radius:9px;
+  background:var(--e-acento); color:#fff; font-size:14px; font-weight:600; text-decoration:none;
+  transition:transform .12s ease, box-shadow .2s ease; box-shadow:var(--e-sombra);
+}
+.dir-c.esp--oscuro .c-boton{color:#151021}
+.dir-c .c-boton:hover{transform:translateY(-1px); box-shadow:0 6px 18px -6px rgba(107,72,149,.5)}
+
+/* ---------- D · Documento y archivo ---------- */
+.dir-d{
+  --e-papel:#f3f2ee; --e-tinta:#1d1b21; --e-suave:#5b5764; --e-marca:#5b3a86;
+  --e-acento:#5b3a86; --e-linea:#cec9c1;
+  font-family:'IBM Plex Serif',Georgia,serif;
+}
+.dir-d.esp--oscuro{
+  --e-papel:#16151a; --e-tinta:#ecebe6; --e-suave:#a29eaa; --e-marca:#c6b1e6;
+  --e-acento:#c6b1e6; --e-linea:#332f3a;
+}
+.dir-d .d-cabecera{border-bottom:3px double var(--e-tinta); padding-bottom:12px; margin-bottom:6px}
+.dir-d .d-expediente{
+  display:flex; flex-wrap:wrap; gap:4px 18px; padding:7px 0 20px;
+  font:400 11.5px/1.5 'IBM Plex Mono',monospace; color:var(--e-suave);
+  border-bottom:1px solid var(--e-linea); margin-bottom:24px; text-transform:uppercase; letter-spacing:.04em;
+}
+.dir-d .d-titular{
+  font:700 clamp(27px,2.6vw + 15px,40px)/1.15 'IBM Plex Serif',Georgia,serif;
+  margin:0 0 12px; max-width:26ch; text-wrap:balance;
+}
+.dir-d .d-entradilla{margin:0 0 26px; font-size:16.5px; line-height:1.6; color:var(--e-suave); max-width:54ch}
+.dir-d .d-sello{
+  display:inline-block; padding:9px 14px; margin-bottom:22px;
+  border:2px solid var(--e-acento); border-radius:3px; color:var(--e-acento);
+  font:600 12px/1.3 'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.1em;
+  transform:rotate(-1.4deg);
+}
+.dir-d .d-sello b{display:block; font-size:25px; letter-spacing:0; margin-top:3px; font-variant-numeric:tabular-nums}
+.dir-d .d-tabla{width:100%; border-collapse:collapse; font-size:14.5px; margin-bottom:26px}
+.dir-d .d-tabla caption{text-align:left; font:400 11.5px/1.5 'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.06em; color:var(--e-suave); padding-bottom:7px}
+.dir-d .d-tabla th{text-align:left; font:600 11.5px/1.4 'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.05em; color:var(--e-suave); border-bottom:1px solid var(--e-tinta); padding:5px 9px 5px 0}
+.dir-d .d-tabla td{padding:9px 9px 9px 0; border-bottom:1px solid var(--e-linea); vertical-align:top}
+.dir-d .d-tabla td a{color:var(--e-tinta); text-decoration:none; border-bottom:1px solid var(--e-acento)}
+.dir-d .d-tabla .num{text-align:right; font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; font-size:13.5px; white-space:nowrap}
+.dir-d .d-seccion{font:600 13px/1.4 'IBM Plex Mono',monospace; text-transform:uppercase; letter-spacing:.08em; color:var(--e-suave); margin:0 0 10px}
+.dir-d blockquote{
+  margin:0 0 10px; padding:16px 18px; background:transparent;
+  border:1px solid var(--e-linea); border-left:3px solid var(--e-acento);
+  font-size:15.5px; line-height:1.6; max-width:56ch;
+}
+.dir-d .d-refrendo{margin:0; font:400 11.5px/1.6 'IBM Plex Mono',monospace; color:var(--e-suave); word-break:break-all}
+.dir-d .d-refrendo a{color:var(--e-acento)}
+
+/* ---------- añadidos de C para la página completa ---------- */
+.dir-c .c-nota{margin:12px 0 0; font-size:13px; color:var(--e-suave)}
+.dir-c .c-seccion{font:600 13px/1.4 Inter,sans-serif; letter-spacing:.02em; color:var(--e-suave); margin:0 0 12px}
+.dir-c .c-filtros{display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin-bottom:16px}
+.dir-c .c-separa{width:1px; height:20px; background:var(--e-linea); margin:0 5px}
+.dir-c .c-chip{
+  font:500 13px/1 Inter,sans-serif; cursor:pointer; padding:8px 13px; border-radius:8px;
+  background:var(--e-panel); color:var(--e-tinta); border:1px solid var(--e-linea);
+  transition:border-color .15s ease, color .15s ease;
+}
+.dir-c .c-chip:hover{border-color:var(--e-acento); color:var(--e-acento)}
+.dir-c .c-chip--on{background:var(--e-acento); border-color:var(--e-acento); color:#fff}
+.dir-c .c-rejilla{list-style:none; margin:0; padding:0; display:grid; gap:12px}
+@media (min-width:52rem){ .dir-c .c-rejilla{grid-template-columns:repeat(3,1fr)} }
+.dir-c .c-rejilla .c-tarjeta{margin:0; display:flex; flex-direction:column}
+.dir-c .c-rejilla .c-barra{margin-top:auto}
+.dir-c .c-tarjeta--ancha{margin:0}
+.dir-c .c-tejas--municipio{margin-bottom:14px}
+.dir-c .c-tejas--municipio .c-teja{background:var(--e-papel)}
+.dir-c .c-unidad{display:block; font:400 12.5px/1.4 Inter,sans-serif; color:var(--e-suave); letter-spacing:0; margin-top:3px}
+.dir-c .c-baja{color:#a4444f}
+.dir-c .c-cuerpo{margin:0 0 10px; font-size:14.5px; line-height:1.6}
+.dir-c .c-fuente{margin:8px 0 0; font-size:12.5px; line-height:1.55; color:var(--e-suave)}
+.dir-c .c-fuente a{color:var(--e-acento)}
+.dir-c .c-pastilla--no{background:#f4eaec; color:#8a4b52}
+.dir-c .c-barra i.c-barra--no{background:var(--e-linea)}
+.dir-c .c-aviso{margin-bottom:0}
+
+/* ---------- añadidos de D para la página completa ---------- */
+.dir-d .d-plazo{border-top:1px solid var(--e-tinta); padding-top:16px}
+.dir-d .d-plazo__que{margin:0 0 12px; font:600 19px/1.3 'IBM Plex Serif',Georgia,serif}
+.dir-d .d-tabla--municipio{margin-bottom:14px; max-width:34rem}
+.dir-d .d-tabla--municipio td:first-child{width:60%}
+.dir-d .d-anio{font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--e-suave); text-align:right; white-space:nowrap}
+.dir-d .d-si{font-weight:600; color:var(--e-acento)}
+.dir-d .d-no{color:var(--e-suave)}
+.dir-d .d-cuerpo{margin:0 0 12px; font-size:16px; line-height:1.65; max-width:56ch}
+.dir-d .d-seccion{border-bottom:1px solid var(--e-linea); padding-bottom:7px}
+.dir-d .d-tabla{margin-bottom:0}
+
+/* En móvil una tabla de cinco columnas parte los títulos en una palabra por
+   línea. La fila pasa a ser una ficha con sus rótulos: se lee, y no obliga a
+   arrastrar la navegación principal de lado a lado. */
+@media (max-width:40rem){
+  .dir-d .d-tabla--promos thead{position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%)}
+  .dir-d .d-tabla--promos, .dir-d .d-tabla--promos caption, .dir-d .d-tabla--promos tbody,
+  .dir-d .d-tabla--promos tr, .dir-d .d-tabla--promos td{display:block; width:auto}
+  .dir-d .d-tabla--promos tr{padding:13px 0; border-bottom:1px solid var(--e-linea)}
+  .dir-d .d-tabla--promos td{border:0; padding:0}
+  .dir-d .d-tabla--promos td:first-child{font-size:17px; margin-bottom:5px}
+  .dir-d .d-tabla--promos td:not(:first-child){
+    display:inline; font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--e-suave);
+  }
+  .dir-d .d-tabla--promos td:not(:first-child)::before{content:attr(data-etq) ' '}
+  .dir-d .d-tabla--promos td:not(:first-child):not(:last-child)::after{content:' · '}
+  .dir-d .d-tabla--promos .num{text-align:left}
+  .dir-d .d-tabla--promos .d-si{color:var(--e-acento); font-weight:600}
+}
+/* ---------- C, segunda vuelta: hero con la respuesta primero, iconos e ilustración ---------- */
+.dir-c .ic{width:1em; height:1em; flex:none; fill:none; stroke:currentColor; stroke-width:1.75; stroke-linecap:round; stroke-linejoin:round; vertical-align:-.12em}
+
+.dir-c .hero{display:grid; gap:22px; align-items:center}
+@media (min-width:52rem){
+  .dir-c .hero{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); grid-template-rows:auto auto; column-gap:40px; row-gap:0}
+  .dir-c .hero__dibujo{grid-column:2; grid-row:1 / 3; align-self:center}
+  .dir-c .hero__cifra{grid-column:1; grid-row:1}
+  .dir-c .hero > div{grid-column:1; grid-row:2}
+}
+.dir-c .hero__cifra{margin:0; display:flex; flex-direction:column}
+.dir-c .hero__num{
+  font:600 clamp(72px,9vw,108px)/.9 'Inter Tight',Inter,sans-serif; letter-spacing:-.045em;
+  color:var(--e-acento); font-variant-numeric:tabular-nums;
+}
+.dir-c .hero__que{font:600 clamp(24px,2.2vw + 12px,34px)/1.12 'Inter Tight',Inter,sans-serif; letter-spacing:-.025em; margin-top:8px; max-width:16ch; text-wrap:balance}
+.dir-c .hero__hechos{list-style:none; margin:22px 0 0; padding:0; display:grid; gap:10px; font-size:15.5px; line-height:1.45}
+.dir-c .hero__hechos li{display:flex; gap:11px; align-items:flex-start}
+.dir-c .hero__hechos .ic{font-size:20px; color:var(--e-acento); margin-top:1px}
+.dir-c .hero__hechos b{font-weight:600}
+.dir-c .hero__hechos .urge{color:#a4444f; font-weight:600}
+.dir-c .hero__acciones{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin-top:24px}
+.dir-c .hero__enlace{font-size:14.5px; font-weight:500; color:var(--e-acento); text-decoration:none; border-bottom:1px solid transparent}
+.dir-c .hero__enlace:hover{border-bottom-color:currentColor}
+.dir-c .hero__dibujo{position:relative; margin:0; min-width:0}
+.dir-c .hero__dibujo img{
+  display:block; width:100%; height:auto; border-radius:16px;
+  mix-blend-mode:multiply; /* el papel de la ilustración desaparece y quedan los trazos */
+  -webkit-mask-image:radial-gradient(ellipse 62% 58% at 52% 50%, #000 48%, transparent 100%);
+  mask-image:radial-gradient(ellipse 62% 58% at 52% 50%, #000 48%, transparent 100%);
+}
+@media (max-width:51.99rem){
+  .dir-c .hero__dibujo{order:-1; max-height:190px; overflow:hidden}
+  .dir-c .hero__dibujo img{object-fit:cover; height:190px}
+  .dir-c .hero__dibujo img{-webkit-mask-image:linear-gradient(0deg, transparent 0%, #000 45%); mask-image:linear-gradient(0deg, transparent 0%, #000 45%)}
+}
+
+.dir-c .franja{
+  display:flex; flex-wrap:wrap; gap:8px 26px; margin:30px 0 44px; padding-top:16px;
+  border-top:1px solid var(--e-linea); font-size:13.5px; color:var(--e-suave);
+}
+.dir-c .franja span{display:inline-flex; align-items:center; gap:7px}
+.dir-c .franja b{color:var(--e-tinta); font-weight:600; font-variant-numeric:tabular-nums}
+
+.dir-c .c-seccion{display:flex; align-items:center; gap:8px}
+.dir-c .c-seccion .ic{font-size:16px}
+
+.dir-c .c-pastilla{display:inline-flex; align-items:center; gap:6px}
+.dir-c .c-pastilla::before{content:''; width:7px; height:7px; border-radius:50%; background:currentColor}
+
+.dir-c .c-tejas--municipio dt{display:flex; align-items:center; gap:6px}
+.dir-c .c-tejas--municipio .ic{font-size:15px; color:var(--e-acento)}
+.dir-c .c-tejas--municipio .c-baja + .ic{color:#a4444f}
+
+.dir-c .c-aviso .c-fuente{margin-top:6px}
+.dir-c .c-cuerpo{margin:0 0 6px}
+
+</style></head>
+<body class="dir-c"><div class="pagina">
+<header class="barra"><div class="barra__cinta cinta">
+  <a class="marca" href="#"><span class="marca__logo" aria-hidden="true"></span>
+    <span><span class="marca__kicker">Aldea Pucela</span><span class="marca__nombre">Vivienda pública</span></span></a>
+  <nav class="nav" aria-label="Principal">
+    <a href="#" aria-current="page">Promociones</a><a href="#">Avisos y plazos</a>
+    <a href="#">Cómo funciona</a><a href="#">Datos abiertos</a>
+  </nav>
+  <div class="acciones">
+    <button class="tema" type="button" aria-pressed="false" aria-label="Cambiar a tema oscuro">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg><span class="etiqueta">Oscuro</span></button>
+    <button class="hamburguesa" type="button" aria-expanded="false" aria-label="Abrir el menú">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span class="etiqueta">Menú</span></button>
+  </div>
+</div></header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-llave" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.7 12.3 9.3-9.3M14 6l3 3M16.5 3.5l3 3"/></symbol>
+  <symbol id="i-reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-edificio" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M8 7h2M14 7h2M8 11h2M14 11h2M8 15h2M14 15h2M10 21v-3h4v3"/></symbol>
+  <symbol id="i-vecinos" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4.5-6.2"/></symbol>
+  <symbol id="i-baja" viewBox="0 0 24 24"><path d="m3 7 7 7 4-4 7 7M15 17h6v-6"/></symbol>
+  <symbol id="i-doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></symbol>
+  <symbol id="i-ok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 4.5-5"/></symbol>
+  <symbol id="i-flecha" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+</svg>
+
+<main class="cinta">
+  <section class="seccion hero">
+    <h1 class="hero__cifra">
+      <span class="hero__num">77</span>
+      <span class="hero__que">viviendas públicas se pueden pedir hoy en Valladolid</span>
+    </h1>
+    <figure class="hero__dibujo"><img src="/img/promocion.jpg" alt="" width="1200" height="768"></figure>
+    <div>
+      <ul class="hero__hechos">
+        <li><svg class="ic"><use href="#i-pin"/></svg><span><b>59</b> en Los Viveros, Valladolid · <b>18</b> en Medina del Campo</span></li>
+        <li><svg class="ic"><use href="#i-reloj"/></svg><span><span class="urge">Quedan 5 días</span> para pedir las de Medina del Campo</span></li>
+        <li><svg class="ic"><use href="#i-ok"/></svg><span>Comprobado hoy en la web oficial</span></li>
+      </ul>
+      <div class="hero__acciones">
+        <a class="c-boton" href="#">Ver las 77 viviendas <svg class="ic"><use href="#i-flecha"/></svg></a>
+        <a class="hero__enlace" href="#">Cómo se pide una</a>
+      </div>
+    </div>
+  </section>
+
+  <p class="franja">
+    <span><svg class="ic"><use href="#i-edificio"/></svg><b>6</b> promociones en la provincia</span>
+    <span><svg class="ic"><use href="#i-llave"/></svg><b>276</b> viviendas anunciadas</span>
+    <span><svg class="ic"><use href="#i-ok"/></svg><b>1</b> ya repartida</span>
+  </p>
+
+  <section class="seccion">
+    <h2 class="c-seccion"><svg class="ic"><use href="#i-reloj"/></svg>Plazo abierto</h2>
+    <div class="c-aviso">
+      <span class="c-reloj"><b>5</b><span>días</span></span>
+      <div>
+        <h3>Presentación de solicitudes · 27 viviendas en Medina del Campo</h3>
+        <p>Cierra el 12 de junio. 15 días naturales desde el anuncio en el BOP del 28 de mayo.</p>
+        <details><summary>Lo que dice el documento</summary>
+          <blockquote>Los interesados dispondrán de un plazo máximo para presentar sus solicitudes, y la documentación correspondiente, que concluirá a los quince días naturales, contados desde el día siguiente a la publicación de este Acuerdo en el Boletín Oficial de la Provincia de Valladolid.</blockquote>
+        </details>
+        <p class="c-fuente"><svg class="ic"><use href="#i-doc"/></svg> <a href="#">BOPVA-A-2026-01557</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion">
+    <h2 class="c-seccion"><svg class="ic"><use href="#i-edificio"/></svg>Promociones</h2>
+    <div class="c-filtros">
+      <button type="button" class="c-chip c-chip--on">Valladolid</button>
+      <button type="button" class="c-chip">Toda Castilla y León</button>
+      <span class="c-separa"></span>
+      <button type="button" class="c-chip c-chip--on">Todas</button>
+      <button type="button" class="c-chip">Con viviendas libres</button>
+      <button type="button" class="c-chip">Aún sin tabla</button>
+    </div>
+    <ul class="c-rejilla">
+      <li class="c-tarjeta">
+        <div class="c-tarjeta__alto">
+          <div><h3><a href="#">59 viviendas en Los Viveros</a></h3><p class="c-lugar">Valladolid · En ejecución</p></div>
+          <span class="c-pastilla">59 libres</span>
+        </div>
+        <div class="c-barra"><i style="width:100%"></i></div>
+        <div class="c-pie"><span>59 de 59 libres</span></div>
+      </li>
+      <li class="c-tarjeta">
+        <div class="c-tarjeta__alto">
+          <div><h3><a href="#">27 viviendas de promoción pública</a></h3><p class="c-lugar">Medina del Campo · Finalizada</p></div>
+          <span class="c-pastilla">18 libres</span>
+        </div>
+        <div class="c-barra"><i style="width:67%"></i></div>
+        <div class="c-pie"><span>18 de 27 libres</span><span>Plazo abierto</span></div>
+      </li>
+      <li class="c-tarjeta">
+        <div class="c-tarjeta__alto">
+          <div><h3><a href="#">15 viviendas de promoción pública</a></h3><p class="c-lugar">Villalón de Campos · Finalizada</p></div>
+          <span class="c-pastilla c-pastilla--no">Completa</span>
+        </div>
+        <div class="c-barra"><i class="c-barra--no" style="width:0%"></i></div>
+        <div class="c-pie"><span>0 de 15 libres</span></div>
+      </li>
+    </ul>
+  </section>
+
+  <section class="seccion">
+    <h2 class="c-seccion"><svg class="ic"><use href="#i-pin"/></svg>El municipio · Villalón de Campos</h2>
+    <div class="c-tarjeta c-tarjeta--ancha">
+      <dl class="c-tejas c-tejas--municipio">
+        <div class="c-teja"><dt><svg class="ic"><use href="#i-vecinos"/></svg>Habitantes</dt><dd>1.473 <span class="c-unidad">en 2025</span></dd></div>
+        <div class="c-teja"><dt><svg class="ic"><use href="#i-baja"/></svg>En diez años</dt><dd class="c-baja">−14,2 % <span class="c-unidad">desde 2015</span></dd></div>
+        <div class="c-teja"><dt><svg class="ic"><use href="#i-edificio"/></svg>Viviendas que ya hay</dt><dd>1.123 <span class="c-unidad">censo de 2021</span></dd></div>
+      </dl>
+      <p class="c-cuerpo">Un 14,2 % menos de vecinos que hace diez años.</p>
+      <p class="c-fuente">Fuente: <b>Junta de Castilla y León</b>, <a href="#">Estadística de Población</a> y <a href="#">de Viviendas</a> (CC BY 4.0).</p>
+    </div>
+  </section>
+</main>
+
+<footer class="pie"><div class="pie__cinta cinta">
+  <a class="marca" href="#"><span class="marca__logo" aria-hidden="true"></span>
+    <span><span class="marca__kicker">Aldea Pucela</span><span class="marca__nombre">Vivienda pública</span></span></a>
+  <div>
+    <p><b>Esta web no es oficial.</b> Para cualquier trámite, ve a la web de SOMACYL y al boletín. Todo dato lleva enlace a su fuente.</p>
+    <div class="pie__enlaces"><a href="#">Cómo funciona el proceso</a><a href="#">Avisos y plazos</a>
+      <a href="#">Datos abiertos</a><a href="#">De dónde salen los datos</a><a href="#">Privacidad</a></div>
+  </div>
+</div></footer>
+</div></body></html>
