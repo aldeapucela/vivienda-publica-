@@ -1,0 +1,3 @@
+Inter (Rasmus Andersson) e Inter Tight (Rasmus Andersson, Google Fonts) se distribuyen bajo la
+SIL Open Font License 1.1: https://openfontlicense.org
+Se autoalojan aquí para que esta web no haga ninguna petición a terceros.

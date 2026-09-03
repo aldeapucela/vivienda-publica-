@@ -90,6 +90,7 @@ escribe('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${SITIO}/sitemap.xml\
 copia('src/styles.css', 'styles.css');
 copia('src/app.js', 'app.js');
 copiaDir('src/img', 'img');
+copiaDir('src/fonts', 'fonts');
 copiaDir('data', 'data');
 copia('.nojekyll', '.nojekyll');
 // El dominio propio viaja en el artefacto para que Pages no lo pierda al desplegar.
