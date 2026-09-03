@@ -192,11 +192,10 @@ ${cuerpo}
   <div class="container pie__inner">
     ${marca('pie')}
     <div class="pie__texto">
-      <p><strong>Esta web no es oficial.</strong> La hacen vecinas y vecinos de
-        <a href="https://aldeapucela.org" rel="noopener">Aldea Pucela</a>, y ordena información que ya publica
-        <a href="https://tuyavivienda.es" rel="noopener">tuyavivienda.es</a> (SOMACYL, Junta de Castilla y León).
-        Para cualquier trámite, lo que vale es la web oficial y el boletín.</p>
-      <p>Aquí no se publican datos personales de quienes solicitan o reciben una vivienda.</p>
+      <p><strong>Esta web no es oficial.</strong> Para cualquier trámite, ve a la web de
+        <a href="https://tuyavivienda.es" rel="noopener">SOMACYL</a> y al boletín. La hacen vecinas y vecinos de
+        <a href="https://aldeapucela.org" rel="noopener">Aldea Pucela</a>; todo dato lleva enlace a su fuente y aquí
+        no hay datos personales de nadie.</p>
     </div>
     <nav class="pie__enlaces" aria-label="Enlaces del pie">
       <a href="/como-funciona/">Cómo funciona el proceso</a>

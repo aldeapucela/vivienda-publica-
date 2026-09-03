@@ -43,19 +43,6 @@
   --radio-m: 12px;
   --radio-l: 14px;
   --ancho: 68rem;
-
-  /* Alias de los nombres antiguos, para que los componentes que aún no se han
-     rediseñado sigan funcionando. Se quitan en la última tarea del rediseño. */
-  --brand-50: var(--acento-fondo);
-  --brand-100: var(--acento-fondo);
-  --brand-200: var(--acento-borde);
-  --brand-600: var(--acento);
-  --brand-700: var(--acento-fuerte);
-  --brand-900: var(--tinta);
-  --tarjeta: var(--panel);
-  --proxima: var(--aviso);
-  --proxima-fondo: var(--aviso-fondo);
-  --radio: var(--radio-l);
 }
 
 /* El oscuro solo se activa a petición: nunca por la preferencia del sistema. */
@@ -348,8 +335,6 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .pastilla--doc { background: var(--acento-fondo); color: var(--acento); font-weight: 500; }
 .pastilla--doc::before { display: none; }
 
-.vacio { color: var(--tinta-suave); }
-
 /* ---------- ficha ---------- */
 .miga { margin-bottom: 1rem; }
 .miga a { text-decoration: none; }
@@ -390,46 +375,55 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .tabla-scroll { overflow-x: auto; margin: 1rem 0; }
 .tabla { width: 100%; border-collapse: collapse; font-size: .9rem; }
 .tabla caption { text-align: left; margin-bottom: .5rem; }
-.tabla th, .tabla td { text-align: left; padding: .45rem .6rem; border-bottom: 1px solid var(--linea); white-space: nowrap; }
-.tabla th { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; color: var(--tinta-suave); }
+.tabla th, .tabla td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--linea); white-space: nowrap; }
+.tabla th { font-size: .78rem; font-weight: 600; color: var(--tinta-suave); }
 .tabla .num { text-align: right; font-variant-numeric: tabular-nums; }
-.tabla tbody tr:hover { background: var(--brand-50); }
+.tabla tbody tr:hover { background: var(--acento-fondo); }
+.historico summary { cursor: pointer; font-weight: 600; color: var(--acento); }
 
-.historico summary { cursor: pointer; font-weight: 600; }
-
+/* ---------- listas de documentos y avisos ---------- */
 .docs { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; }
 .docs li { padding-bottom: .75rem; border-bottom: 1px solid var(--linea); }
 .docs li:last-child { border-bottom: 0; padding-bottom: 0; }
 .docs p { margin: .25rem 0 0; }
+.novedades__resumen { font-weight: 600; color: var(--acento); }
+.docs li.es-nuevo { border-left: 3px solid var(--libre); padding-left: .7rem; }
+.docs li.es-nuevo > a::after {
+  content: 'nuevo'; margin-left: .4rem; font-size: .7rem; font-weight: 700; color: var(--libre);
+}
+.vacio { margin-top: 1rem; }
 
-/* ---------- prosa ---------- */
+/* ---------- prosa (avisos, cómo funciona, fuentes, privacidad, datos, 404) ---------- */
 .prosa { max-width: 44rem; }
-.prosa h2 { margin-top: 2rem; }
-.prosa h3 { margin-top: 1.5rem; font-size: 1.05rem; }
+.prosa h1 { margin-bottom: 1rem; }
+.prosa h2 { margin-top: 2.25rem; }
+.prosa h3 { margin-top: 1.5rem; }
 .prosa li { margin-bottom: .35rem; }
 .prosa blockquote {
-  margin: 1.25rem 0; padding: .5rem 1rem; border-left: 4px solid var(--brand-200);
-  color: var(--tinta-suave);
+  margin: 1.25rem 0; padding: .6rem 1rem; border-left: 3px solid var(--acento-borde);
+  color: var(--tinta-suave); background: var(--acento-fondo); border-radius: 0 var(--radio-s) var(--radio-s) 0;
 }
-.prosa code { background: var(--brand-50); padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
+.prosa code { background: var(--acento-fondo); padding: .1rem .35rem; border-radius: .3rem; font-size: .9em; }
 .prosa hr { border: 0; border-top: 1px solid var(--linea); margin: 2rem 0; }
+.prosa .seccion { margin-top: 1rem; }
 
 /* ---------- pie ---------- */
-.pie { border-top: 1px solid var(--linea); background: var(--tarjeta); padding-block: 2.25rem 2.75rem; }
+.pie { border-top: 1px solid var(--linea); background: var(--papel); padding-block: 2rem 2.5rem; }
 .pie__inner { display: grid; gap: 1.25rem; }
 @media (min-width: 52rem) {
-  .pie__inner { grid-template-columns: minmax(14rem, 18rem) 1fr; align-items: start; column-gap: 3rem; }
+  .pie__inner { grid-template-columns: minmax(14rem, 17rem) 1fr; align-items: start; column-gap: 3rem; }
   .marca--pie { grid-row: span 3; }
 }
-.pie p { margin: 0 0 .6rem; max-width: 52rem; font-size: .9rem; }
+.pie p { margin: 0 0 .6rem; max-width: 60ch; font-size: .875rem; color: var(--tinta-suave); line-height: 1.6; }
+.pie p strong { color: var(--tinta); }
 .pie__texto p:last-child { margin-bottom: 0; }
-.pie__enlaces { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; font-size: .9rem; }
+.pie__enlaces { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; font-size: .875rem; }
 .pie__enlaces a { text-decoration: none; border-bottom: 1px solid transparent; }
 .pie__enlaces a:hover { border-bottom-color: currentColor; }
 .pie .fino { margin-bottom: 0; }
 
 @media print {
-  .topbar, .filtros, .saltar { display: none; }
+  .topbar, .filtros, .saltar, .tema, .seguir { display: none; }
   body { background: #fff; }
 }
 
@@ -472,11 +466,4 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .cita blockquote {
   margin: .45rem 0 0; padding: .6rem .8rem; border-radius: var(--radio-s);
   background: var(--acento-fondo); color: var(--tinta); font-style: italic; line-height: 1.55;
-}
-
-.novedades__resumen { font-weight: 600; color: var(--brand-600); }
-.docs li.es-nuevo { border-left: 3px solid var(--libre); padding-left: .7rem; }
-.docs li.es-nuevo > a::after {
-  content: 'nuevo'; margin-left: .4rem; font-size: .7rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: .06em; color: var(--libre);
 }
