@@ -1,0 +1,15 @@
+{
+  "_nota": "Descarga manual puntual de los dos conjuntos del Portal de Datos Abiertos de la JCyL. El sha256 es el del CSV sin comprimir, tal y como lo sirvió la Junta: gunzip el .csv.gz y compruébalo. El pipeline diario NO descarga estos ficheros (ver docs/fuentes.md).",
+  "conjuntos": {
+    "poblacion": {
+      "sha256": "b5230c4a2c05017ccacfba6d60e71aa0ac3690b9fc1d6855c522a06a09091659",
+      "bytes": 3461881,
+      "fecha_captura": "2026-09-03"
+    },
+    "viviendas": {
+      "sha256": "58624b76b10e10d3e86bf1fb90f51618e6b236bde8d78c68ee149044bcbbf049",
+      "bytes": 432926,
+      "fecha_captura": "2026-09-03"
+    }
+  }
+}

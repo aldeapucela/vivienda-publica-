@@ -24,6 +24,9 @@ function HOY_INICIAL() { return new Date().toISOString().slice(0, 10); }
 const NOMBRES_PROPIOS = json('config/estilo.json', { nombres_propios: [] }).nombres_propios ?? [];
 const historico = json('data/historico.json', { registros: [] });
 const avisos = json('data/avisos.json', { avisos: [] }).avisos ?? [];
+// Contexto del municipio (población y parque de viviendas, Junta de Castilla y
+// León). Si el fichero no está, la web sale igual y sin ese bloque.
+const CONTEXTO = json('data/contexto-municipios.json', { conjuntos: [], municipios: [] });
 // Los plazos salen de los boletines (data/plazos.json) y config/plazos.json
 // solo sirve para corregir a mano lo que la extracción haga mal.
 const PLAZOS = mezcla(
@@ -285,6 +288,7 @@ function paginaPortada() {
      <strong>Ojo con el dato de viviendas libres:</strong> la tabla de la web oficial no se actualiza al ritmo del
      procedimiento, así que en una promoción ya sorteada puede seguir marcando viviendas «libres» que en realidad
      están adjudicadas. Aquí solo se cuentan como disponibles las de promociones sin reparto en marcha.</p>
+  ${resumenContexto(promociones)}
 </section>
 
 ${bloquePlazos(plazosVivos())}
@@ -372,6 +376,79 @@ function tarjeta(p) {
   </li>`;
 }
 
+/** 302614 → «302.614». Sin depender de la configuración regional del sistema. */
+function miles(n) {
+  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+/** -0.4 → «−0,4 %» · 13.3 → «+13,3 %» */
+function porcentaje(n) {
+  const signo = n > 0 ? '+' : n < 0 ? '−' : '';
+  return `${signo}${Math.abs(n).toFixed(1).replace('.', ',')} %`;
+}
+
+function contextoDe(localidad) {
+  return CONTEXTO.municipios.find((m) => m.localidad === localidad) ?? null;
+}
+
+function conjuntoDe(id) {
+  return CONTEXTO.conjuntos.find((c) => c.id === id) ?? {};
+}
+
+/**
+ * Para quién se construye: cuánta gente vive en el municipio y cuántas
+ * viviendas hay ya. No es adorno: diez viviendas no significan lo mismo en un
+ * municipio que crece que en uno que pierde vecinos.
+ *
+ * Sale de dos conjuntos del Portal de Datos Abiertos de la Junta de Castilla y
+ * León, cuya licencia (CC BY 4.0) obliga a citarla. Si el municipio no aparece
+ * en esos ficheros, no hay bloque: no se estima nada.
+ */
+function bloqueContexto(localidad) {
+  const c = contextoDe(localidad);
+  if (!c || (!c.poblacion && !c.viviendas)) return '';
+
+  const pob = conjuntoDe('poblacion');
+  const viv = conjuntoDe('viviendas');
+  const d = c.variacion_decada_pct;
+  const frase = d == null ? ''
+    : d <= -1 ? `${esc(localidad)} tiene un ${porcentaje(d).replace('−', '')} menos de habitantes que hace diez años.`
+    : d >= 1 ? `${esc(localidad)} tiene un ${porcentaje(d).replace('+', '')} más de habitantes que hace diez años.`
+    : `La población de ${esc(localidad)} está prácticamente igual que hace diez años.`;
+
+  return `<section class="bloque bloque--contexto">
+    <h2>El municipio</h2>
+    <dl class="cifras cifras--ficha">
+      ${c.poblacion ? `<div><dt>Habitantes</dt><dd>${miles(c.poblacion.habitantes)}
+        <span class="de">en ${c.poblacion.anio}</span></dd></div>` : ''}
+      ${c.variacion_decada_pct != null ? `<div><dt>En diez años</dt><dd>${porcentaje(c.variacion_decada_pct)}
+        <span class="de">desde ${c.poblacion_referencia.anio}</span></dd></div>` : ''}
+      ${c.viviendas ? `<div><dt>Viviendas que ya hay</dt><dd>${miles(c.viviendas.total)}
+        <span class="de">censo de ${c.viviendas.anio}</span></dd></div>` : ''}
+    </dl>
+    ${frase ? `<p>${frase}</p>` : ''}
+    <p class="fino">Fuente: ${c.poblacion ? `<a href="${esc(pob.ficha)}" rel="noopener">${esc(pob.titulo)}</a>` : ''}${c.poblacion && c.viviendas ? ' y ' : ''}${c.viviendas ? `<a href="${esc(viv.ficha)}" rel="noopener">${esc(viv.titulo)}</a>` : ''},
+       <strong>Junta de Castilla y León</strong> (<a href="https://creativecommons.org/licenses/by/4.0/deed.es" rel="noopener">CC BY 4.0</a>),
+       del <a href="https://datosabiertos.jcyl.es" rel="noopener">Portal de Datos Abiertos de Castilla y León</a>.
+       Ficheros leídos el ${esc(pob.fecha_captura ?? viv.fecha_captura ?? '')}.
+       En esos ficheros el municipio es «${esc(c.municipio_jcyl)}», código INE ${esc(c.codigo_ine)}.</p>
+  </section>`;
+}
+
+/** «19 de las 27 promociones están donde se pierde población» — para la portada. */
+function resumenContexto(lista) {
+  const conDato = lista.filter((p) => contextoDe(p.localidad)?.variacion_decada_pct != null);
+  if (conDato.length < lista.length / 2) return '';
+  const bajan = conDato.filter((p) => contextoDe(p.localidad).variacion_decada_pct < 0);
+  if (!bajan.length) return '';
+  const anio = conjuntoDe('poblacion').anio_ultimo;
+  return `<p class="fino">${bajan.length} de las ${conDato.length} promociones están en municipios con menos
+     habitantes que hace diez años. Lo contamos con la
+     <a href="${esc(conjuntoDe('poblacion').ficha)}" rel="noopener">Estadística de Población</a> de la
+     <strong>Junta de Castilla y León</strong> (${esc(String(anio))}), y lo tienes municipio a municipio en
+     cada ficha y en <a href="/datos/">datos abiertos</a>.</p>`;
+}
+
 function paginaPromocion(p) {
   const d = p.disponibilidad ?? {};
   const serie = (historico.registros ?? []).filter((r) => r.promocion_id === p.id);
@@ -435,6 +512,8 @@ function paginaPromocion(p) {
       ${p.documentos.map(documentoHtml).join('\n      ')}
     </ul>` : '<p class="fino">La ficha oficial no enlaza documentos todavía.</p>'}
   </section>
+
+  ${bloqueContexto(p.localidad)}
 
   <section class="bloque bloque--fuente">
     <h2>De dónde sale esto</h2>
@@ -769,6 +848,11 @@ function paginaDatos() {
       <p class="fino">Qué página o documento respalda cada dato, cuándo se leyó y con qué huella digital.</p></li>
   <li><a href="/data/promociones/">data/promociones/&lt;id&gt;.json</a> <span class="pastilla pastilla--doc">Detalle</span>
       <p class="fino">Ficha completa de cada promoción, vivienda a vivienda.</p></li>
+  <li><a href="/data/contexto-municipios.json">contexto-municipios.json</a> <span class="pastilla pastilla--doc">Contexto</span>
+      <p class="fino">Habitantes y parque de viviendas de cada municipio con promoción, con el año de cada dato y
+         el enlace al conjunto de origen. Cruce de dos conjuntos del
+         <a href="https://datosabiertos.jcyl.es" rel="noopener">Portal de Datos Abiertos de Castilla y León</a>
+         (datos de la <strong>Junta de Castilla y León</strong>, CC BY 4.0) con nuestras promociones.</p></li>
 </ul>
 <h2>Lo que no vas a encontrar aquí</h2>
 <p>Ningún dato personal: ni nombres, ni DNI, ni la posición de nadie en una lista. No es un descuido: es la regla

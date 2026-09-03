@@ -47,6 +47,9 @@ jobs:
       - name: Detectar novedades y plazos que se acercan
         run: node scripts/avisos.mjs
 
+      - name: Contexto de los municipios (datos abiertos de la JCyL)
+        run: node scripts/contexto.mjs --vigilar
+
       - name: Test de privacidad
         run: node scripts/check-privacidad.mjs
 

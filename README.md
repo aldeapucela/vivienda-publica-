@@ -109,12 +109,14 @@ node scripts/plazos.mjs --releer   # vuelve a leerlos todos
 | `scripts/pdf.mjs` | Lector de texto de PDF, sin dependencias. |
 | `scripts/avisos.mjs` | Detecta qué ha cambiado y qué plazos se acercan → `data/avisos.json`. |
 | `scripts/build.mjs` | Generador del sitio estático → `dist/` (incluye RSS y calendario). |
+| `scripts/contexto.mjs` | Cruza los datos abiertos de la JCyL (población y viviendas por municipio) con las promociones → `data/contexto-municipios.json`. Puro: no descarga los CSV. |
 | `scripts/check-privacidad.mjs` | Test que impide publicar cualquier cosa que parezca un dato personal. |
 | `src/styles.css` · `src/app.js` | Hoja única y el único JS (filtra tarjetas; la web funciona sin él). |
 | `data/` | Datos generados. Única fuente de verdad del sitio. |
 | `config/` | Lo poco que se mantiene a mano: correcciones de plazos, provincia de localidades que no son capital y nombres propios para los títulos. |
 | `docs/` | `fuentes.md`, `privacidad.md` y `proceso.md` se publican como páginas del sitio; `verificacion-fuentes.md` es la nota técnica interna (robots literales, endpoints, estructura de la ficha) y no se publica. |
 | `fixtures/` | Dos fichas reales guardadas para probar el parser sin red. |
+| `fuentes/jcyl/` | Los dos CSV del Portal de Datos Abiertos de Castilla y León, comprimidos, con la fecha y el `sha256` de la descarga en `captura.json`. Se bajan **a mano** (su ruta está prohibida a los programas: ver [docs/fuentes.md](docs/fuentes.md)) y cambian una vez al año. |
 
 ## Puesta en marcha
 
@@ -196,5 +198,8 @@ Tres cosas que hacen que esto se pueda dejar solo:
 - **Código:** [AGPL-3.0-only](LICENSE).
 - **Datos y contenidos del sitio:** [CC BY-SA 4.0](LICENSE-DATA) por Aldea Pucela. Son datos de
   hecho extraídos de fuentes oficiales, siempre enlazadas.
+- **Población y parque de viviendas por municipio:** de la **Junta de Castilla y León**
+  ([Portal de Datos Abiertos de Castilla y León](https://datosabiertos.jcyl.es)), reutilizados con
+  su licencia [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es).
 - Esta web **no es oficial** ni está asociada a SOMACYL ni a la Junta de Castilla y León. «TUYA» es
   una marca de la Junta y aquí solo se cita para decir de dónde sale la información.

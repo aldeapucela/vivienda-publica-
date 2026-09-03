@@ -1,0 +1,456 @@
+{
+  "comprobado": "2026-09-03",
+  "fuente": "https://datosabiertos.jcyl.es",
+  "licencia_datos": "Datos originales de la Junta de Castilla y León (CC BY 4.0). El cruce con las promociones, CC BY-SA 4.0 (Aldea Pucela).",
+  "atribucion": "Junta de Castilla y León",
+  "conjuntos": [
+    {
+      "id": "poblacion",
+      "titulo": "Estadística de Población",
+      "ficha": "https://datosabiertos.jcyl.es/web/jcyl/set/es/demografia/poblacion/1284801460210",
+      "descarga": "https://datosabiertos.jcyl.es/web/jcyl/risp/es/demografia/poblacion/1284801460210.csv",
+      "variable": "Población de derecho (total)",
+      "actualizacion": "anual",
+      "licencia": "CC BY 4.0",
+      "atribucion": "Junta de Castilla y León",
+      "anio_ultimo": 2025,
+      "fecha_captura": "2026-09-03",
+      "sha256": "b5230c4a2c05017ccacfba6d60e71aa0ac3690b9fc1d6855c522a06a09091659",
+      "descargado_a_mano": true
+    },
+    {
+      "id": "viviendas",
+      "titulo": "Estadística de Viviendas",
+      "ficha": "https://datosabiertos.jcyl.es/web/jcyl/set/es/urbanismo-infraestructuras/viviendas/1284801692025",
+      "descarga": "https://datosabiertos.jcyl.es/web/jcyl/risp/es/urbanismo-infraestructuras/viviendas/1284801692025.csv",
+      "variable": "Viviendas (censo)",
+      "actualizacion": "decenal",
+      "licencia": "CC BY 4.0",
+      "atribucion": "Junta de Castilla y León",
+      "anio_ultimo": 2021,
+      "fecha_captura": "2026-09-03",
+      "sha256": "58624b76b10e10d3e86bf1fb90f51618e6b236bde8d78c68ee149044bcbbf049",
+      "descargado_a_mano": true
+    }
+  ],
+  "vigilancia": {
+    "comprobado": "2026-09-03",
+    "hay_novedad": false,
+    "conjuntos": [
+      {
+        "id": "poblacion",
+        "ficha": "https://datosabiertos.jcyl.es/web/jcyl/set/es/demografia/poblacion/1284801460210",
+        "fecha_ordenacion": "2025-07-07",
+        "fecha_ordenacion_referencia": "2025-07-07",
+        "fecha_ordenacion_previa": null,
+        "cambiada": false
+      },
+      {
+        "id": "viviendas",
+        "ficha": "https://datosabiertos.jcyl.es/web/jcyl/set/es/urbanismo-infraestructuras/viviendas/1284801692025",
+        "fecha_ordenacion": "2025-07-07",
+        "fecha_ordenacion_referencia": "2025-07-07",
+        "fecha_ordenacion_previa": null,
+        "cambiada": false
+      }
+    ]
+  },
+  "municipios": [
+    {
+      "localidad": "Aranda de Duero",
+      "municipio_jcyl": "ARANDA DE DUERO",
+      "codigo_ine": "09018",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 33956
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 32880
+      },
+      "variacion_decada_pct": 3.3,
+      "viviendas": {
+        "anio": 2021,
+        "total": 19708
+      }
+    },
+    {
+      "localidad": "Astorga",
+      "municipio_jcyl": "ASTORGA",
+      "codigo_ine": "24008",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 10305
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 11387
+      },
+      "variacion_decada_pct": -9.5,
+      "viviendas": {
+        "anio": 2021,
+        "total": 7776
+      }
+    },
+    {
+      "localidad": "Ávila",
+      "municipio_jcyl": "AVILA",
+      "codigo_ine": "05019",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 59107
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 58358
+      },
+      "variacion_decada_pct": 1.3,
+      "viviendas": {
+        "anio": 2021,
+        "total": 34843
+      }
+    },
+    {
+      "localidad": "Burgos",
+      "municipio_jcyl": "BURGOS",
+      "codigo_ine": "09059",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 177402
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 177100
+      },
+      "variacion_decada_pct": 0.2,
+      "viviendas": {
+        "anio": 2021,
+        "total": 93766
+      }
+    },
+    {
+      "localidad": "Ciudad Rodrigo",
+      "municipio_jcyl": "CIUDAD RODRIGO",
+      "codigo_ine": "37107",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 11750
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 13052
+      },
+      "variacion_decada_pct": -10,
+      "viviendas": {
+        "anio": 2021,
+        "total": 9525
+      }
+    },
+    {
+      "localidad": "El Barco de Ávila",
+      "municipio_jcyl": "BARCO DE AVILA (EL)",
+      "codigo_ine": "05021",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 2308
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 2576
+      },
+      "variacion_decada_pct": -10.4,
+      "viviendas": {
+        "anio": 2021,
+        "total": 2506
+      }
+    },
+    {
+      "localidad": "León",
+      "municipio_jcyl": "LEON",
+      "codigo_ine": "24089",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 123446
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 127817
+      },
+      "variacion_decada_pct": -3.4,
+      "viviendas": {
+        "anio": 2021,
+        "total": 79199
+      }
+    },
+    {
+      "localidad": "Medina del Campo",
+      "municipio_jcyl": "MEDINA DEL CAMPO",
+      "codigo_ine": "47085",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 20215
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 21110
+      },
+      "variacion_decada_pct": -4.2,
+      "viviendas": {
+        "anio": 2021,
+        "total": 11153
+      }
+    },
+    {
+      "localidad": "Miranda de Ebro",
+      "municipio_jcyl": "MIRANDA DE EBRO",
+      "codigo_ine": "09219",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 36622
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 36173
+      },
+      "variacion_decada_pct": 1.2,
+      "viviendas": {
+        "anio": 2021,
+        "total": 21007
+      }
+    },
+    {
+      "localidad": "Palencia",
+      "municipio_jcyl": "PALENCIA",
+      "codigo_ine": "34120",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 77466
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 79595
+      },
+      "variacion_decada_pct": -2.7,
+      "viviendas": {
+        "anio": 2021,
+        "total": 44610
+      }
+    },
+    {
+      "localidad": "Paredes de Nava",
+      "municipio_jcyl": "PAREDES DE NAVA",
+      "codigo_ine": "34123",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 1927
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 1981
+      },
+      "variacion_decada_pct": -2.7,
+      "viviendas": {
+        "anio": 2021,
+        "total": 1252
+      }
+    },
+    {
+      "localidad": "Peñaranda de Bracamonte",
+      "municipio_jcyl": "PEÑARANDA DE BRACAMONTE",
+      "codigo_ine": "37246",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 6162
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 6557
+      },
+      "variacion_decada_pct": -6,
+      "viviendas": {
+        "anio": 2021,
+        "total": 4185
+      }
+    },
+    {
+      "localidad": "Ponferrada",
+      "municipio_jcyl": "PONFERRADA",
+      "codigo_ine": "24115",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 63186
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 66884
+      },
+      "variacion_decada_pct": -5.5,
+      "viviendas": {
+        "anio": 2021,
+        "total": 42549
+      }
+    },
+    {
+      "localidad": "Puebla de Sanabria",
+      "municipio_jcyl": "PUEBLA DE SANABRIA",
+      "codigo_ine": "49166",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 1378
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 1484
+      },
+      "variacion_decada_pct": -7.1,
+      "viviendas": {
+        "anio": 2021,
+        "total": 1405
+      }
+    },
+    {
+      "localidad": "Santa Cristina de la Polvorosa",
+      "municipio_jcyl": "SANTA CRISTINA DE LA POLVOROSA",
+      "codigo_ine": "49200",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 1034
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 1105
+      },
+      "variacion_decada_pct": -6.4,
+      "viviendas": {
+        "anio": 2021,
+        "total": 731
+      }
+    },
+    {
+      "localidad": "Segovia",
+      "municipio_jcyl": "SEGOVIA",
+      "codigo_ine": "40194",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 52375
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 52728
+      },
+      "variacion_decada_pct": -0.7,
+      "viviendas": {
+        "anio": 2021,
+        "total": 29036
+      }
+    },
+    {
+      "localidad": "Soria",
+      "municipio_jcyl": "SORIA",
+      "codigo_ine": "42173",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 41025
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 39168
+      },
+      "variacion_decada_pct": 4.7,
+      "viviendas": {
+        "anio": 2021,
+        "total": 25244
+      }
+    },
+    {
+      "localidad": "Valencia de Don Juan",
+      "municipio_jcyl": "VALENCIA DE DON JUAN",
+      "codigo_ine": "24188",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 5103
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 5181
+      },
+      "variacion_decada_pct": -1.5,
+      "viviendas": {
+        "anio": 2021,
+        "total": 4287
+      }
+    },
+    {
+      "localidad": "Valladolid",
+      "municipio_jcyl": "VALLADOLID",
+      "codigo_ine": "47186",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 302614
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 303905
+      },
+      "variacion_decada_pct": -0.4,
+      "viviendas": {
+        "anio": 2021,
+        "total": 159363
+      }
+    },
+    {
+      "localidad": "Viana de Cega",
+      "municipio_jcyl": "VIANA DE CEGA",
+      "codigo_ine": "47193",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 2282
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 2015
+      },
+      "variacion_decada_pct": 13.3,
+      "viviendas": {
+        "anio": 2021,
+        "total": 1556
+      }
+    },
+    {
+      "localidad": "Villalón de Campos",
+      "municipio_jcyl": "VILLALON DE CAMPOS",
+      "codigo_ine": "47214",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 1473
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 1716
+      },
+      "variacion_decada_pct": -14.2,
+      "viviendas": {
+        "anio": 2021,
+        "total": 1123
+      }
+    },
+    {
+      "localidad": "Zamora",
+      "municipio_jcyl": "ZAMORA",
+      "codigo_ine": "49275",
+      "poblacion": {
+        "anio": 2025,
+        "habitantes": 59815
+      },
+      "poblacion_referencia": {
+        "anio": 2015,
+        "habitantes": 63831
+      },
+      "variacion_decada_pct": -6.3,
+      "viviendas": {
+        "anio": 2021,
+        "total": 39710
+      }
+    }
+  ]
+}

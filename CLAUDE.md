@@ -10,18 +10,26 @@ se pregunta, no se busca la manera de saltarla.
 
 2. **CERO CONTENIDO INVENTADO.** Todo dato publicado sale de una fuente oficial identificada, con
    su URL, su fecha de captura y el `sha256` de lo que se leyó. Si no hay fuente, el campo es
-   `null` y la web dice «no lo sabemos». Nunca se rellena un hueco por verosimilitud.
+   `null` y la web dice «no lo sabemos». Nunca se rellena un hueco por verosimilitud. Si la fuente
+   exige cita —los dos conjuntos de `datosabiertos.jcyl.es` son CC BY 4.0—, la cita a la **Junta de
+   Castilla y León** se publica junto al dato, no escondida en un pie.
 
 3. **ROBOTS ANTES QUE NADA.** `scripts/sync.mjs` lee `robots.txt` antes de cada tanda y aborta si
    una ruta deja de estar permitida. Estado comprobado el 13/08/2026: `tuyavivienda.es` permite el
    rastreo de sus páginas; `bocyl.jcyl.es` **prohíbe `/boletines/`**, así que de BOCYL solo se
-   vigila el RSS y se enlaza. Ver `docs/fuentes.md`.
+   vigila el RSS y se enlaza. Comprobado el 03/09/2026: `datosabiertos.jcyl.es` permite las fichas
+   de sus conjuntos, pero la aplicación que sirve los CSV (`www.jcyl.es/sie/`) **está prohibida**;
+   de ahí que esos dos ficheros se bajen a mano y el programa solo vigile la ficha.
+   Ver `docs/fuentes.md`.
 
-4. **SOLO SE DESCARGAN BOLETINES.** Se bajan los anuncios oficiales (`bocyl`, `bop`,
+4. **SOLO SE DESCARGA LO QUE ESTÁ PERMITIDO, Y CASI TODO SON BOLETINES.** Se bajan los anuncios oficiales (`bocyl`, `bop`,
    `correccion`) alojados en `tuyavivienda.es` para leerles los plazos, y nada más. Los
    `listado_nominal` no se descargan jamás, ni «solo para mirar»: llevan nombres. El PDF se lee en
    memoria y no se guarda en el repositorio; de él solo queda la fecha, la regla del plazo, la cita
    literal y el `sha256`. Cualquier cita que dispare el detector de datos personales se descarta.
+   Única excepción a lo anterior, y no la amplíes sin preguntar: los dos CSV de datos abiertos de la
+   JCyL que viven en `fuentes/jcyl/`, bajados a mano una vez porque su ruta está prohibida a los
+   programas. Ningún script los descarga.
 
 5. **PRENSA ≠ FUENTE.** Un dato de prensa no se publica hasta confirmarlo en la ficha oficial, en
    BOCYL o en el boletín provincial.
@@ -58,6 +66,8 @@ se pregunta, no se busca la manera de saltarla.
 
 - `npm test` antes de cualquier commit (self-test del parser + test de privacidad).
 - El parser vive en `scripts/lib.mjs` y es puro: se prueba sin red, con `fixtures/`.
+- `scripts/contexto.mjs` también es puro: lee los CSV de `fuentes/jcyl/` y nunca los descarga. Solo
+  toca la red con `--vigilar`, y solo para pedir la ficha del conjunto.
 - Los textos de la web están en `docs/*.md` y en `scripts/build.mjs`; no hay CMS.
 - Si la fuente cambia su HTML, se arregla el parser y se añade un caso al self-test. No se
   «apaña» el dato a mano en `data/`.

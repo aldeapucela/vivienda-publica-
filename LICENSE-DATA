@@ -1,6 +1,6 @@
 # Licencia de los datos
 
-Los ficheros de `data/` y los contenidos publicados en https://aldeapucela.github.io/vivienda-publica- se
+Los ficheros de `data/` y los contenidos publicados en https://vivienda.aldeapucela.org se
 distribuyen bajo **Creative Commons Reconocimiento-CompartirIgual 4.0 Internacional
 (CC BY-SA 4.0)** por **Aldea Pucela**.
 
@@ -21,6 +21,22 @@ documentos oficiales que esas fichas enlazan.
 Cada dato lleva en `data/fuentes.json` la URL de origen, la fecha de captura y la huella `sha256`
 de la página leída, de modo que cualquiera puede comprobarlo. No se reproducen textos, imágenes,
 planos ni documentos de la fuente: siempre se enlaza al original.
+
+## Datos de terceros incluidos
+
+`data/contexto-municipios.json` contiene población y número de viviendas por municipio procedentes
+del **Portal de Datos Abiertos de Castilla y León**, conjuntos *Estadística de Población* y
+*Estadística de Viviendas*, cuyo titular es la **Junta de Castilla y León** y que se publican con
+licencia **CC BY 4.0**:
+
+https://creativecommons.org/licenses/by/4.0/deed.es
+
+Su reutilización obliga a citar la fuente, y así se cita en la web y en el propio fichero:
+
+> Población y parque de viviendas: Junta de Castilla y León (CC BY 4.0), Portal de Datos Abiertos de
+> Castilla y León. Elaboración del cruce con las promociones: Aldea Pucela (CC BY-SA 4.0).
+
+La Junta de Castilla y León no avala este proyecto ni tiene relación con él.
 
 ## Lo que no hay en estos datos
 

@@ -10,6 +10,7 @@ enlace al documento del que se ha sacado. Última comprobación de las fuentes: 
 | **tuyavivienda.es** (SOMACYL) | La ficha de cada promoción: número de viviendas, dirección, estado de la obra, la tabla con el estado de cada vivienda —libre, próximamente u ocupada—, su superficie y su renta, y los enlaces a los documentos oficiales. |
 | **Boletín Oficial de la Provincia y BOCYL** | Las convocatorias y sus plazos. Se leen los anuncios y se enlazan siempre. |
 | **somacyl.es** | La sociedad pública que promueve las viviendas: quién es y cómo contactar con ella. |
+| **datosabiertos.jcyl.es** (Portal de Datos Abiertos de la Junta de Castilla y León) | El contexto del municipio donde cae cada promoción: cuántos habitantes tiene y cuántas viviendas hay ya. Dos conjuntos: *Estadística de Población* (anual, desde 1986) y *Estadística de Viviendas* (censos de 1991, 2001, 2011 y 2021). |
 
 ## Qué se hace exactamente con ellas
 
@@ -36,6 +37,45 @@ algo que todavía no ha ocurrido, no se inventa una fecha: se enseña la regla y
 
 **Los listados de admitidos y adjudicatarios llevan nombres de personas.** Esos documentos se enlazan
 a la web oficial y no se descargan, no se copian y no se leen nunca. [Por qué](/privacidad/).
+
+## Datos abiertos de la Junta
+
+En cada ficha de promoción hay un bloque que dice cuánta gente vive en ese municipio, cuánto ha
+cambiado en diez años y cuántas viviendas hay ya construidas. No es adorno: diez viviendas nuevas no
+significan lo mismo en un pueblo que crece que en uno que ha perdido un 14 % de sus vecinos.
+
+Esos dos datos salen del **Portal de Datos Abiertos de Castilla y León**:
+
+| Conjunto | Qué se usa | Cada cuánto cambia |
+|---|---|---|
+| [Estadística de Población](https://datosabiertos.jcyl.es/web/jcyl/set/es/demografia/poblacion/1284801460210) | «Población de derecho (total)» por municipio y año: el último año publicado y el de diez años antes | Una vez al año |
+| [Estadística de Viviendas](https://datosabiertos.jcyl.es/web/jcyl/set/es/urbanismo-infraestructuras/viviendas/1284801692025) | Número de viviendas por municipio en el último censo | Cada diez años (censo) |
+
+Los datos son de la **Junta de Castilla y León** y se publican con licencia
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es), que obliga a citarla: por eso la
+cita aparece en cada bloque, en [datos abiertos](/datos/) y en el propio fichero que generamos.
+
+**Estos dos ficheros no los descarga el programa.** La aplicación de la Junta que los sirve está
+prohibida a los programas automáticos por su propio fichero de reglas (`Disallow: /sie/`), así que se
+bajaron **a mano una sola vez**, el 3 de septiembre de 2026, y viven en `fuentes/jcyl/` junto con la
+huella digital (`sha256`) del fichero tal y como lo sirvió la Junta: cualquiera puede descomprimirlo
+y comprobar que es exactamente ese. Si el fichero del repositorio no coincide con su huella, el
+proceso se para y no publica nada.
+
+Lo que sí hace el programa, una vez al mes, es mirar la **ficha** del conjunto —esa página sí está
+permitida— para ver si la Junta ha publicado datos nuevos. Cuando eso pase, la actualización diaria
+lo dirá en su registro y habrá que refrescar el fichero a mano:
+
+1. Abrir la ficha del conjunto y pulsar «Ir a descargas».
+2. Bajar el CSV con la misma selección de siempre: filas por `FECHA` y `COD_MUNICIPIO`, y la variable
+   «POBLACIÓN DE DERECHO (TOTAL)» o «VIVIENDAS» según el conjunto.
+3. Comprimirlo en `fuentes/jcyl/poblacion.csv.gz` (o `viviendas.csv.gz`) con `gzip -9 -n`.
+4. Apuntar en `fuentes/jcyl/captura.json` la fecha y el `sha256` del CSV **sin comprimir**
+   (`shasum -a 256 fichero.csv`).
+5. `node scripts/contexto.mjs && npm test`, y revisar el diff de `data/contexto-municipios.json`.
+
+Si un municipio con promoción no aparece en los ficheros de la Junta, su ficha se queda sin ese
+bloque. Preferimos un hueco a un dato aproximado.
 
 ## Cómo se piden las páginas
 
@@ -80,3 +120,8 @@ SOMACYL, al amparo de las leyes de transparencia. Si lo publican, aparecerá aqu
 Los ficheros están publicados en abierto, en formatos estándar, y se pueden usar citando la fuente:
 [datos abiertos](/datos/). Son datos de hecho extraídos de información pública, y siempre se enlaza
 al documento original en vez de copiar textos, imágenes o documentos.
+
+Una parte no es nuestra y tiene su propia licencia: la población y el número de viviendas por
+municipio son de la **Junta de Castilla y León** ([CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es)),
+del Portal de Datos Abiertos de Castilla y León. Si reutilizas `contexto-municipios.json`, cita a la
+Junta además de a nosotros.

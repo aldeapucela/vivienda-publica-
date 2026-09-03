@@ -56,7 +56,7 @@ for (const [donde, z] of plazos) {
 }
 
 // 4. No puede haber PDF guardados en el repo: no descargamos documentos.
-for (const dir of ['data', 'fixtures', 'ingest']) {
+for (const dir of ['data', 'fixtures', 'fuentes', 'ingest']) {
   const base = path.join(RAIZ, dir);
   if (!fs.existsSync(base)) continue;
   for (const f of ficheros(base)) {
