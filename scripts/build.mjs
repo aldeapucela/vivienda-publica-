@@ -371,29 +371,32 @@ ${resumenContexto(promociones)}
 
 ${bloquePlazos(plazosVivos())}
 
-<section class="bloque bloque--tuyo" id="lo-tuyo" hidden>
-  <h2>Lo que sigues</h2>
-  <p class="fino">Las promociones que has marcado. Vuelve a pulsar «La sigues» para quitarlas.</p>
+<section class="seccion" id="lo-tuyo" hidden>
+  <h2 class="seccion__titulo">${icono('campana')}Lo que sigues</h2>
   <ul class="tarjetas" id="tuyo-listado"></ul>
+  <p class="fino">Vuelve a pulsar «La sigues» en una promoción para quitarla de aquí.</p>
 </section>
 
-<section class="filtros" aria-label="Filtros">
-  <div class="filtros__grupo" role="group" aria-label="Provincia">
-    <button type="button" data-provincia="Valladolid" class="activo">Valladolid</button>
-    <button type="button" data-provincia="todas">Toda Castilla y León</button>
+<section class="seccion">
+  <h2 class="seccion__titulo">${icono('edificio')}Promociones</h2>
+  <div class="filtros" role="group" aria-label="Filtros">
+    <div class="filtros__grupo" role="group" aria-label="Provincia">
+      <button type="button" data-provincia="Valladolid" class="activo">Valladolid</button>
+      <button type="button" data-provincia="todas">Toda Castilla y León</button>
+    </div>
+    <span class="filtros__separa" aria-hidden="true"></span>
+    <div class="filtros__grupo" role="group" aria-label="Situación">
+      <button type="button" data-estado="todas" class="activo">Todas</button>
+      <button type="button" data-estado="libres">Se pueden pedir</button>
+      <button type="button" data-estado="reparto">En reparto o adjudicadas</button>
+      <button type="button" data-estado="sin-tabla">Aún sin tabla</button>
+    </div>
   </div>
-  <div class="filtros__grupo" role="group" aria-label="Situación">
-    <button type="button" data-estado="todas" class="activo">Todas</button>
-    <button type="button" data-estado="libres">Se pueden pedir</button>
-    <button type="button" data-estado="reparto">En reparto o adjudicadas</button>
-    <button type="button" data-estado="sin-tabla">Aún sin tabla</button>
-  </div>
-</section>
-
-<ul class="tarjetas" id="listado">
+  <ul class="tarjetas" id="listado">
 ${ordenadas(promociones).map(tarjeta).join('\n')}
-</ul>
-<p class="vacio" id="vacio" hidden>No hay promociones con ese filtro.</p>
+  </ul>
+  <p class="vacio fino" id="vacio" hidden>No hay promociones con ese filtro.</p>
+</section>
 
 ${ultimosAvisos()}
 `;
@@ -425,31 +428,40 @@ function tarjeta(p) {
   const d = p.disponibilidad ?? {};
   const r = reparto(p.id);
   let clase = 'pendiente';
-  let etiqueta = 'Aún sin tabla de viviendas';
+  let etiqueta = 'Sin tabla';
+  let pie = p.n_viviendas ? `${p.n_viviendas} viviendas` : '';
   if (r.estado === 'adjudicada') {
-    clase = 'completa';
-    etiqueta = r.desde ? `Adjudicada el ${r.desde}` : 'Ya adjudicada';
+    clase = 'completa'; etiqueta = 'Adjudicada';
+    pie = r.desde ? `Adjudicada el ${r.desde}` : pie;
   } else if (r.estado === 'en_reparto') {
-    clase = 'pendiente';
-    etiqueta = 'Reparto en marcha';
+    clase = 'reparto'; etiqueta = 'En reparto';
   } else if (d.publicada) {
     clase = d.libres > 0 ? 'libre' : 'completa';
-    etiqueta = d.libres > 0 ? `${d.libres} libres de ${d.total}` : `Sin viviendas libres (${d.total})`;
+    etiqueta = d.libres > 0 ? `${d.libres} libres` : 'Completa';
+    pie = `${d.libres} de ${d.total} libres`;
   }
   const marcaFiltro = r.estado !== 'sin_reparto' ? 'reparto'
     : d.publicada ? (d.libres > 0 ? 'si' : 'no') : 'sin-tabla';
+  const conPlazo = plazosVivos(p.id).length > 0;
+  const ocupacion = d.publicada && d.total ? Math.round((d.libres / d.total) * 100) : null;
+  const lugar = [p.localidad, p.provincia && p.provincia !== p.localidad ? p.provincia : null, p.estado_obra?.toLowerCase()]
+    .filter(Boolean).map(esc).join(' · ');
+
   return `  <li class="tarjeta" data-provincia="${esc(p.provincia ?? '')}" data-libres="${marcaFiltro}">
     <article>
-      <p class="tarjeta__lugar">${esc(p.localidad ?? '')}${p.provincia && p.provincia !== p.localidad ? ` <span class="fino">(${esc(p.provincia)})</span>` : ''}</p>
-      <h2><a href="/promocion/${esc(p.id)}/">${esc(minusculiza(p.nombre, [...NOMBRES_PROPIOS, p.localidad, p.provincia]))}</a></h2>
-      <p class="estado estado--${clase}">${esc(etiqueta)}</p>
-      ${botonSeguir(p.id)}
-      <ul class="tarjeta__datos">
-        ${p.n_viviendas ? `<li>${p.n_viviendas} viviendas</li>` : ''}
-        ${p.categoria ? `<li>${esc(p.categoria)}</li>` : ''}
-        ${p.estado_obra ? `<li>Obra: ${esc(p.estado_obra.toLowerCase())}</li>` : ''}
-        ${p.estado_procedimiento ? `<li>Procedimiento ${esc(p.estado_procedimiento)}</li>` : ''}
-      </ul>
+      <div class="tarjeta__alto">
+        <div>
+          <h2><a href="/promocion/${esc(p.id)}/">${esc(minusculiza(p.nombre, [...NOMBRES_PROPIOS, p.localidad, p.provincia]))}</a></h2>
+          <p class="tarjeta__lugar">${lugar}</p>
+        </div>
+        <span class="pastilla pastilla--${clase}">${esc(etiqueta)}</span>
+      </div>
+      ${ocupacion != null ? `<div class="barra${ocupacion ? '' : ' barra--vacia'}" role="img" aria-label="${d.libres} de ${d.total} libres"><i style="width:${ocupacion}%"></i></div>` : ''}
+      <div class="tarjeta__pie">
+        ${pie ? `<span>${esc(pie)}</span>` : ''}
+        ${conPlazo ? `<span>${icono('reloj')} Plazo abierto</span>` : ''}
+        ${botonSeguir(p.id)}
+      </div>
     </article>
   </li>`;
 }
@@ -733,7 +745,7 @@ function nombreTipo(tipo) {
   }[tipo] ?? 'Documento';
 }
 
-/** Botón de «me interesa». Sin JS no estorba: se oculta con CSS hasta que el JS lo activa. */
+/** Botón de «me interesa». Sin JS no estorba: va oculto hasta que el JS lo activa. */
 function botonSeguir(id, tamano = '') {
   return `<button type="button" class="seguir${tamano ? ` seguir--${tamano}` : ''}" data-seguir="${esc(id)}" hidden
         aria-pressed="false">Me interesa</button>`;
@@ -742,8 +754,8 @@ function botonSeguir(id, tamano = '') {
 function ultimosAvisos() {
   const ultimos = avisos.filter((a) => a.tipo !== 'plazo_sin_registrar').slice(0, 6);
   if (!ultimos.length) return '';
-  return `<section class="bloque" id="novedades">
-  <h2>Últimos movimientos</h2>
+  return `<section class="seccion" id="novedades">
+  <h2 class="seccion__titulo">${icono('campana')}Últimos movimientos</h2>
   <p class="novedades__resumen" data-resumen hidden></p>
   <ul class="docs">
     ${ultimos.map((a) => `<li data-fecha="${esc(a.fecha)}">
