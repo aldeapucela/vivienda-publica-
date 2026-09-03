@@ -71,6 +71,8 @@ se pregunta, no se busca la manera de saltarla.
 ## Cómo trabajar aquí
 
 - `npm test` antes de cualquier commit (self-test del parser + test de privacidad).
+- `scripts/check-contraste.mjs` lee los tokens de `src/styles.css` y falla si un par de colores baja de
+  4,5:1 (texto) o 3:1 (componentes) en claro o en oscuro. Si falla, se cambia el color, no el test.
 - El parser vive en `scripts/lib.mjs` y es puro: se prueba sin red, con `fixtures/`.
 - `scripts/contexto.mjs` es puro sin flags: lee los CSV de `fuentes/jcyl/` y cruza. Solo toca la red
   con `--actualizar` (mira la ficha y baja el CSV si hay novedad) y con `--forzar`.

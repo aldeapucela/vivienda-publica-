@@ -99,6 +99,12 @@ node scripts/plazos.mjs --releer   # vuelve a leerlos todos
 | `/datos/` | Datos abiertos: los JSON, su licencia y cómo se generan. |
 | `/fuentes/` · `/privacidad/` | De dónde sale cada dato y por qué no publicamos datos personales. |
 
+La web es clara por defecto para todo el mundo. El botón «Oscuro» de la cabecera cambia al tema oscuro y
+lo recuerda en el navegador de quien lo pulsa (`localStorage`, clave `vivienda:tema`); no se sigue la
+preferencia del sistema a propósito, para que la decisión sea siempre de la persona. Las fuentes (Inter e
+Inter Tight) van autoalojadas en `src/fonts/` y los iconos son un sprite SVG que genera `scripts/build.mjs`:
+la web no carga nada de terceros.
+
 ## Estructura
 
 | Ruta | Qué es |
