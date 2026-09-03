@@ -39,6 +39,72 @@ Consecuencia práctica, y es lo contrario de lo que suponía el plan de partida:
 `tuyavivienda.es`, y de BOCYL solo se vigila el sumario por RSS. Los anuncios que se leen para sacar
 los plazos son las copias alojadas en `tuyavivienda.es`, no las de `bocyl.jcyl.es`.
 
+## Datos abiertos de la JCyL: por qué la descarga es como es
+
+Comprobado el 03/09/2026 pidiendo los ficheros reales.
+
+Las dos URL que el portal anuncia como CSV **no son ficheros**. Responden `302`:
+
+```
+GET https://datosabiertos.jcyl.es/web/jcyl/risp/es/demografia/poblacion/1284801460210.csv
+→ 302 Location: http://www.jcyl.es/sie/v2/datosbasv2-c-descargas.html?2
+```
+
+(el conjunto de viviendas hace lo mismo, con `?23`). Y `https://www.jcyl.es/robots.txt` incluye
+`Disallow: /sie/` para `User-agent: *`, así que el destino está excluido. Tampoco sirve la vía
+moderna: la plataforma Opendatasoft del portal, `analisis.datosabiertos.jcyl.es`, tiene API pero su
+`robots.txt` prohíbe `/api/` y `/explore/dataset/*/download` a todos menos a Googlebot.
+
+Esa página de descargas es un SAS webEIS: no enlaza el fichero, lo pide con un formulario cuyos
+campos rellena su propio JavaScript. El `action` es relativo (`../sas/broker/datos.csv` desde
+`/sie/v2/`), así que el destino real es **`https://www.jcyl.es/sie/sas/broker/datos.csv`**, también
+bajo `/sie/`. Los campos que hay que enviar, sacados de `inicializar()` y del `case` de cada
+conjunto:
+
+```
+D=FECHA & D=COD_MUNICIPIO                       (filas)
+AC=COD_ORDEN_FAMILIA & AC=COD_ORDEN_VARIABLE    (columnas)
+A=VALOR_VARIABLE                                (variable de análisis)
+MDDB=VARANU.MDDB_VARIABLES_ANUALES · METABASE=RPOSWEB · _SERVICE=saswebl
+_PROGRAM=SASHELP.WEBEIS.OPRPT.SCL · CLASS=mddbpgm.jcyl.custom_webeisv2.class
+SL=COD_ORDEN_VARIABLE:POBLACIÓN DE DERECHO (TOTAL)   (población, case 2)
+SL=COD_ORDEN_VARIABLE:VIVIENDAS                      (viviendas, case 23)
+```
+
+Dos trampas que costaron un rato:
+
+- **La página es ISO-8859-1 y el formulario también.** Si el cuerpo se envía en UTF-8, la aplicación
+  no reconoce «POBLACIÓN DE DERECHO (TOTAL)» y devuelve una tabla vacía, no un error. De ahí que
+  `scripts/contexto.mjs` codifique el cuerpo en latin-1 (`formulario()`, con su self-test).
+- **Cuando la consulta falla, responde `200` con una página HTML**, no un código de error. Por eso se
+  comprueba que lo devuelto empiece por CSV y que traiga los 2.248 municipios antes de sobreescribir
+  nada.
+
+El export es determinista: dos descargas del mismo día dan el mismo `sha256`
+(`b5230c4a…` población, `58624b76…` viviendas), así que un redownload sin cambios no genera diff.
+
+La decisión de descargar de `/sie/` pese al `robots.txt` la tomó el proyecto el 03/09/2026 y está
+contada en la web, en `/fuentes/`. Limitada a estos dos ficheros: una petición mensual a la ficha del
+conjunto y una descarga al año.
+
+## Estructura de los CSV del SIE
+
+```
+" Datos Básicos  - Población"
+"Datos de: INDICADOR=POBLACIÓN DE DERECHO (TOTAL)"
+...
+FECHA,MUNICIPIO,Sum,
+"1986","05001 ADANERO",         419,
+,"05002 ADRADA (LA)",        1832,
+```
+
+- El año va **solo en la primera fila de su bloque**; las demás lo dejan vacío y hay que arrastrarlo.
+- El municipio viene como `«código INE NOMBRE»`, en mayúsculas y con el artículo detrás
+  (`BARCO DE ÁVILA (EL)`), que es lo que hace falta normalizar para casarlo con la ficha de SOMACYL.
+- Hay filas `TOTAL` por año **y** un bloque final con `FECHA=TOTAL` que suma todos los años: si no se
+  descarta, Zamora sale con 2,4 millones de habitantes.
+- Población: 1986-2025, 2.249 municipios. Viviendas: 1991, 2001, 2011 y 2021, 2.248 municipios.
+
 ## Endpoints verificados
 
 - **Sitemap de promociones:** `https://tuyavivienda.es/post-sitemap.xml` — 27 fichas en toda Castilla

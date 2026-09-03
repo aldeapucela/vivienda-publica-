@@ -11,7 +11,7 @@
     "avisos": "node scripts/avisos.mjs",
     "contexto": "node scripts/contexto.mjs",
     "build": "node scripts/build.mjs",
-    "actualizar": "node scripts/sync.mjs && node scripts/plazos.mjs && node scripts/avisos.mjs && node scripts/contexto.mjs --vigilar && node scripts/check-privacidad.mjs && node scripts/build.mjs",
+    "actualizar": "node scripts/sync.mjs && node scripts/plazos.mjs && node scripts/avisos.mjs && node scripts/contexto.mjs --actualizar && node scripts/check-privacidad.mjs && node scripts/build.mjs",
     "test": "node scripts/sync.mjs --self-test && node scripts/plazos.mjs --self-test && node scripts/avisos.mjs --self-test && node scripts/contexto.mjs --self-test && node scripts/check-privacidad.mjs",
     "validate": "npm test",
     "dev": "node scripts/build.mjs && python3 -m http.server 8000 --directory dist",

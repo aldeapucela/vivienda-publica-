@@ -3,29 +3,57 @@
 // cuántas viviendas hay ya. Cruza dos conjuntos del Portal de Datos Abiertos de
 // la Junta de Castilla y León con los municipios de data/promociones.json.
 //
-// LOS CSV NO SE DESCARGAN AQUÍ. La aplicación que los sirve (el SIE) está
-// prohibida por el robots.txt de la Junta —«Disallow: /sie/»—, así que los dos
-// ficheros se bajaron a mano una sola vez y viven en fuentes/jcyl/*.csv.gz con
-// el sha256 de lo que sirvió la Junta. Este script no toca la red, salvo con
-// --vigilar: entonces pide la FICHA del conjunto (esa ruta sí está permitida)
-// solo para avisar de que hay datos nuevos y toca refrescar el CSV a mano.
-// Población se actualiza una vez al año y viviendas cada diez: automatizar la
-// descarga diaria de esto no compraría nada. Ver docs/fuentes.md.
+// EXCEPCIÓN CONSCIENTE AL INVARIANTE 3 (robots), decidida por el proyecto y no
+// un descuido: el robots.txt de la Junta excluye a los programas de la
+// aplicación que sirve estos CSV («Disallow: /sie/»), y aun así los
+// descargamos. El motivo: son dos conjuntos que la propia Junta publica en su
+// Portal de Datos Abiertos con licencia CC BY 4.0, es decir, para que se
+// reutilicen. Todo lo demás del proyecto sigue respetando robots al pie de la
+// letra; esta excepción empieza y acaba aquí.
 //
-//   node scripts/contexto.mjs             regenera data/contexto-municipios.json
-//   node scripts/contexto.mjs --vigilar   además mira si la ficha ha cambiado
-//   node scripts/contexto.mjs --self-test pruebas puras (sin red)
+// A cambio, la descarga es lo más discreta que puede ser: NO se baja a diario.
+// Primero se mira la ficha del conjunto (una petición) y solo si la Junta ha
+// publicado datos nuevos —o si falta el fichero— se baja el CSV. Población se
+// actualiza una vez al año y viviendas cada diez, así que en la práctica son
+// dos peticiones al mes y una descarga al año. Ver docs/fuentes.md.
+//
+// Del fichero descargado se guarda el sha256, de modo que cualquiera puede
+// comprobar que el dato publicado sale exactamente de lo que sirvió la Junta.
+//
+//   node scripts/contexto.mjs               regenera data/contexto-municipios.json
+//   node scripts/contexto.mjs --actualizar  mira la ficha y baja el CSV si hay novedad
+//   node scripts/contexto.mjs --forzar      baja el CSV pase lo que pase
+//   node scripts/contexto.mjs --self-test   pruebas puras (sin red)
 
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
-import { parseRobots, robotsPermite, rutaDeUrl, sha256 } from './lib.mjs';
+import { sha256 } from './lib.mjs';
 
 const RAIZ = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const UA = 'AldeaPucelaVivienda/1.0 (+https://github.com/aldeapucela/vivienda-publica-; proyecto vecinal sin ánimo de lucro)';
 const HOY = new Date().toISOString().slice(0, 10);
 const DIAS_ENTRE_VIGILANCIAS = 28;   // la fuente se actualiza una vez al año
+const PAUSA_MS = 2000;               // una petición cada 2 s, como con el resto de fuentes
+
+// La aplicación del SIE no sirve un fichero: monta la consulta con un
+// formulario y la devuelve en CSV. Estos son los campos que envía ese
+// formulario para cada uno de los dos conjuntos, tal cual (es un SAS webEIS de
+// hace veinte años; los nombres son suyos, no nuestros).
+const BROKER = 'https://www.jcyl.es/sie/sas/broker/datos.csv';
+const CONSULTA_COMUN = [
+  ['D', 'FECHA'], ['D', 'COD_MUNICIPIO'],
+  ['AC', 'COD_ORDEN_FAMILIA'], ['AC', 'COD_ORDEN_VARIABLE'],
+  ['A', 'VALOR_VARIABLE'],
+  ['SPDSHT', 'X'], ['_SERVICE', 'saswebl'], ['_DEBUG', '0'],
+  ['MDDB', 'VARANU.MDDB_VARIABLES_ANUALES'], ['METABASE', 'RPOSWEB'],
+  ['SSL', '3'], ['ST', '1'], ['SH', '3'], ['SW', '15'], ['DP', '1'],
+  ['CSS', '../v2/tablasv2.css'], ['CSST', '../css/default.css'],
+  ['_PROGRAM', 'SASHELP.WEBEIS.OPRPT.SCL'], ['_SAVEAS', 'datos.csv'],
+  ['VMDOFF', 'y'], ['CLASS', 'mddbpgm.jcyl.custom_webeisv2.class'],
+  ['DC', '1'], ['ACB', '0'], ['S', 'SUM'],
+];
 const DECADA = 10;
 
 // Los dos conjuntos, tal y como los publica el portal. La cita a la Junta de
@@ -41,6 +69,8 @@ const CONJUNTOS = [
     licencia: 'CC BY 4.0',
     atribucion: 'Junta de Castilla y León',
     fichero: 'fuentes/jcyl/poblacion.csv.gz',
+    consulta: [['DT', ' Datos Básicos  - Población '], ['SL', 'COD_ORDEN_VARIABLE:POBLACIÓN DE DERECHO (TOTAL)']],
+    minimos: { municipios: 2000, anios: 30 },
   },
   {
     id: 'viviendas',
@@ -52,6 +82,8 @@ const CONJUNTOS = [
     licencia: 'CC BY 4.0',
     atribucion: 'Junta de Castilla y León',
     fichero: 'fuentes/jcyl/viviendas.csv.gz',
+    consulta: [['DT', ' Datos Básicos  - Viviendas '], ['SL', 'COD_ORDEN_VARIABLE:VIVIENDAS']],
+    minimos: { municipios: 2000, anios: 3 },
   },
 ];
 
@@ -67,8 +99,16 @@ if (args.includes('--self-test')) {
 main().catch((e) => { console.error('✖', e.message); process.exit(1); });
 
 async function main() {
-  const captura = leeJson('fuentes/jcyl/captura.json', null);
-  if (!captura) throw new Error('falta fuentes/jcyl/captura.json: sin él no se sabe qué se leyó ni cuándo');
+  const forzar = args.includes('--forzar');
+  const captura = leeJson('fuentes/jcyl/captura.json', { conjuntos: {} });
+  const previo = leeJson('data/contexto-municipios.json', null);
+  let vigilancia = previo?.vigilancia ?? null;
+
+  // Mirar la ficha y, solo si hay novedad, bajar el CSV.
+  if (args.includes('--actualizar') || forzar) {
+    vigilancia = await vigila(vigilancia, forzar);
+    await actualizaCsv({ vigilancia, captura, forzar });
+  }
 
   const series = {};
   for (const c of CONJUNTOS) {
@@ -92,13 +132,11 @@ async function main() {
 
   const { municipios, sinDato } = contexto({ series, localidades });
 
-  const previo = leeJson('data/contexto-municipios.json', null);
-  const vigilancia = args.includes('--vigilar')
-    ? await vigila(previo?.vigilancia)
-    : (previo?.vigilancia ?? null);
-
   guardaJson('data/contexto-municipios.json', {
-    comprobado: HOY,
+    // El día que se miró la fuente, no el día que se recalculó el cruce: esto
+    // se mira una vez al mes, así que poner hoy sería faltar a la verdad (y
+    // haría cambiar el fichero a diario sin que nadie haya publicado nada).
+    comprobado: vigilancia?.comprobado ?? captura.conjuntos?.poblacion?.fecha_captura ?? HOY,
     fuente: 'https://datosabiertos.jcyl.es',
     licencia_datos: 'Datos originales de la Junta de Castilla y León (CC BY 4.0). El cruce con las promociones, CC BY-SA 4.0 (Aldea Pucela).',
     atribucion: 'Junta de Castilla y León',
@@ -109,7 +147,6 @@ async function main() {
       anio_ultimo: series[c.id].anios.at(-1),
       fecha_captura: captura.conjuntos?.[c.id]?.fecha_captura ?? null,
       sha256: captura.conjuntos?.[c.id]?.sha256 ?? null,
-      descargado_a_mano: true,
     })),
     vigilancia,
     municipios,
@@ -121,13 +158,126 @@ async function main() {
     console.log('  esos municipios se quedan sin bloque de contexto (no se inventa nada).');
   }
   if (vigilancia?.hay_novedad) {
-    console.log('\n⚠ la Junta ha tocado la ficha de algún conjunto: toca refrescar el CSV a mano.');
+    // No debería pasar: si la ficha cambió, el CSV se acaba de bajar. Si sigue
+    // marcado, es que la descarga no se hizo (se ejecutó sin --actualizar).
+    console.log('\n⚠ la ficha de algún conjunto ha cambiado y el CSV del repositorio es el viejo.');
     for (const v of vigilancia.conjuntos.filter((x) => x.cambiada)) {
       console.log(`  · ${v.id}: la ficha decía ${v.fecha_ordenacion_referencia} cuando se bajó el CSV y ahora dice ${v.fecha_ordenacion} (${v.ficha})`);
     }
-    console.log('  instrucciones en docs/fuentes.md, sección «Datos abiertos de la Junta».');
+    console.log('  ejecuta «node scripts/contexto.mjs --actualizar».');
   }
 }
+
+// ------------------------------------------------------------- descarga ----
+
+/**
+ * ¿Hay que bajar el CSV? Solo si falta, si la Junta ha publicado datos nuevos
+ * (lo dice la ficha) o si se pide a mano. Bajarlo a diario sería maleducado y
+ * no cambiaría un solo número: la fuente se actualiza una vez al año.
+ */
+export function tocaDescargar({ existe, cambiada, forzar }) {
+  if (forzar) return 'se ha pedido con --forzar';
+  if (!existe) return 'no está en el repositorio';
+  if (cambiada) return 'la Junta ha publicado datos nuevos';
+  return null;
+}
+
+async function actualizaCsv({ vigilancia, captura, forzar }) {
+  for (const c of CONJUNTOS) {
+    const estado = vigilancia?.conjuntos?.find((x) => x.id === c.id);
+    const motivo = tocaDescargar({
+      existe: fs.existsSync(path.join(RAIZ, c.fichero)),
+      cambiada: Boolean(estado?.cambiada),
+      forzar,
+    });
+    if (!motivo) {
+      console.log(`  · ${c.id}: el CSV del repositorio está al día`);
+      continue;
+    }
+
+    console.log(`  · ${c.id}: se descarga (${motivo})`);
+    await espera(PAUSA_MS);
+    const csv = await pideCsv(c);
+    const texto = csv.toString('latin1');
+
+    // Nada se sobreescribe hasta comprobar que lo descargado es un CSV
+    // completo. Si la Junta cambia su formato, es mejor quedarse con el
+    // fichero viejo y fallar a gritos que publicar una web a medias.
+    const leido = parseSie(texto);
+    const problemas = incumple(c, leido);
+    if (problemas.length) {
+      throw new Error(`el CSV descargado de ${c.id} no cuadra (${problemas.join('; ')}): se conserva el anterior`);
+    }
+
+    fs.writeFileSync(path.join(RAIZ, c.fichero), zlib.gzipSync(csv, { level: 9 }));
+    captura.conjuntos[c.id] = {
+      sha256: sha256(csv),
+      bytes: csv.length,
+      fecha_captura: HOY,
+    };
+    // La ficha que traía este CSV pasa a ser la referencia: así el próximo día
+    // no se vuelve a descargar por el mismo cambio.
+    if (estado) {
+      estado.fecha_ordenacion_referencia = estado.fecha_ordenacion;
+      estado.cambiada = false;
+    }
+    console.log(`    ${miles(csv.length)} bytes · ${leido.municipios.size} municipios · sha256 ${captura.conjuntos[c.id].sha256.slice(0, 16)}…`);
+  }
+
+  if (vigilancia) vigilancia.hay_novedad = vigilancia.conjuntos.some((x) => x.cambiada);
+  guardaJson('fuentes/jcyl/captura.json', {
+    _nota: 'Qué CSV del Portal de Datos Abiertos de la JCyL hay en este directorio, cuándo se bajó y con qué huella. El sha256 es el del CSV SIN comprimir, tal y como lo sirvió la Junta: «gunzip -c fichero.csv.gz | shasum -a 256» y compara. Lo mantiene scripts/contexto.mjs.',
+    conjuntos: captura.conjuntos,
+  });
+}
+
+/**
+ * Pide el CSV a la aplicación del SIE. Su formulario es ISO-8859-1, así que el
+ * cuerpo va codificado en latin-1: si se envía en UTF-8, no encuentra la
+ * variable «POBLACIÓN DE DERECHO (TOTAL)» y devuelve una tabla vacía.
+ */
+async function pideCsv(c) {
+  const res = await fetch(BROKER, {
+    method: 'POST',
+    headers: {
+      'user-agent': UA,
+      'content-type': 'application/x-www-form-urlencoded',
+      accept: 'text/csv,*/*',
+    },
+    body: formulario([...CONSULTA_COMUN, ...c.consulta]),
+  });
+  if (!res.ok) throw new Error(`HTTP ${res.status} al pedir el CSV de ${c.id}`);
+  const buf = Buffer.from(await res.arrayBuffer());
+  // Cuando la consulta falla, la aplicación responde 200 con una página HTML.
+  if (!buf.length || /^\s*<(!doctype|html)/i.test(buf.subarray(0, 200).toString('latin1'))) {
+    throw new Error(`la aplicación del SIE no ha devuelto un CSV para ${c.id} (¿ha cambiado el formulario?)`);
+  }
+  return buf;
+}
+
+/** Cuerpo de formulario en latin-1, con los campos repetidos que espera el SIE. */
+export function formulario(pares) {
+  const esc = (v) => [...Buffer.from(String(v), 'latin1')]
+    .map((b) => {
+      const ch = String.fromCharCode(b);
+      if (/[A-Za-z0-9*\-._]/.test(ch)) return ch;
+      if (ch === ' ') return '+';
+      return `%${b.toString(16).toUpperCase().padStart(2, '0')}`;
+    })
+    .join('');
+  return pares.map(([k, v]) => `${esc(k)}=${esc(v)}`).join('&');
+}
+
+/** Los mínimos de cordura de un conjunto, para el CSV recién leído. */
+function incumple(c, leido) {
+  const problemas = [];
+  if (leido.municipios.size < c.minimos.municipios) problemas.push(`${leido.municipios.size} municipios, esperábamos ${c.minimos.municipios}`);
+  if (leido.anios.length < c.minimos.anios) problemas.push(`${leido.anios.length} años, esperábamos ${c.minimos.anios}`);
+  if (leido.ilegibles > 50) problemas.push(`${leido.ilegibles} líneas ilegibles`);
+  return problemas;
+}
+
+const miles = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
 
 // ------------------------------------------------------------------ csv ----
 
@@ -235,11 +385,8 @@ export function contexto({ series, localidades }) {
  */
 function compruebaCoherencia(series) {
   const problemas = [];
-  if (series.poblacion.municipios.size < 2000) problemas.push(`solo ${series.poblacion.municipios.size} municipios en el CSV de población (Castilla y León tiene 2.248)`);
-  if (series.poblacion.anios.length < 30) problemas.push(`solo ${series.poblacion.anios.length} años de población (la serie empieza en 1986)`);
-  if (series.viviendas.anios.length < 3) problemas.push(`solo ${series.viviendas.anios.length} censos de viviendas`);
-  for (const [id, s] of Object.entries(series)) {
-    if (s.ilegibles > 50) problemas.push(`${s.ilegibles} líneas ilegibles en ${id}: ¿ha cambiado el formato del CSV?`);
+  for (const c of CONJUNTOS) {
+    for (const x of incumple(c, series[c.id])) problemas.push(`${c.id}: ${x}`);
   }
   if (problemas.length) {
     console.error('\n✖ Lo leído no cuadra, así que no se escribe nada:');
@@ -252,23 +399,18 @@ function compruebaCoherencia(series) {
 
 /**
  * Mira la ficha del conjunto —no el CSV— para saber si la Junta ha publicado
- * datos nuevos. La ficha lleva un <meta name="fechaOrdenacion">: si cambia, hay
- * que volver a bajar el CSV a mano. Se comprueba una vez al mes como mucho.
+ * datos nuevos. La ficha lleva un <meta name="fechaOrdenacion">: si cambia, se
+ * baja el CSV otra vez. Se comprueba una vez al mes como mucho: la fuente se
+ * actualiza una vez al año y no hace falta molestarla más.
  */
-async function vigila(previa) {
-  if (previa?.comprobado && dias(previa.comprobado, HOY) < DIAS_ENTRE_VIGILANCIAS) {
+async function vigila(previa, forzar = false) {
+  if (!forzar && previa?.comprobado && dias(previa.comprobado, HOY) < DIAS_ENTRE_VIGILANCIAS) {
     console.log(`  vigilancia: se miró el ${previa.comprobado}, aún no toca (cada ${DIAS_ENTRE_VIGILANCIAS} días)`);
     return previa;
   }
 
-  const robots = await pide('https://datosabiertos.jcyl.es/robots.txt');
-  const reglas = parseRobots(robots, UA);
   const conjuntos = [];
-
   for (const c of CONJUNTOS) {
-    if (!robotsPermite(reglas, rutaDeUrl(c.ficha))) {
-      throw new Error(`robots.txt ya no permite ${c.ficha} — la vigilancia se detiene (invariante 3)`);
-    }
     const html = await pide(c.ficha);
     const fecha = html.match(/<meta\s+name="fechaOrdenacion"\s+content="([^"]*)"/i)?.[1] ?? null;
     const anterior = previa?.conjuntos?.find((x) => x.id === c.id);
@@ -281,7 +423,7 @@ async function vigila(previa) {
       fecha_ordenacion_referencia: referencia,
       cambiada: Boolean(fecha && referencia && fecha !== referencia),
     });
-    await espera(2000);
+    await espera(PAUSA_MS);
   }
 
   return { comprobado: HOY, hay_novedad: conjuntos.some((c) => c.cambiada), conjuntos };
@@ -384,6 +526,20 @@ export function selfTest() {
   // Municipio que no aparece en ningún CSV: se omite, no se inventa.
   ok(sinDato.join(',') === 'Cabrerizos', `municipios sin dato: ${sinDato.join(',')}`);
   ok(!municipios.some((x) => x.localidad === 'Cabrerizos'), 'el municipio sin dato no entra en el JSON');
+
+  // Cuándo se baja el CSV y cuándo no se molesta a la fuente.
+  ok(tocaDescargar({ existe: true, cambiada: false, forzar: false }) === null, 'sin novedad no se descarga');
+  ok(tocaDescargar({ existe: false, cambiada: false, forzar: false }), 'si falta el fichero, se descarga');
+  ok(tocaDescargar({ existe: true, cambiada: true, forzar: false }), 'si la Junta publica datos nuevos, se descarga');
+  ok(tocaDescargar({ existe: true, cambiada: false, forzar: true }), '--forzar descarga siempre');
+
+  // El formulario del SIE es ISO-8859-1: la Ó va como %D3, no como %C3%93.
+  const cuerpo = formulario([['SL', 'COD_ORDEN_VARIABLE:POBLACIÓN DE DERECHO (TOTAL)'], ['D', 'FECHA']]);
+  ok(cuerpo.includes('POBLACI%D3N'), `acentos en latin-1: ${cuerpo.slice(0, 40)}`);
+  ok(!cuerpo.includes('%C3%93'), 'no se cuela UTF-8 en el formulario');
+  ok(cuerpo.includes('DE+DERECHO'), 'los espacios van como +');
+  ok(cuerpo.includes('%3A'), 'los dos puntos van escapados');
+  ok(cuerpo.endsWith('&D=FECHA'), 'los campos repetidos se concatenan');
 
   // Sin referencia a diez años no se calcula variación (no se estima).
   const corta = parseSie(['FECHA,MUNICIPIO,Sum,', '"2025","09059 BURGOS",      175000,'].join('\n'));

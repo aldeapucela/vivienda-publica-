@@ -109,14 +109,14 @@ node scripts/plazos.mjs --releer   # vuelve a leerlos todos
 | `scripts/pdf.mjs` | Lector de texto de PDF, sin dependencias. |
 | `scripts/avisos.mjs` | Detecta qué ha cambiado y qué plazos se acercan → `data/avisos.json`. |
 | `scripts/build.mjs` | Generador del sitio estático → `dist/` (incluye RSS y calendario). |
-| `scripts/contexto.mjs` | Cruza los datos abiertos de la JCyL (población y viviendas por municipio) con las promociones → `data/contexto-municipios.json`. Puro: no descarga los CSV. |
+| `scripts/contexto.mjs` | Cruza los datos abiertos de la JCyL (población y viviendas por municipio) con las promociones → `data/contexto-municipios.json`. Con `--actualizar` mira la ficha del conjunto y baja el CSV solo si la Junta ha publicado datos nuevos. |
 | `scripts/check-privacidad.mjs` | Test que impide publicar cualquier cosa que parezca un dato personal. |
 | `src/styles.css` · `src/app.js` | Hoja única y el único JS (filtra tarjetas; la web funciona sin él). |
 | `data/` | Datos generados. Única fuente de verdad del sitio. |
 | `config/` | Lo poco que se mantiene a mano: correcciones de plazos, provincia de localidades que no son capital y nombres propios para los títulos. |
 | `docs/` | `fuentes.md`, `privacidad.md` y `proceso.md` se publican como páginas del sitio; `verificacion-fuentes.md` es la nota técnica interna (robots literales, endpoints, estructura de la ficha) y no se publica. |
 | `fixtures/` | Dos fichas reales guardadas para probar el parser sin red. |
-| `fuentes/jcyl/` | Los dos CSV del Portal de Datos Abiertos de Castilla y León, comprimidos, con la fecha y el `sha256` de la descarga en `captura.json`. Se bajan **a mano** (su ruta está prohibida a los programas: ver [docs/fuentes.md](docs/fuentes.md)) y cambian una vez al año. |
+| `fuentes/jcyl/` | Los dos CSV del Portal de Datos Abiertos de Castilla y León, comprimidos, con la fecha y el `sha256` de cada descarga en `captura.json`. Los baja el propio script, una vez al año, haciendo una **excepción consciente al robots.txt de la Junta** que está explicada en [docs/fuentes.md](docs/fuentes.md) y en `/fuentes/`. |
 
 ## Puesta en marcha
 
@@ -130,6 +130,8 @@ npm run actualizar       # todo lo anterior seguido, como en el cron
 npm run dev              # build + servidor en http://localhost:8000
 node scripts/sync.mjs --fixtures   # reprocesa fixtures/, sin red
 node scripts/sync.mjs --limite 3   # ingesta parcial, para probar
+node scripts/contexto.mjs          # solo recalcula el contexto, sin red
+node scripts/contexto.mjs --forzar # vuelve a bajar los CSV de la JCyL
 ```
 
 No hay `npm install`: el proyecto **no tiene dependencias**. Requiere Node 20+.

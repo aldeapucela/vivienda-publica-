@@ -17,10 +17,15 @@ se pregunta, no se busca la manera de saltarla.
 3. **ROBOTS ANTES QUE NADA.** `scripts/sync.mjs` lee `robots.txt` antes de cada tanda y aborta si
    una ruta deja de estar permitida. Estado comprobado el 13/08/2026: `tuyavivienda.es` permite el
    rastreo de sus páginas; `bocyl.jcyl.es` **prohíbe `/boletines/`**, así que de BOCYL solo se
-   vigila el RSS y se enlaza. Comprobado el 03/09/2026: `datosabiertos.jcyl.es` permite las fichas
-   de sus conjuntos, pero la aplicación que sirve los CSV (`www.jcyl.es/sie/`) **está prohibida**;
-   de ahí que esos dos ficheros se bajen a mano y el programa solo vigile la ficha.
-   Ver `docs/fuentes.md`.
+   vigila el RSS y se enlaza. Ver `docs/fuentes.md`.
+
+   **Hay una excepción, y solo una**, decidida por el proyecto el 03/09/2026 y no un descuido:
+   `www.jcyl.es/sie/` está prohibido por robots y aun así se descargan de ahí los dos CSV de datos
+   abiertos de la Junta (`scripts/contexto.mjs`), porque son conjuntos que ella misma publica con
+   licencia CC BY 4.0 para que se reutilicen. Está contada en la web, en `/fuentes/`, sin
+   disimularla. La excepción se limita a esos dos ficheros y a una descarga al año: **no la amplíes
+   a ninguna otra ruta ni fuente sin preguntar**, y si la Junta pide que paremos, se para el mismo
+   día.
 
 4. **SOLO SE DESCARGA LO QUE ESTÁ PERMITIDO, Y CASI TODO SON BOLETINES.** Se bajan los anuncios oficiales (`bocyl`, `bop`,
    `correccion`) alojados en `tuyavivienda.es` para leerles los plazos, y nada más. Los
@@ -28,8 +33,9 @@ se pregunta, no se busca la manera de saltarla.
    memoria y no se guarda en el repositorio; de él solo queda la fecha, la regla del plazo, la cita
    literal y el `sha256`. Cualquier cita que dispare el detector de datos personales se descarta.
    Única excepción a lo anterior, y no la amplíes sin preguntar: los dos CSV de datos abiertos de la
-   JCyL que viven en `fuentes/jcyl/`, bajados a mano una vez porque su ruta está prohibida a los
-   programas. Ningún script los descarga.
+   JCyL que viven en `fuentes/jcyl/`. Los descarga `scripts/contexto.mjs` de una ruta que robots
+   prohíbe (ver invariante 3) y solo cuando la ficha del conjunto dice que hay datos nuevos: una vez
+   al año. Del fichero se guarda el `sha256`, y si lo descargado no cuadra se conserva el anterior.
 
 5. **PRENSA ≠ FUENTE.** Un dato de prensa no se publica hasta confirmarlo en la ficha oficial, en
    BOCYL o en el boletín provincial.
@@ -66,8 +72,8 @@ se pregunta, no se busca la manera de saltarla.
 
 - `npm test` antes de cualquier commit (self-test del parser + test de privacidad).
 - El parser vive en `scripts/lib.mjs` y es puro: se prueba sin red, con `fixtures/`.
-- `scripts/contexto.mjs` también es puro: lee los CSV de `fuentes/jcyl/` y nunca los descarga. Solo
-  toca la red con `--vigilar`, y solo para pedir la ficha del conjunto.
+- `scripts/contexto.mjs` es puro sin flags: lee los CSV de `fuentes/jcyl/` y cruza. Solo toca la red
+  con `--actualizar` (mira la ficha y baja el CSV si hay novedad) y con `--forzar`.
 - Los textos de la web están en `docs/*.md` y en `scripts/build.mjs`; no hay CMS.
 - Si la fuente cambia su HTML, se arregla el parser y se añade un caso al self-test. No se
   «apaña» el dato a mano en `data/`.

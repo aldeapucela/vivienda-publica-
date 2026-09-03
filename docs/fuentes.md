@@ -55,24 +55,30 @@ Los datos son de la **Junta de Castilla y León** y se publican con licencia
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/deed.es), que obliga a citarla: por eso la
 cita aparece en cada bloque, en [datos abiertos](/datos/) y en el propio fichero que generamos.
 
-**Estos dos ficheros no los descarga el programa.** La aplicación de la Junta que los sirve está
-prohibida a los programas automáticos por su propio fichero de reglas (`Disallow: /sie/`), así que se
-bajaron **a mano una sola vez**, el 3 de septiembre de 2026, y viven en `fuentes/jcyl/` junto con la
-huella digital (`sha256`) del fichero tal y como lo sirvió la Junta: cualquiera puede descomprimirlo
-y comprobar que es exactamente ese. Si el fichero del repositorio no coincide con su huella, el
-proceso se para y no publica nada.
+### Cómo se piden estos dos ficheros, y una excepción que preferimos contar
 
-Lo que sí hace el programa, una vez al mes, es mirar la **ficha** del conjunto —esa página sí está
-permitida— para ver si la Junta ha publicado datos nuevos. Cuando eso pase, la actualización diaria
-lo dirá en su registro y habrá que refrescar el fichero a mano:
+Aquí hacemos una excepción a nuestra propia norma, y es mejor decirlo que esconderlo. La aplicación
+de la Junta que sirve estos dos CSV pide a los programas automáticos que no entren (su fichero de
+reglas dice `Disallow: /sie/`), y aun así el programa los descarga. Lo hacemos porque son dos
+conjuntos que la propia Junta publica en su Portal de Datos Abiertos con una licencia que existe
+para que se reutilicen, y porque la alternativa —copiar los números a mano— sería peor para
+cualquiera que quiera comprobarlos. **Con el resto de las fuentes esa norma se respeta al pie de la
+letra.** Si desde la Junta preferís que no lo hagamos, se quita el mismo día: escribid a
+[Aldea Pucela](https://aldeapucela.org).
 
-1. Abrir la ficha del conjunto y pulsar «Ir a descargas».
-2. Bajar el CSV con la misma selección de siempre: filas por `FECHA` y `COD_MUNICIPIO`, y la variable
-   «POBLACIÓN DE DERECHO (TOTAL)» o «VIVIENDAS» según el conjunto.
-3. Comprimirlo en `fuentes/jcyl/poblacion.csv.gz` (o `viviendas.csv.gz`) con `gzip -9 -n`.
-4. Apuntar en `fuentes/jcyl/captura.json` la fecha y el `sha256` del CSV **sin comprimir**
-   (`shasum -a 256 fichero.csv`).
-5. `node scripts/contexto.mjs && npm test`, y revisar el diff de `data/contexto-municipios.json`.
+Y se pide con toda la discreción posible:
+
+- **No se descarga a diario.** Una vez al mes el programa mira la **ficha** del conjunto (una
+  petición) para ver si la Junta ha publicado datos nuevos. Solo entonces baja el CSV. Como la
+  población se actualiza una vez al año y las viviendas cada diez, en la práctica son dos peticiones
+  al mes y una descarga al año.
+- Se identifica con su nombre y un enlace a este proyecto, y espera dos segundos entre peticiones.
+- Del fichero que baja se guarda la huella digital (`sha256`) en `fuentes/jcyl/captura.json`, y el
+  CSV se queda en `fuentes/jcyl/`. Así cualquiera puede descomprimirlo y comprobar que el dato
+  publicado sale exactamente de lo que sirvió la Junta, sin tener que volver a pedírselo a ella.
+- Si lo descargado no es un CSV completo —la Junta cambia su formato, la aplicación devuelve un
+  error—, se conserva el fichero anterior y la actualización falla a la vista en vez de publicar una
+  web a medias.
 
 Si un municipio con promoción no aparece en los ficheros de la Junta, su ficha se queda sin ese
 bloque. Preferimos un hueco a un dato aproximado.
@@ -88,7 +94,8 @@ Con educación, que la fuente es de todos:
   SOMACYL quieren decirnos algo.
 - Antes de cada tanda se comprueba lo que la propia fuente permite a los programas automáticos (el
   fichero de reglas que publica toda web para eso). Si alguna página deja de estar permitida, el
-  proceso se para solo.
+  proceso se para solo. La única excepción, y está explicada arriba, son los dos ficheros de datos
+  abiertos de la Junta.
 
 ## Y si algo no cuadra
 

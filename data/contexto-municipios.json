@@ -15,8 +15,7 @@
       "atribucion": "Junta de Castilla y León",
       "anio_ultimo": 2025,
       "fecha_captura": "2026-09-03",
-      "sha256": "b5230c4a2c05017ccacfba6d60e71aa0ac3690b9fc1d6855c522a06a09091659",
-      "descargado_a_mano": true
+      "sha256": "b5230c4a2c05017ccacfba6d60e71aa0ac3690b9fc1d6855c522a06a09091659"
     },
     {
       "id": "viviendas",
@@ -29,8 +28,7 @@
       "atribucion": "Junta de Castilla y León",
       "anio_ultimo": 2021,
       "fecha_captura": "2026-09-03",
-      "sha256": "58624b76b10e10d3e86bf1fb90f51618e6b236bde8d78c68ee149044bcbbf049",
-      "descargado_a_mano": true
+      "sha256": "58624b76b10e10d3e86bf1fb90f51618e6b236bde8d78c68ee149044bcbbf049"
     }
   ],
   "vigilancia": {
@@ -42,7 +40,6 @@
         "ficha": "https://datosabiertos.jcyl.es/web/jcyl/set/es/demografia/poblacion/1284801460210",
         "fecha_ordenacion": "2025-07-07",
         "fecha_ordenacion_referencia": "2025-07-07",
-        "fecha_ordenacion_previa": null,
         "cambiada": false
       },
       {
@@ -50,7 +47,6 @@
         "ficha": "https://datosabiertos.jcyl.es/web/jcyl/set/es/urbanismo-infraestructuras/viviendas/1284801692025",
         "fecha_ordenacion": "2025-07-07",
         "fecha_ordenacion_referencia": "2025-07-07",
-        "fecha_ordenacion_previa": null,
         "cambiada": false
       }
     ]

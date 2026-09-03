@@ -48,7 +48,7 @@ jobs:
         run: node scripts/avisos.mjs
 
       - name: Contexto de los municipios (datos abiertos de la JCyL)
-        run: node scripts/contexto.mjs --vigilar
+        run: node scripts/contexto.mjs --actualizar
 
       - name: Test de privacidad
         run: node scripts/check-privacidad.mjs
@@ -57,10 +57,10 @@ jobs:
         run: |
           git config user.name  'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          if git diff --quiet -- data/; then
-            echo "sin cambios en data/"
+          if git diff --quiet -- data/ fuentes/; then
+            echo "sin cambios en data/ ni en fuentes/"
           else
-            git add data/
+            git add data/ fuentes/
             git commit -m "Actualizar datos ($(date -u +%Y-%m-%d))"
             git push
           fi
