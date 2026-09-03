@@ -1,10 +1,12 @@
-// Único JS del sitio. Hace tres cosas y ninguna necesita servidor:
+// Único JS del sitio. Hace cuatro cosas y ninguna necesita servidor:
 //   1. abrir y cerrar el menú en pantallas pequeñas;
-//   2. filtrar las tarjetas de la portada;
-//   3. recordar en ESTE navegador qué promociones te interesan.
+//   2. cambiar entre tema claro y oscuro, y recordarlo en ESTE navegador;
+//   3. filtrar las tarjetas de la portada;
+//   4. recordar en ESTE navegador qué promociones te interesan.
 //
 // Todo el contenido viene ya renderizado en el HTML, así que sin JavaScript la
-// web sigue completa: el menú se ve desplegado y salen todas las promociones.
+// web sigue completa: el menú se ve desplegado, sale todo en claro y salen
+// todas las promociones.
 
 (function () {
   var CLAVE = 'vivienda:seguidas';
@@ -33,6 +35,30 @@
       }
     });
     menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') abre(false); });
+  }
+
+  // ---------- tema claro / oscuro ----------
+  // Claro para todo el mundo salvo que la persona pida oscuro. La elección se
+  // guarda aquí, en su navegador; el <head> la aplica antes de pintar nada.
+  var CLAVE_TEMA = 'vivienda:tema';
+  var botonTema = document.querySelector('[data-tema]');
+  if (botonTema) {
+    var pintaTema = function () {
+      var oscuro = document.documentElement.getAttribute('data-theme') === 'dark';
+      botonTema.hidden = false;
+      botonTema.setAttribute('aria-pressed', oscuro ? 'true' : 'false');
+      botonTema.setAttribute('aria-label', oscuro ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro');
+      var texto = botonTema.querySelector('.tema__texto');
+      if (texto) texto.textContent = oscuro ? 'Claro' : 'Oscuro';
+    };
+    botonTema.addEventListener('click', function () {
+      var aOscuro = document.documentElement.getAttribute('data-theme') !== 'dark';
+      if (aOscuro) document.documentElement.setAttribute('data-theme', 'dark');
+      else document.documentElement.removeAttribute('data-theme');
+      try { localStorage.setItem(CLAVE_TEMA, aOscuro ? 'oscuro' : 'claro'); } catch (e) { /* modo privado */ }
+      pintaTema();
+    });
+    pintaTema();
   }
 
   function seguidas() {

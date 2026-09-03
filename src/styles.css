@@ -1,100 +1,122 @@
 /* Vivienda · Aldea Pucela — hoja única, sin framework.
-   Paleta heredada de eventos.aldeapucela.org para que se note que es la misma casa. */
+   Diseño «Producto moderno» (docs/superpowers/specs/2026-09-03-rediseno-producto-moderno.md).
+   Claro por defecto para todo el mundo; el oscuro lo elige la persona con el
+   interruptor de la cabecera y se recuerda en su navegador. */
 
 :root {
-  --brand-50: #f5f1fb;
-  --brand-100: #ebe3f6;
-  --brand-200: #d8c9ee;
-  --brand-600: #6b4895;
-  --brand-700: #593b7a;
-  --brand-900: #332546;
+  color-scheme: light;
 
-  --papel: #fbfaf8;
-  --tarjeta: #ffffff;
-  --tinta: #1f2430;
-  --tinta-suave: #5a6172;
-  --linea: #e8e3dc;
+  --papel: #f7f6fa;
+  --panel: #ffffff;
+  --tinta: #191623;
+  --tinta-suave: #6c6682;
+  --linea: #e7e3ee;
 
-  --libre: #1c7c4a;
-  --libre-fondo: #e6f5ec;
+  --acento: #6b4895;
+  --acento-fuerte: #5b3a86;
+  --acento-fondo: #efe9f7;
+  --acento-borde: #d8c9ee;
+  --sobre-acento: #ffffff;
+
+  --libre: #1a6b40;
+  --libre-fondo: #e8f4ec;
+  --libre-barra: #2f9160;
   --ocupada: #8a4b52;
-  --ocupada-fondo: #f6e9ea;
-  --proxima: #8a6a1f;
-  --proxima-fondo: #fbf1da;
+  --ocupada-fondo: #f4eaec;
+  --urge: #a4444f;
+  --aviso: #6b4f0d;
+  --aviso-fondo: #fbf1da;
 
-  --radio: 1rem;
-  --sombra: 0 6px 20px rgba(31, 36, 48, .06);
+  --sombra: 0 1px 2px rgba(25, 22, 35, .06), 0 8px 24px -16px rgba(25, 22, 35, .24);
+  --radio-s: 8px;
+  --radio-m: 12px;
+  --radio-l: 14px;
   --ancho: 68rem;
+
+  /* Alias de los nombres antiguos, para que los componentes que aún no se han
+     rediseñado sigan funcionando. Se quitan en la última tarea del rediseño. */
+  --brand-50: var(--acento-fondo);
+  --brand-100: var(--acento-fondo);
+  --brand-200: var(--acento-borde);
+  --brand-600: var(--acento);
+  --brand-700: var(--acento-fuerte);
+  --brand-900: var(--tinta);
+  --tarjeta: var(--panel);
+  --proxima: var(--aviso);
+  --proxima-fondo: var(--aviso-fondo);
+  --radio: var(--radio-l);
 }
 
-/* Modo oscuro. Se declara dos veces a propósito: por preferencia del sistema y
-   por atributo, para que también funcione dentro de visores que fijan el tema
-   con data-theme (la vista previa de una sola página, por ejemplo). */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --papel: #14121a;
-    --tarjeta: #1d1a26;
-    --tinta: #f1eef7;
-    --tinta-suave: #b3abc4;
-    --linea: #322c40;
-    --brand-50: #241f30;
-    --brand-100: #2c2540;
-    --brand-200: #3d3357;
-    --brand-600: #c2aee4;
-    --brand-700: #d8c9ee;
-    --libre: #6ddba0;
-    --libre-fondo: #12301f;
-    --ocupada: #e2a3a9;
-    --ocupada-fondo: #33191c;
-    --proxima: #e8c579;
-    --proxima-fondo: #33280f;
-    --sombra: none;
-  }
-}
-
+/* El oscuro solo se activa a petición: nunca por la preferencia del sistema. */
 :root[data-theme="dark"] {
-  --papel: #14121a;
-  --tarjeta: #1d1a26;
-  --tinta: #f1eef7;
-  --tinta-suave: #b3abc4;
-  --linea: #322c40;
-  --brand-50: #241f30;
-  --brand-100: #2c2540;
-  --brand-200: #3d3357;
-  --brand-600: #c2aee4;
-  --brand-700: #d8c9ee;
-  --libre: #6ddba0;
-  --libre-fondo: #12301f;
+  color-scheme: dark;
+
+  --papel: #100e16;
+  --panel: #1a1724;
+  --tinta: #f3f0f8;
+  --tinta-suave: #a49cba;
+  --linea: #2b2539;
+
+  --acento: #c2aee4;
+  --acento-fuerte: #d8c9ee;
+  --acento-fondo: #241f30;
+  --acento-borde: #3d3357;
+  --sobre-acento: #151021;
+
+  --libre: #71dda3;
+  --libre-fondo: #14301f;
+  --libre-barra: #71dda3;
   --ocupada: #e2a3a9;
   --ocupada-fondo: #33191c;
-  --proxima: #e8c579;
-  --proxima-fondo: #33280f;
-  --sombra: none;
+  --urge: #e2a3a9;
+  --aviso: #e8c579;
+  --aviso-fondo: #33280f;
+
+  --sombra: 0 1px 2px rgba(0, 0, 0, .4);
 }
 
+/* ---------- base ---------- */
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
   background: var(--papel);
   color: var(--tinta);
-  font: 1rem/1.6 Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font: 1rem/1.6 Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--brand-600); }
-a:hover { color: var(--brand-700); }
-:focus-visible { outline: 3px solid var(--brand-600); outline-offset: 2px; border-radius: 4px; }
+a { color: var(--acento); }
+a:hover { color: var(--acento-fuerte); }
+:focus-visible { outline: 3px solid var(--acento); outline-offset: 2px; border-radius: 4px; }
 
-h1, h2, h3 { line-height: 1.25; text-wrap: balance; }
-h1 { font-size: clamp(1.6rem, 1.2rem + 2vw, 2.4rem); margin: 0 0 .5rem; }
-h2 { font-size: 1.25rem; margin: 0 0 .75rem; }
+h1, h2, h3 { text-wrap: balance; }
+h1 {
+  font: 600 clamp(1.5rem, 2.2vw + .75rem, 2.125rem)/1.12 'Inter Tight', Inter, system-ui, sans-serif;
+  letter-spacing: -.025em; margin: 0 0 .5rem;
+}
+h2 { font: 600 1.375rem/1.2 'Inter Tight', Inter, system-ui, sans-serif; letter-spacing: -.02em; margin: 0 0 .75rem; }
+h3 { font: 600 1.03rem/1.3 'Inter Tight', Inter, system-ui, sans-serif; letter-spacing: -.015em; margin: 0 0 .35rem; }
 
-.container { width: 100%; max-width: var(--ancho); margin: 0 auto; padding: 0 1rem; }
-@media (min-width: 40rem) { .container { padding: 0 1.5rem; } }
+.fino { font-size: .8125rem; line-height: 1.55; color: var(--tinta-suave); }
+
+/* Iconos de línea (sprite al principio del <body>). El tamaño lo da el font-size del sitio donde van. */
+.ic {
+  width: 1em; height: 1em; flex: none; vertical-align: -.12em;
+  fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* Las transiciones solo responden a acciones y solo si la persona no ha pedido menos movimiento. */
+@media (prefers-reduced-motion: no-preference) {
+  a, button { transition: color .15s ease, background-color .15s ease, border-color .15s ease, transform .12s ease; }
+}
+
+.container { width: 100%; max-width: var(--ancho); margin: 0 auto; padding: 0 1.25rem; }
+@media (min-width: 48rem) { .container { padding: 0 2rem; } }
 
 .saltar {
-  position: absolute; left: -9999px; top: 0; background: var(--brand-600); color: #fff;
+  position: absolute; left: -9999px; top: 0; background: var(--acento); color: var(--sobre-acento);
   padding: .6rem 1rem; z-index: 100;
 }
 .saltar:focus { left: 0; }
@@ -102,84 +124,91 @@ h2 { font-size: 1.25rem; margin: 0 0 .75rem; }
 /* ---------- cabecera ---------- */
 .topbar {
   position: sticky; top: 0; z-index: 50;
-  background: var(--tarjeta); border-bottom: 1px solid var(--linea);
+  background: var(--papel); border-bottom: 1px solid var(--linea);
 }
 .topbar__inner {
   display: flex; align-items: center; justify-content: space-between;
-  gap: 1rem; padding-block: .7rem; position: relative;
+  gap: 1.25rem; padding-block: .875rem; position: relative;
 }
+.topbar__acciones { display: flex; align-items: center; gap: .5rem; }
 
 .marca { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: inherit; }
-.marca__isotipo {
-  width: 44px; height: 44px; border-radius: 12px; flex: none;
-  box-shadow: 0 0 0 1px var(--linea);
-}
+.marca__isotipo { width: 40px; height: 40px; border-radius: 10px; flex: none; background: #fff; }
 .marca__texto { display: flex; flex-direction: column; line-height: 1.15; }
 .marca__kicker {
-  font-size: .68rem; font-weight: 700; letter-spacing: .14em;
+  font-size: .625rem; font-weight: 700; letter-spacing: .14em;
   text-transform: uppercase; color: var(--tinta-suave);
 }
-.marca__titulo { font-size: 1.15rem; font-weight: 700; color: var(--brand-600); }
-.marca:hover .marca__titulo { color: var(--brand-700); }
-@media (min-width: 40rem) {
-  .marca__isotipo { width: 48px; height: 48px; }
-  .marca__titulo { font-size: 1.25rem; }
-}
+.marca__titulo { font-size: 1.0625rem; font-weight: 700; color: var(--acento); }
+.marca:hover .marca__titulo { color: var(--acento-fuerte); }
 
-/* ---------- menú ---------- */
-.menu { display: flex; flex-wrap: wrap; gap: .25rem 1.4rem; font-size: .95rem; }
-.menu a {
-  text-decoration: none; padding: .35rem 0;
-  border-bottom: 2px solid transparent; white-space: nowrap;
-}
-.menu a:hover, .menu a[aria-current] { border-color: var(--brand-600); }
-
-.menu-boton {
+/* Botones de la cabecera: tema y menú. Misma forma, mismo tamaño (36px). */
+.tema, .menu-boton {
   display: none; align-items: center; gap: .45rem;
-  font: inherit; font-size: .9rem; font-weight: 600; cursor: pointer;
-  background: transparent; color: var(--brand-600);
-  border: 1px solid var(--linea); border-radius: 999px; padding: .45rem .85rem;
+  font: inherit; font-size: .8125rem; font-weight: 500; cursor: pointer;
+  background: transparent; color: var(--tinta);
+  border: 1px solid var(--linea); border-radius: var(--radio-s); padding: .45rem .75rem; min-height: 36px;
 }
-.menu-boton:hover { border-color: var(--brand-600); }
-.menu-boton__icono { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; }
+.tema:hover, .menu-boton:hover { border-color: var(--acento); color: var(--acento); }
+.tema:not([hidden]) { display: inline-flex; }
+.tema .ic, .menu-boton .ic { font-size: 1rem; }
+.tema__sol { display: none; }
+:root[data-theme="dark"] .tema__sol { display: inline; }
+:root[data-theme="dark"] .tema__luna { display: none; }
 .menu-boton__cruz { display: none; }
 .menu-boton[aria-expanded="true"] .menu-boton__barras { display: none; }
 .menu-boton[aria-expanded="true"] .menu-boton__cruz { display: inline; }
 
-/* Con JavaScript el menú se plega en móvil; sin él se queda a la vista, que es
-   mejor que un botón que no hace nada. */
-@media (max-width: 47.99rem) {
+/* En pantallas estrechas los dos botones se quedan en icono: con las etiquetas
+   la fila mide más que la pantalla y arrastra toda la página. */
+@media (max-width: 29.99rem) {
+  .tema, .menu-boton { padding: .45rem .6rem; gap: 0; }
+  .tema__texto, .menu-boton__texto {
+    position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%);
+  }
+}
+
+/* ---------- menú ---------- */
+.menu { display: flex; flex-wrap: wrap; gap: .25rem 1.6rem; font-size: .9rem; }
+.menu a {
+  text-decoration: none; color: var(--tinta); padding: .35rem 0;
+  border-bottom: 2px solid transparent; white-space: nowrap;
+}
+.menu a:hover { color: var(--acento); }
+.menu a[aria-current] { font-weight: 600; border-color: var(--acento); }
+
+/* Con JavaScript el menú se plega por debajo de 62rem; sin él se queda a la
+   vista, que es mejor que un botón que no hace nada. */
+@media (max-width: 61.99rem) {
   .con-js .menu-boton { display: inline-flex; }
   .con-js .menu {
     display: none;
     position: absolute; top: 100%; left: 0; right: 0; z-index: 60;
     flex-direction: column; gap: 0;
-    background: var(--tarjeta); border-bottom: 1px solid var(--linea);
-    box-shadow: 0 14px 30px rgba(31, 36, 48, .12);
-    padding: .35rem 1rem 1rem;
+    background: var(--panel); border-bottom: 1px solid var(--linea);
+    box-shadow: 0 14px 30px rgba(25, 22, 35, .12);
+    padding: .35rem 1.25rem 1rem;
   }
   .con-js .menu.abierto { display: flex; }
   .con-js .menu a {
-    padding: .8rem .25rem; border-bottom: 1px solid var(--linea);
-    border-left: 3px solid transparent; padding-left: .6rem;
+    padding: .8rem .25rem .8rem .6rem; border-bottom: 1px solid var(--linea);
+    border-left: 3px solid transparent;
   }
   .con-js .menu a:last-child { border-bottom: 0; }
   .con-js .menu a:hover, .con-js .menu a[aria-current] {
-    border-bottom-color: var(--linea); border-left-color: var(--brand-600);
-    background: var(--brand-50);
+    border-bottom-color: var(--linea); border-left-color: var(--acento); background: var(--acento-fondo);
   }
 }
 
-/* Aire entre la cabecera y el titular. Va con selector de etiqueta + clase a
+/* Aire entre la cabecera y el contenido. Selector de etiqueta + clase a
    propósito: `main` también es `.container`, y `.container` fija el padding. */
-main.principal { padding-block: 2.5rem 3rem; }
-@media (min-width: 40rem) { main.principal { padding-block: 3.75rem 4rem; } }
+main.principal { padding-block: 2.125rem 3.5rem; }
+@media (min-width: 48rem) { main.principal { padding-block: 3.25rem 4.5rem; } }
 
-/* Aviso de datos rancios: solo aparece si la actualización automática se ha
-   quedado parada varios días. */
+/* Aviso de datos rancios: solo aparece si la actualización automática lleva días parada. */
 .rancio {
   margin: 0; padding: .7rem 1rem; text-align: center; font-size: .9rem;
-  background: var(--proxima-fondo); color: var(--proxima);
+  background: var(--aviso-fondo); color: var(--aviso);
   border-bottom: 1px solid var(--linea);
 }
 

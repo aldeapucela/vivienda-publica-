@@ -58,6 +58,8 @@ no:
 ## Y de quien visita esta web
 
 - No hay cuentas, ni registro, ni formularios, ni cookies de sesión.
+- Si eliges el tema oscuro, esa preferencia se guarda en tu navegador, igual que las promociones
+  que marcas: no viaja a ningún servidor.
 - No hay publicidad ni rastreadores de terceros.
 - Las estadísticas de visitas son las de la propia comunidad (Matomo, alojado por Aldea Pucela en
   `stats.aldeapucela.org`), con la misma configuración que el resto de sus webs: sin vender datos a

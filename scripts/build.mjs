@@ -129,20 +129,14 @@ function layout({ titulo, descripcion, ruta, cuerpo, activo = '' }) {
 <meta name="twitter:image" content="${SITIO}/img/og.jpg?v=1">
 <link rel="icon" href="/img/aldea-pucela.jpg">
 <link rel="stylesheet" href="/styles.css">
-<script>document.documentElement.className += ' con-js';</script>
+<script>document.documentElement.className += ' con-js';
+try { if (localStorage.getItem('vivienda:tema') === 'oscuro') document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
 ${matomo()}</head>
 <body>
 <a class="saltar" href="#contenido">Saltar al contenido</a>
 <header class="topbar">
   <div class="container topbar__inner">
     ${marca()}
-    <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">
-      <svg class="menu-boton__icono" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-        <path class="menu-boton__barras" d="M4 7h16M4 12h16M4 17h16"/>
-        <path class="menu-boton__cruz" d="M6 6l12 12M18 6L6 18"/>
-      </svg>
-      <span>Menú</span>
-    </button>
     <nav class="menu" id="menu-principal" aria-label="Menú principal">
       <a href="/"${activo === 'inicio' ? ' aria-current="page"' : ''}>Promociones</a>
       <a href="/avisos/"${activo === 'avisos' ? ' aria-current="page"' : ''}>Avisos y plazos</a>
@@ -150,6 +144,16 @@ ${matomo()}</head>
       <a href="/datos/"${activo === 'datos' ? ' aria-current="page"' : ''}>Datos abiertos</a>
       <a href="https://aldeapucela.org" rel="noopener">La comunidad</a>
     </nav>
+    <div class="topbar__acciones">
+      ${botonTema()}
+      <button class="menu-boton" type="button" aria-expanded="false" aria-controls="menu-principal">
+        <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path class="menu-boton__barras" d="M4 7h16M4 12h16M4 17h16"/>
+          <path class="menu-boton__cruz" d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+        <span class="menu-boton__texto">Menú</span>
+      </button>
+    </div>
   </div>
 </header>
 <p class="rancio" id="rancio" data-comprobado="${esc(COMPROBADO)}" hidden></p>
@@ -198,6 +202,19 @@ function marca(donde = 'topbar') {
         <span class="marca__titulo">Vivienda pública</span>
       </span>
     </a>`;
+}
+
+/**
+ * Interruptor claro/oscuro. Va oculto hasta que el JS lo enseña: sin JS no
+ * haría nada. Los dos iconos van inline (no en el sprite) porque este botón
+ * también sale en la vista previa de un solo fichero.
+ */
+function botonTema() {
+  return `<button class="tema" type="button" data-tema hidden aria-pressed="false" aria-label="Cambiar a tema oscuro">
+        <svg class="ic tema__luna" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        <svg class="ic tema__sol" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <span class="tema__texto">Oscuro</span>
+      </button>`;
 }
 
 /** Plazos que aún no han terminado, del más urgente al más lejano. */
