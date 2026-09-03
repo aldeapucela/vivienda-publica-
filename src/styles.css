@@ -365,6 +365,7 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .teja--foco { background: var(--acento); border-color: var(--acento); box-shadow: var(--sombra); }
 .teja--foco dt, .teja--foco dd { color: var(--sobre-acento); }
 .teja--foco dt .ic { color: var(--sobre-acento); }
+.teja--foco .teja__unidad { color: var(--sobre-acento); }
 .teja--baja dd { color: var(--urge); }
 .teja--baja dt .ic { color: var(--urge); }
 .panel .tejas .teja:not(.teja--foco) { background: var(--papel); }
@@ -430,9 +431,9 @@ main.principal { padding-block: 2.125rem 3.5rem; }
 .seguir {
   font: 500 .8125rem/1 Inter, system-ui, sans-serif; cursor: pointer; min-height: 32px;
   background: transparent; color: var(--acento);
-  border: 1px solid var(--acento-borde); border-radius: var(--radio-s); padding: .4rem .7rem;
+  border: 1px solid var(--acento); border-radius: var(--radio-s); padding: .4rem .7rem;
 }
-.seguir:hover { border-color: var(--acento); }
+.seguir:hover { border-color: var(--acento-fuerte); }
 .seguir.activo { background: var(--acento-fondo); border-color: var(--acento); font-weight: 600; }
 .seguir--grande { font-size: .9rem; padding: .55rem .95rem; min-height: 36px; }
 

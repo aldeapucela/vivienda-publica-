@@ -77,6 +77,8 @@ const ICONOS = {
   flecha: '<path d="M5 12h14M13 6l6 6-6 6"/>',
   pin: '<path d="M12 21s-6-5.5-6-11a6 6 0 0 1 12 0c0 5.5-6 11-6 11z"/><circle cx="12" cy="10" r="2.2"/>',
   campana: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 21a2 2 0 0 0 4 0"/>',
+  luna: '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>',
+  sol: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
 };
 
 function sprite() {
@@ -85,9 +87,9 @@ ${Object.entries(ICONOS).map(([n, d]) => `  <symbol id="i-${n}" viewBox="0 0 24 
 </svg>`;
 }
 
-function icono(nombre) {
+function icono(nombre, claseExtra = '') {
   if (!ICONOS[nombre]) throw new Error(`icono desconocido: ${nombre}`);
-  return `<svg class="ic" aria-hidden="true" focusable="false"><use href="#i-${nombre}"/></svg>`;
+  return `<svg class="ic${claseExtra ? ` ${claseExtra}` : ''}" aria-hidden="true" focusable="false"><use href="#i-${nombre}"/></svg>`;
 }
 
 fs.rmSync(DIST, { recursive: true, force: true });
@@ -239,8 +241,8 @@ function marca(donde = 'topbar') {
  */
 function botonTema() {
   return `<button class="tema" type="button" data-tema hidden aria-pressed="false" aria-label="Cambiar a tema oscuro">
-        <svg class="ic tema__luna" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
-        <svg class="ic tema__sol" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        ${icono('luna', 'tema__luna')}
+        ${icono('sol', 'tema__sol')}
         <span class="tema__texto">Oscuro</span>
       </button>`;
 }
@@ -277,9 +279,8 @@ function cuentaAtras(z) {
 }
 
 /** La ficha de reloj del aviso: número grande y unidad debajo. */
-function relojHtml(z, cerrado) {
+function relojHtml(z, cerrado, quedan) {
   if (!z.fin) return '<span class="reloj reloj--apagado"><b>?</b><span>sin fecha</span></span>';
-  const quedan = dias(HOY, z.fin);
   if (cerrado || quedan < 0) return `<span class="reloj reloj--apagado"><b>${esc(z.fin.slice(8, 10))}</b><span>${esc(mesCorto(z.fin))}</span></span>`;
   if (quedan === 0) return '<span class="reloj"><b>Hoy</b><span>cierra</span></span>';
   return `<span class="reloj"><b>${quedan}</b><span>${quedan === 1 ? 'día' : 'días'}</span></span>`;
@@ -316,7 +317,7 @@ function plazoHtml(z, conPromocion, cerrado) {
   const quedan = z.fin ? dias(HOY, z.fin) : null;
   const clase = cerrado || (quedan != null && quedan < 0) ? 'pasado' : !z.fin ? 'sin-fecha' : quedan <= 3 ? 'urge' : 'normal';
   return `      <li class="aviso-plazo aviso-plazo--${clase}">
-        ${relojHtml(z, cerrado)}
+        ${relojHtml(z, cerrado, quedan)}
         <div class="aviso-plazo__cuerpo">
           <h3>${esc(z.titulo ?? 'Plazo')}${conPromocion ? ` · ${esc(nombrePromocion(z.promocion_id))}` : ''}</h3>
           <p>${clase === 'sin-fecha' ? 'Depende de una fecha que aún no consta. ' : ''}${reglaCorta(z)}${
@@ -471,7 +472,7 @@ function tarjeta(p) {
   const conPlazo = plazosVivos(p.id).length > 0;
   // En adjudicada o en reparto la tabla oficial está desfasada: mostrar la barra contradiría la pastilla.
   const ocupacion = d.publicada && d.total && ofrece(p.id) ? Math.round((d.libres / d.total) * 100) : null;
-  const lugar = [p.localidad, p.provincia && p.provincia !== p.localidad ? p.provincia : null, p.estado_obra?.toLowerCase()]
+  const lugar = [p.localidad, p.provincia && p.provincia !== p.localidad ? p.provincia : null, p.estado_obra ? `obra ${p.estado_obra.toLowerCase()}` : null]
     .filter(Boolean).map(esc).join(' · ');
 
   return `  <li class="tarjeta" data-provincia="${esc(p.provincia ?? '')}" data-libres="${marcaFiltro}">
@@ -584,10 +585,10 @@ function paginaPromocion(p) {
     <h2 class="seccion__titulo">${icono('llave')}${reparto(p.id).estado === 'sin_reparto' ? 'Viviendas libres' : 'Qué dice la tabla de la web oficial'}</h2>
     ${d.publicada ? `
     <dl class="tejas">
-      <div class="teja${ofrece(p.id) && d.libres ? ' teja--foco' : ''}"><dt>Marcadas «libre»</dt><dd>${d.libres}</dd></div>
-      <div class="teja"><dt>Próximamente</dt><dd>${d.proximamente}</dd></div>
-      <div class="teja"><dt>Ocupadas</dt><dd>${d.ocupadas}</dd></div>
-      <div class="teja"><dt>En la tabla</dt><dd>${d.total}</dd></div>
+      <div class="teja${ofrece(p.id) && d.libres ? ' teja--foco' : ''}"><dt>${icono('llave')}Marcadas «libre»</dt><dd>${d.libres}${ofrece(p.id) && d.libres ? ' <span class="teja__unidad">se pueden pedir</span>' : ''}</dd></div>
+      <div class="teja"><dt>${icono('reloj')}Próximamente</dt><dd>${d.proximamente}</dd></div>
+      <div class="teja"><dt>${icono('ok')}Ocupadas</dt><dd>${d.ocupadas}</dd></div>
+      <div class="teja"><dt>${icono('edificio')}En la tabla</dt><dd>${d.total}</dd></div>
     </dl>
     ${desfase ? `<p class="panel panel--aviso">La ficha oficial anuncia ${p.n_viviendas} viviendas pero su tabla detalla ${d.total}.
        No sabemos por qué: lo dejamos tal cual lo publica la fuente.</p>` : ''}
