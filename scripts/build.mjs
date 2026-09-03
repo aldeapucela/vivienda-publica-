@@ -443,7 +443,8 @@ function tarjeta(p) {
   const marcaFiltro = r.estado !== 'sin_reparto' ? 'reparto'
     : d.publicada ? (d.libres > 0 ? 'si' : 'no') : 'sin-tabla';
   const conPlazo = plazosVivos(p.id).length > 0;
-  const ocupacion = d.publicada && d.total ? Math.round((d.libres / d.total) * 100) : null;
+  // En adjudicada o en reparto la tabla oficial está desfasada: mostrar la barra contradiría la pastilla.
+  const ocupacion = d.publicada && d.total && ofrece(p.id) ? Math.round((d.libres / d.total) * 100) : null;
   const lugar = [p.localidad, p.provincia && p.provincia !== p.localidad ? p.provincia : null, p.estado_obra?.toLowerCase()]
     .filter(Boolean).map(esc).join(' · ');
 
