@@ -317,24 +317,57 @@ function paginaPortada() {
   const repartidas = deValladolid.filter((p) => reparto(p.id).estado === 'adjudicada').length;
   const viviendas = suma(deValladolid.map((p) => p.n_viviendas ?? 0));
 
+  // Dónde están las viviendas que se pueden pedir, agrupadas por municipio y
+  // de más a menos, para decirlo en una línea: «59 en Valladolid · 18 en Medina».
+  const porLocalidad = new Map();
+  for (const p of disponibles) {
+    if (!p.disponibilidad.libres) continue;
+    porLocalidad.set(p.localidad, (porLocalidad.get(p.localidad) ?? 0) + p.disponibilidad.libres);
+  }
+  const donde = [...porLocalidad.entries()].sort((a, b) => b[1] - a[1])
+    .map(([loc, n]) => `<b>${n}</b> en ${esc(loc)}`).join(' · ');
+  const proximo = plazosVivos().filter((z) => z.fin)[0] ?? null;
+  const urge = proximo && dias(HOY, proximo.fin) <= 3;
+  const localidadPlazo = proximo ? (promociones.find((x) => x.id === proximo.promocion_id)?.localidad ?? nombrePromocion(proximo.promocion_id)) : '';
+  const cuandoComprobado = dias(COMPROBADO, HOY) === 0 ? 'hoy' : dias(COMPROBADO, HOY) === 1 ? 'ayer' : `el ${esc(COMPROBADO)}`;
+
   const cuerpo = `
 <section class="hero">
-  <h1>Vivienda pública de alquiler en Valladolid</h1>
-  <p class="hero__sub">En qué punto está cada promoción, cuántas viviendas quedan libres y qué documento oficial
-     lo dice. Sin buscar entre PDF.</p>
-  <dl class="cifras">
-    <div><dt>Promociones en la provincia</dt><dd>${deValladolid.length}</dd></div>
-    <div><dt>Viviendas anunciadas</dt><dd>${viviendas || '—'}</dd></div>
-    <div><dt>Ya repartidas</dt><dd>${repartidas}</dd></div>
-    <div${libres ? ' class="es-libre"' : ''}><dt>Se pueden pedir hoy</dt><dd>${libres || '0'}</dd></div>
-  </dl>
-  <p class="fino">La fuente oficial se comprueba todos los días; la última vez, el ${esc(COMPROBADO)}.
-     El último cambio en los datos es del ${esc(indice.actualizado)}.
-     <strong>Ojo con el dato de viviendas libres:</strong> la tabla de la web oficial no se actualiza al ritmo del
-     procedimiento, así que en una promoción ya sorteada puede seguir marcando viviendas «libres» que en realidad
-     están adjudicadas. Aquí solo se cuentan como disponibles las de promociones sin reparto en marcha.</p>
-  ${resumenContexto(promociones)}
+  ${libres ? `<h1 class="hero__cifra">
+    <span class="hero__num">${libres}</span>
+    <span class="hero__que">viviendas públicas se pueden pedir hoy en Valladolid</span>
+  </h1>` : `<h1 class="hero__cifra">
+    <span class="hero__que">Ahora mismo no hay viviendas públicas que se puedan pedir en Valladolid</span>
+  </h1>`}
+  <figure class="hero__dibujo"><img src="/img/promocion.jpg" alt="" width="1200" height="768" decoding="async"></figure>
+  <div>
+    <ul class="hero__hechos">
+      ${donde ? `<li>${icono('pin')}<span>${donde}</span></li>` : ''}
+      ${proximo ? `<li>${icono('reloj')}<span><span${urge ? ' class="urge"' : ''}>${esc(cuentaAtras(proximo))}</span> para pedir las de ${esc(localidadPlazo)}</span></li>` : ''}
+      <li>${icono('ok')}<span>Comprobado ${cuandoComprobado} en la web oficial</span></li>
+    </ul>
+    <div class="hero__acciones">
+      <a class="boton" href="#listado">${libres ? `Ver las ${libres} viviendas` : 'Ver las promociones'} ${icono('flecha')}</a>
+      <a class="hero__enlace" href="/como-funciona/">Cómo se pide una</a>
+    </div>
+  </div>
 </section>
+
+<div class="franja-bloque">
+<p class="franja">
+  <span>${icono('edificio')}<b>${deValladolid.length}</b> promociones en la provincia</span>
+  <span>${icono('llave')}<b>${viviendas || '—'}</b> viviendas anunciadas</span>
+  <span>${icono('ok')}<b>${repartidas}</b> ${repartidas === 1 ? 'ya repartida' : 'ya repartidas'}</span>
+</p>
+<details class="fino franja__nota">
+  <summary>Por qué este número puede no cuadrar con la web oficial</summary>
+  <p>La tabla de la web oficial no se actualiza al ritmo del procedimiento: en una promoción ya sorteada
+     puede seguir marcando viviendas «libres» que en realidad están adjudicadas. Aquí solo se cuentan
+     como disponibles las de promociones sin reparto en marcha. El último cambio en los datos es del
+     ${esc(indice.actualizado)}.</p>
+</details>
+${resumenContexto(promociones)}
+</div>
 
 ${bloquePlazos(plazosVivos())}
 
@@ -487,11 +520,8 @@ function resumenContexto(lista) {
   const bajan = conDato.filter((p) => contextoDe(p.localidad).variacion_decada_pct < 0);
   if (!bajan.length) return '';
   const anio = conjuntoDe('poblacion').anio_ultimo;
-  return `<p class="fino">${bajan.length} de las ${conDato.length} promociones están en municipios con menos
-     habitantes que hace diez años. Lo contamos con la
-     <a href="${esc(conjuntoDe('poblacion').ficha)}" rel="noopener">Estadística de Población</a> de la
-     <strong>Junta de Castilla y León</strong> (${esc(String(anio))}), y lo tienes municipio a municipio en
-     cada ficha y en <a href="/datos/">datos abiertos</a>.</p>`;
+  return `<p class="fino franja__contexto">${bajan.length} de las ${conDato.length} promociones están en municipios que
+     pierden población (<a href="${esc(conjuntoDe('poblacion').ficha)}" rel="noopener">Junta de Castilla y León</a>, ${esc(String(anio))}).</p>`;
 }
 
 function paginaPromocion(p) {
