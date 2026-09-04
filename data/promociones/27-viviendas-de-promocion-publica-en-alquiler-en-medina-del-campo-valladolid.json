@@ -10,7 +10,7 @@
   "provincia": "Valladolid",
   "direccion": "Calle de la Cerámica",
   "publicado_fuente": "2025-02-17T11:42:47+00:00",
-  "actualizado_fuente": "2026-09-03T13:45:57+00:00",
+  "actualizado_fuente": "2026-09-04T08:22:06+00:00",
   "documentos": [
     {
       "titulo": "BOCYL-D-04052026-82-22",
@@ -274,7 +274,7 @@
     "proximamente": 0,
     "ocupadas": 9
   },
-  "capturado": "2026-09-03",
-  "sha256_pagina": "4af8c59579f1fc8314c9825d9dd0acc016b8cba10eae9cef621e9bd5579b1ef6",
-  "huella_datos": "8e8c3bac639ee600dad6ffad069a77b04e0f55a6f31a689290267bc68b6b167c"
+  "capturado": "2026-09-04",
+  "sha256_pagina": "40bc1fcb71372d983b3f70b31086b50cff0f23c5c004aa7b55c6aee5cecc546f",
+  "huella_datos": "c036f2892a4c5075db85800d6a71a3a56b0f5b5a372367319c53f3cfa01a1623"
 }
