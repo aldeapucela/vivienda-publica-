@@ -10,7 +10,7 @@
   "provincia": "Valladolid",
   "direccion": "Calle de la Cerámica",
   "publicado_fuente": "2025-02-17T11:42:47+00:00",
-  "actualizado_fuente": "2026-09-04T08:22:06+00:00",
+  "actualizado_fuente": "2026-09-09T13:20:18+00:00",
   "documentos": [
     {
       "titulo": "BOCYL-D-04052026-82-22",
@@ -85,7 +85,7 @@
     {
       "portal": "Portal 1A",
       "piso": "2ºB",
-      "estado": "libre",
+      "estado": "ocupada",
       "habitaciones": 2,
       "m2": 60,
       "precio_eur_mes": 443
@@ -109,7 +109,7 @@
     {
       "portal": "Portal 1A",
       "piso": "3ºB",
-      "estado": "libre",
+      "estado": "ocupada",
       "habitaciones": 2,
       "m2": 60,
       "precio_eur_mes": 443
@@ -157,7 +157,7 @@
     {
       "portal": "Portal 1B",
       "piso": "2ºB",
-      "estado": "libre",
+      "estado": "ocupada",
       "habitaciones": 2,
       "m2": 60,
       "precio_eur_mes": 443
@@ -181,7 +181,7 @@
     {
       "portal": "Portal 1B",
       "piso": "3ºB",
-      "estado": "libre",
+      "estado": "ocupada",
       "habitaciones": 2,
       "m2": 60,
       "precio_eur_mes": 443
@@ -189,7 +189,7 @@
     {
       "portal": "Portal 1B",
       "piso": "3ºC",
-      "estado": "libre",
+      "estado": "ocupada",
       "habitaciones": 2,
       "m2": 60,
       "precio_eur_mes": 443
@@ -245,7 +245,7 @@
     {
       "portal": "Portal 1C",
       "piso": "3ºA",
-      "estado": "libre",
+      "estado": "ocupada",
       "habitaciones": 2,
       "m2": 60,
       "precio_eur_mes": 443
@@ -270,11 +270,11 @@
   "disponibilidad": {
     "publicada": true,
     "total": 27,
-    "libres": 18,
+    "libres": 12,
     "proximamente": 0,
-    "ocupadas": 9
+    "ocupadas": 15
   },
-  "capturado": "2026-09-04",
-  "sha256_pagina": "40bc1fcb71372d983b3f70b31086b50cff0f23c5c004aa7b55c6aee5cecc546f",
-  "huella_datos": "c036f2892a4c5075db85800d6a71a3a56b0f5b5a372367319c53f3cfa01a1623"
+  "capturado": "2026-09-09",
+  "sha256_pagina": "c64d1811c9dd844866c24c556516a40c981c5d7e26411c419ca166430e73b941",
+  "huella_datos": "796756f8b3698a04d343284eaa1600e9bda538fb820651dc58491b5a47482335"
 }
