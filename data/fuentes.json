@@ -1,5 +1,5 @@
 {
-  "comprobado": "2026-09-20",
+  "comprobado": "2026-09-21",
   "fuentes": [
     {
       "id": "pagina:10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon",
@@ -231,8 +231,8 @@
       "tipo": "web",
       "titulo": "27 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN MEDINA DEL CAMPO (VALLADOLID)",
       "url": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
-      "sha256": "2b7ec7466d9d5ce4d291456092be8476ea0669498d7f3781fc65eb67a42b70f8",
-      "fecha_captura": "2026-09-10",
+      "sha256": "db26400b390920e6bcbb29951209ecd487d6800ad2c7bd6a18fb83f34a4e3d2b",
+      "fecha_captura": "2026-09-21",
       "descargado": true
     },
     {
@@ -241,7 +241,7 @@
       "titulo": "BOCYL-D-04052026-82-22",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/05/BOCYL-D-04052026-82-22.pdf",
       "sha256": null,
-      "fecha_captura": "2026-09-10",
+      "fecha_captura": "2026-09-21",
       "descargado": false
     },
     {
@@ -250,7 +250,7 @@
       "titulo": "BOPVA-A-2026-01557",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/05/BOPVA-A-2026-01557.pdf",
       "sha256": null,
-      "fecha_captura": "2026-09-10",
+      "fecha_captura": "2026-09-21",
       "descargado": false
     },
     {
@@ -259,7 +259,7 @@
       "titulo": "Listado provisional admitidos",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/07/LISTADO-PROVISIONAL-VIVIENDAS-MEDINA-DEL-CAMPO.pdf",
       "sha256": null,
-      "fecha_captura": "2026-09-10",
+      "fecha_captura": "2026-09-21",
       "descargado": false
     },
     {
@@ -268,7 +268,7 @@
       "titulo": "Listado de adjudicatarios",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/08/PUBLICACION-LISTA-DEFINITIVA-Y-FIRMA-CONTRATOS-VIVIENDAS-COLABORATIVAS-bocyl-y-bop.pdf",
       "sha256": null,
-      "fecha_captura": "2026-09-10",
+      "fecha_captura": "2026-09-21",
       "descargado": false
     },
     {
@@ -277,7 +277,7 @@
       "titulo": "Memoria de calidades",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/04/MEMORIA-DE-CALIDADES_MEDINA.pdf",
       "sha256": null,
-      "fecha_captura": "2026-09-10",
+      "fecha_captura": "2026-09-21",
       "descargado": false
     },
     {
@@ -286,7 +286,7 @@
       "titulo": "Plano espacio coliving",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/04/FICHAS-COLIVING_MEDINA.pdf",
       "sha256": null,
-      "fecha_captura": "2026-09-10",
+      "fecha_captura": "2026-09-21",
       "descargado": false
     },
     {
