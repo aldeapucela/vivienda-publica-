@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-09-27",
+  "actualizado": "2026-09-28",
   "promociones": {
     "10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon": {
       "reparto": "sin_reparto",
@@ -209,18 +209,6 @@
         "publicada": true,
         "libres": 0,
         "total": 17
-      }
-    },
-    "38-viviendas-de-promocion-publica-en-aranda-de-duero-burgos": {
-      "reparto": "sin_reparto",
-      "reparto_desde": null,
-      "estado_procedimiento": null,
-      "estado_obra": "En ejecución",
-      "documentos": [],
-      "disponibilidad": {
-        "publicada": false,
-        "libres": null,
-        "total": null
       }
     },
     "38-viviendas-promocion-publica-colaborativa-soria": {

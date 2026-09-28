@@ -53,24 +53,6 @@
   },
   "municipios": [
     {
-      "localidad": "Aranda de Duero",
-      "municipio_jcyl": "ARANDA DE DUERO",
-      "codigo_ine": "09018",
-      "poblacion": {
-        "anio": 2025,
-        "habitantes": 33956
-      },
-      "poblacion_referencia": {
-        "anio": 2015,
-        "habitantes": 32880
-      },
-      "variacion_decada_pct": 3.3,
-      "viviendas": {
-        "anio": 2021,
-        "total": 19708
-      }
-    },
-    {
       "localidad": "Astorga",
       "municipio_jcyl": "ASTORGA",
       "codigo_ine": "24008",
