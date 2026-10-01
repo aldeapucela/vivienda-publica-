@@ -1,5 +1,5 @@
 {
-  "comprobado": "2026-09-03",
+  "comprobado": "2026-10-01",
   "fuente": "https://datosabiertos.jcyl.es",
   "licencia_datos": "Datos originales de la Junta de Castilla y León (CC BY 4.0). El cruce con las promociones, CC BY-SA 4.0 (Aldea Pucela).",
   "atribucion": "Junta de Castilla y León",
@@ -32,7 +32,7 @@
     }
   ],
   "vigilancia": {
-    "comprobado": "2026-09-03",
+    "comprobado": "2026-10-01",
     "hay_novedad": false,
     "conjuntos": [
       {
