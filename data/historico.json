@@ -1,5 +1,5 @@
 {
-  "actualizado": "2026-10-15",
+  "actualizado": "2026-10-16",
   "registros": [
     {
       "fecha": "2026-08-13",
@@ -152,6 +152,14 @@
       "libres": 12,
       "proximamente": 0,
       "ocupadas": 15
+    },
+    {
+      "fecha": "2026-10-16",
+      "promocion_id": "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid",
+      "total": 27,
+      "libres": 11,
+      "proximamente": 0,
+      "ocupadas": 16
     }
   ]
 }
