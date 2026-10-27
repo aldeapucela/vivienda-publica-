@@ -4,13 +4,13 @@
   "url_oficial": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
   "categoria": "Alquiler",
   "estado_procedimiento": null,
-  "estado_obra": "En ejecución",
+  "estado_obra": "Finalizada",
   "n_viviendas": 27,
   "localidad": "Medina del Campo",
   "provincia": "Valladolid",
   "direccion": "Calle de la Cerámica",
   "publicado_fuente": "2025-02-17T11:42:47+00:00",
-  "actualizado_fuente": "2026-10-26T08:16:51+00:00",
+  "actualizado_fuente": "2026-10-27T08:02:00+00:00",
   "documentos": [
     {
       "titulo": "BOCYL-D-04052026-82-22",
@@ -274,7 +274,7 @@
     "proximamente": 0,
     "ocupadas": 16
   },
-  "capturado": "2026-10-26",
-  "sha256_pagina": "397d2701dd6f8f183d8abb8be02c23fc723c46d4b1687c6f64dffb7eb390d169",
-  "huella_datos": "9caf37dd455d07efefd56b9216de8c18ff148279011ebdff370ac5fb3d86e68d"
+  "capturado": "2026-10-27",
+  "sha256_pagina": "864fd7bb010ef24260c47ad89d72f473d60e12498624ac88b11952f0db4580cf",
+  "huella_datos": "76b3e3bca790d99d357cb8d853d14bc4c2ff96dcbe92c0c5a4bc3ceb947a87b1"
 }
