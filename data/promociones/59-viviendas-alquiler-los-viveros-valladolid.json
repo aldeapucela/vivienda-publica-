@@ -10,7 +10,7 @@
   "provincia": "Valladolid",
   "direccion": "C/ de los Jardines de los Alcázares de Sevilla esquina C/ Jardines de Sabatini.",
   "publicado_fuente": "2025-02-10T12:02:13+00:00",
-  "actualizado_fuente": "2026-08-03T09:46:33+00:00",
+  "actualizado_fuente": "2026-10-28T12:26:16+00:00",
   "documentos": [
     {
       "titulo": "BOPVA-A-2026-01944",
@@ -560,7 +560,7 @@
     "proximamente": 0,
     "ocupadas": 0
   },
-  "capturado": "2026-08-17",
-  "sha256_pagina": "5a0c48001c6f19e2524680bbb1185ca91301eb33b914773377b090f8b03555fc",
-  "huella_datos": "4c95093db67d2b9ebc183cf75c3beeb0de5f5d1ec09a3c5751b2e238ae7b2245"
+  "capturado": "2026-10-28",
+  "sha256_pagina": "1951a3dfb81cdf7401fec6343714216adb09cde1f9d7661d3c3c1a1bd13cae30",
+  "huella_datos": "f8a643db35709ede2a4138519fac9b6301aff8593522612052d684f3e0fc7660"
 }
