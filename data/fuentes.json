@@ -1,5 +1,5 @@
 {
-  "comprobado": "2026-11-03",
+  "comprobado": "2026-11-04",
   "fuentes": [
     {
       "id": "pagina:10-viviendas-de-proteccion-publica-en-alquiler-en-astorga-leon",
@@ -349,15 +349,6 @@
       "titulo": "42 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN ZAMORA",
       "url": "https://tuyavivienda.es/42-viviendas-de-promocion-publica-en-alquiler-en-zamora/",
       "sha256": "95d73e5dc3d821df20a90212e6221b1ec7933c5527afea89bda3b33311001750",
-      "fecha_captura": "2026-08-17",
-      "descargado": true
-    },
-    {
-      "id": "pagina:50-viviendas-de-promocion-publica-en-alquiler-en-mieses-valladolid",
-      "tipo": "web",
-      "titulo": "50 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN C/MIESES EN VALLADOLID",
-      "url": "https://tuyavivienda.es/50-viviendas-de-promocion-publica-en-alquiler-en-mieses-valladolid/",
-      "sha256": "42fcec4a1d634259ebe40aa850c581e1170dcf869e01b034f452ef058d850fbd",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },

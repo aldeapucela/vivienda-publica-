@@ -1,5 +1,5 @@
 {
-  "comprobado": "2026-11-03",
+  "comprobado": "2026-11-04",
   "actualizado": "2026-10-28",
   "fuente": "https://tuyavivienda.es",
   "licencia_datos": "CC BY-SA 4.0 (Aldea Pucela) · datos de hecho extraídos de fuentes oficiales",
@@ -390,28 +390,6 @@
       "direccion": "Calle Burgos nº12.",
       "url_oficial": "https://tuyavivienda.es/42-viviendas-de-promocion-publica-en-alquiler-en-zamora/",
       "actualizado_fuente": "2025-06-04T10:22:11+00:00",
-      "capturado": "2026-08-17",
-      "disponibilidad": {
-        "publicada": false,
-        "total": null,
-        "libres": null,
-        "proximamente": null,
-        "ocupadas": null
-      },
-      "n_documentos": 0
-    },
-    {
-      "id": "50-viviendas-de-promocion-publica-en-alquiler-en-mieses-valladolid",
-      "nombre": "50 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN C/MIESES EN VALLADOLID",
-      "localidad": "Valladolid",
-      "provincia": "Valladolid",
-      "categoria": "Alquiler",
-      "estado_obra": "En ejecución",
-      "estado_procedimiento": null,
-      "n_viviendas": 50,
-      "direccion": "C/ Mieses",
-      "url_oficial": "https://tuyavivienda.es/50-viviendas-de-promocion-publica-en-alquiler-en-mieses-valladolid/",
-      "actualizado_fuente": "2025-05-14T10:14:14+00:00",
       "capturado": "2026-08-17",
       "disponibilidad": {
         "publicada": false,
