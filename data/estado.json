@@ -180,7 +180,7 @@
       ],
       "disponibilidad": {
         "publicada": true,
-        "libres": 8,
+        "libres": 6,
         "total": 27
       }
     },
@@ -236,18 +236,6 @@
       }
     },
     "42-viviendas-de-promocion-publica-en-alquiler-en-zamora": {
-      "reparto": "sin_reparto",
-      "reparto_desde": null,
-      "estado_procedimiento": null,
-      "estado_obra": "En ejecución",
-      "documentos": [],
-      "disponibilidad": {
-        "publicada": false,
-        "libres": null,
-        "total": null
-      }
-    },
-    "50-viviendas-promocion-publica-alquiler-colaborativa-palencia": {
       "reparto": "sin_reparto",
       "reparto_desde": null,
       "estado_procedimiento": null,

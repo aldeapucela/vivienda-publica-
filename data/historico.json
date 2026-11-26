@@ -176,6 +176,14 @@
       "libres": 8,
       "proximamente": 0,
       "ocupadas": 19
+    },
+    {
+      "fecha": "2026-11-26",
+      "promocion_id": "27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid",
+      "total": 27,
+      "libres": 6,
+      "proximamente": 0,
+      "ocupadas": 21
     }
   ]
 }

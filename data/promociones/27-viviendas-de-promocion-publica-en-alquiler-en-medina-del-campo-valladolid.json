@@ -10,7 +10,7 @@
   "provincia": "Valladolid",
   "direccion": "Calle de la Cerámica",
   "publicado_fuente": "2025-02-17T11:42:47+00:00",
-  "actualizado_fuente": "2026-11-17T09:50:18+00:00",
+  "actualizado_fuente": "2026-11-26T07:58:13+00:00",
   "documentos": [
     {
       "titulo": "BOCYL-D-04052026-82-22",
@@ -53,7 +53,7 @@
     {
       "portal": "Portal 1A",
       "piso": "1ºA",
-      "estado": "libre",
+      "estado": "ocupada",
       "habitaciones": 2,
       "m2": 60,
       "precio_eur_mes": 443
@@ -61,7 +61,7 @@
     {
       "portal": "Portal 1A",
       "piso": "1ºB",
-      "estado": "libre",
+      "estado": "ocupada",
       "habitaciones": 2,
       "m2": 60,
       "precio_eur_mes": 443
@@ -270,11 +270,11 @@
   "disponibilidad": {
     "publicada": true,
     "total": 27,
-    "libres": 8,
+    "libres": 6,
     "proximamente": 0,
-    "ocupadas": 19
+    "ocupadas": 21
   },
-  "capturado": "2026-11-17",
-  "sha256_pagina": "3a8ad90c218f09353d13d560e6302ee0db3661a767083eb84b24106b01904ea1",
-  "huella_datos": "d817614aafffe99745454b9f99714c6724b50b41a6d5013b1858e5262aac7d75"
+  "capturado": "2026-11-26",
+  "sha256_pagina": "21b1f594cc2e16a4010417f887cdbbb50e2c6af42fd09dab8d3fa2892979a0d8",
+  "huella_datos": "5da536436bba5c8b9788f180b0b8c1bda804d48ff0076a7c312345610ea9f183"
 }

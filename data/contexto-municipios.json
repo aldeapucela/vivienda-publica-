@@ -197,24 +197,6 @@
       }
     },
     {
-      "localidad": "Palencia",
-      "municipio_jcyl": "PALENCIA",
-      "codigo_ine": "34120",
-      "poblacion": {
-        "anio": 2025,
-        "habitantes": 77466
-      },
-      "poblacion_referencia": {
-        "anio": 2015,
-        "habitantes": 79595
-      },
-      "variacion_decada_pct": -2.7,
-      "viviendas": {
-        "anio": 2021,
-        "total": 44610
-      }
-    },
-    {
       "localidad": "Paredes de Nava",
       "municipio_jcyl": "PAREDES DE NAVA",
       "codigo_ine": "34123",

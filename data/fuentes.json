@@ -231,8 +231,8 @@
       "tipo": "web",
       "titulo": "27 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN MEDINA DEL CAMPO (VALLADOLID)",
       "url": "https://tuyavivienda.es/27-viviendas-de-promocion-publica-en-alquiler-en-medina-del-campo-valladolid/",
-      "sha256": "3a8ad90c218f09353d13d560e6302ee0db3661a767083eb84b24106b01904ea1",
-      "fecha_captura": "2026-11-17",
+      "sha256": "21b1f594cc2e16a4010417f887cdbbb50e2c6af42fd09dab8d3fa2892979a0d8",
+      "fecha_captura": "2026-11-26",
       "descargado": true
     },
     {
@@ -241,7 +241,7 @@
       "titulo": "BOCYL-D-04052026-82-22",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/05/BOCYL-D-04052026-82-22.pdf",
       "sha256": null,
-      "fecha_captura": "2026-11-17",
+      "fecha_captura": "2026-11-26",
       "descargado": false
     },
     {
@@ -250,7 +250,7 @@
       "titulo": "BOPVA-A-2026-01557",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/05/BOPVA-A-2026-01557.pdf",
       "sha256": null,
-      "fecha_captura": "2026-11-17",
+      "fecha_captura": "2026-11-26",
       "descargado": false
     },
     {
@@ -259,7 +259,7 @@
       "titulo": "Listado provisional admitidos",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/07/LISTADO-PROVISIONAL-VIVIENDAS-MEDINA-DEL-CAMPO.pdf",
       "sha256": null,
-      "fecha_captura": "2026-11-17",
+      "fecha_captura": "2026-11-26",
       "descargado": false
     },
     {
@@ -268,7 +268,7 @@
       "titulo": "Listado de adjudicatarios",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/08/PUBLICACION-LISTA-DEFINITIVA-Y-FIRMA-CONTRATOS-VIVIENDAS-COLABORATIVAS-bocyl-y-bop.pdf",
       "sha256": null,
-      "fecha_captura": "2026-11-17",
+      "fecha_captura": "2026-11-26",
       "descargado": false
     },
     {
@@ -277,7 +277,7 @@
       "titulo": "Memoria de calidades",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/04/MEMORIA-DE-CALIDADES_MEDINA.pdf",
       "sha256": null,
-      "fecha_captura": "2026-11-17",
+      "fecha_captura": "2026-11-26",
       "descargado": false
     },
     {
@@ -286,7 +286,7 @@
       "titulo": "Plano espacio coliving",
       "url": "https://tuyavivienda.es/wp-content/uploads/2026/04/FICHAS-COLIVING_MEDINA.pdf",
       "sha256": null,
-      "fecha_captura": "2026-11-17",
+      "fecha_captura": "2026-11-26",
       "descargado": false
     },
     {
@@ -349,15 +349,6 @@
       "titulo": "42 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN ZAMORA",
       "url": "https://tuyavivienda.es/42-viviendas-de-promocion-publica-en-alquiler-en-zamora/",
       "sha256": "95d73e5dc3d821df20a90212e6221b1ec7933c5527afea89bda3b33311001750",
-      "fecha_captura": "2026-08-17",
-      "descargado": true
-    },
-    {
-      "id": "pagina:50-viviendas-promocion-publica-alquiler-colaborativa-palencia",
-      "tipo": "web",
-      "titulo": "50 VIVIENDAS DE PROMOCIÓN PÚBLICA EN ALQUILER EN PALENCIA",
-      "url": "https://tuyavivienda.es/50-viviendas-promocion-publica-alquiler-colaborativa-palencia/",
-      "sha256": "b612cd42a3545c0e9039d1aaa44c3ecd627cc2f6fb7c6ca4919627be3f063417",
       "fecha_captura": "2026-08-17",
       "descargado": true
     },
